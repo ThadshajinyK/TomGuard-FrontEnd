@@ -1,5 +1,2 @@
 # TomGuard-FrontEnd
-Tomcat Server Monitoring Dashboard 
-Front end Technology - React js
-Backend - Springboot
-using java agents to retrieve metrics from several tomcat server instances. 
+Tomcat Server Monitoring Dashboard using React.js, Springboot and java agents to retrieve metrics from several tomcat server instances. 
