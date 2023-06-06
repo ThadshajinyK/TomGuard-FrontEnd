@@ -1,0 +1,16 @@
+.circlebg{
+    fill: none;
+    stroke: #ddd;
+}
+
+.circle-progress{
+    fill: none;
+    stroke: #12c2e9;
+}
+
+
+ ul{
+    display: flex;
+    
+    
+}
