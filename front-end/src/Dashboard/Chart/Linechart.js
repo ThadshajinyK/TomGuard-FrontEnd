@@ -46,12 +46,7 @@ export const data = {
       borderColor: "rgb(255, 99, 132)",
       backgroundColor: "rgba(255, 99, 132, 0.5)",
     }
-    // {
-    //     label: "day",
-    //     data: [34,76,57,35,98,54,67,58,39,44,12,56,43,43,43,56,98,15,34,56,47,58,24,65],
-    //     borderColor: "rgb(255, 99, 132)",
-    //     backgroundColor: "rgba(255, 99, 132, 0.5)",
-    //   }
+  
     
   ],
 };
