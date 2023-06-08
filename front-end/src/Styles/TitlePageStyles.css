@@ -1,58 +1,56 @@
-@import url("https://fonts.googleapis.com/css2?family=Caladea:wght@700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Caladea:wght@700&display=swap');
 
-.logo {
-  height: 50px;
-  width: 150px;
-}
-.titlebar {
-  /* background-color: rgba(36, 166, 175, 0.99);  */
-  background-color: rgba(1, 18, 38);
-  /* background-color: rgba(250, 243, 243, 0.99); */
-}
+.logo{
+    height: 50px;
+    width:150px;
+   
+  
+  }
+  .titlebar{
+     /* background-color: rgba(36, 166, 175, 0.99);  */
+      background-color: rgba(1, 18, 38);  
+    /* background-color: rgba(250, 243, 243, 0.99); */
+  }
 
-.buton {
-  background-color: #20bb8a;
-  border: 1px solid rgb(108, 95, 101);
+  .buton{
+    background-color: #20BB8A;
+    border: 1px solid rgb(108, 95, 101);
   border-radius: 5px;
   width: 100px;
   margin-right: 10px;
-}
+  
+  
+  }
 
-.avatar {
-  height: 50px;
-  width: 50px;
-  border-radius: 100%;
-  /* background-color: var(--dark1); */
-  /* display: flex;
+  .avatar {
+    height: 50px;
+    width: 50px;
+    border-radius: 100%;
+    /* background-color: var(--dark1); */
+    /* display: flex;
     align-items: center;
     justify-content: center; */
-}
+  }
 
-.avatar-img {
-  width: 100%;
-  max-width: 60px;
-  cursor: pointer;
-}
+  .avatar-img {
+    width: 100%;
+    max-width: 60px;
+    cursor: pointer;
+  
+  }
 
-.name {
-  font-size: 1rem;
-  font-weight: bold;
-  cursor: pointer;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  padding: 10px;
-  color: rgb(164, 179, 193);
-}
-
-.logoname {
-  margin-right: 50px;
-  font-size: 1.5rem;
-  color: aliceblue;
-  font-family: "Caladea", serif;
-}
-
-.logout-btn {
-  height: 40px;
-  margin-left: 20px;
-  font-size: 1rem !important;
-  font-weight: 500 !important;
-}
+  .name {
+    font-size: 1.3rem;
+    font-weight:bold;
+    cursor: pointer;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 10px;
+    color: rgb(164, 179, 193);
+  }
+  
+  .logoname{
+    margin-right: 50px;
+    font-size: 1.5rem;
+    color: aliceblue;
+    font-family: 'Caladea', serif;
+  }

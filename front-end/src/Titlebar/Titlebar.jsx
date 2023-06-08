@@ -2,8 +2,7 @@ import React from "react";
 import Logo from "../images/logo.png";
 import Girl from "../images/female.png";
 import "../Styles/TitlePageStyles.css";
-import { Navbar, Nav, Form, FormControl, Image, Button } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { Navbar, Nav, Form, FormControl, Image, Button } from 'react-bootstrap';
 
 // export const Titlebar = () => {
 //   return (
@@ -39,54 +38,38 @@ import { useNavigate } from "react-router-dom";
 //   );
 // }
 
+
+
 export const Titlebar2 = () => {
-  const navigate = useNavigate();
-  const user = JSON.parse(localStorage.getItem("loggedInUser"));
-
-  const handleLogout = () => {
-    localStorage.removeItem("loggedInUser");
-    window.location.reload();
-  };
-
   return (
     <div className="fixed-top navbar titlebar">
-      <ul className="container-fluid">
+      <ul className="container-fluid" >
         <li className="navbar-brand">
           <img src={Logo} className="logo" alt="logo" />
           {/* <span className="logoname">Eleos Web (pvt) Ltd</span> */}
         </li>
+        
+          <div class="d-flex">
+            <div className="">
+              <form class="d-flex" role="search">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
+                <button class="buton p-1" type="submit">Search</button>
+              </form>
+            </div>
+            
 
-        <div class="d-flex">
-          <div className="">
-            <form class="d-flex" role="search">
-              <input
-                class="form-control me-2"
-                type="search"
-                placeholder="Search"
-                aria-label="Search"
-              />
-              <button class="buton p-1" type="submit">
-                Search
-              </button>
-            </form>
+            {/* <div class="avatar"> */}
+              <img src={Girl} alt="avatar" class="avatar-img" />
+            {/* </div> */}
+
+            <div class="mt-2">
+              <span class="name">Admin</span>
+              
+            </div>
+             
           </div>
-
-          {/* <div class="avatar"> */}
-          <img src={Girl} alt="avatar" class="avatar-img" />
-          {/* </div> */}
-
-          <div class="mt-2">
-            <span class="name">{`${user?.data?.first_name} ${user?.data?.last_name}`}</span>
-          </div>
-
-          <button
-            className="btn btn-outline-danger btn-sm logout-btn "
-            onClick={handleLogout}
-          >
-            Log out
-          </button>
-        </div>
+        
       </ul>
     </div>
   );
-};
+}
