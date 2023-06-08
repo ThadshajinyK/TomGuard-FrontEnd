@@ -34,13 +34,15 @@ export const Navigationbar = () => {
             <span>Alerts</span>
           </Link>
         </li>
-
         <li>
-          <a href="#" className="sidebar-item">
-            <Icon icon="material-symbols:settings-applications-outline" />
-            <span>Setings</span>
-          </a>
+          <Link to="/settings" className="sidebar-item">
+          <Icon icon="material-symbols:settings-applications-outline" />
+            <span className="side"></span>
+            <span>Settings</span>
+          </Link>
         </li>
+
+       
       </ul>
     </div>
   );
