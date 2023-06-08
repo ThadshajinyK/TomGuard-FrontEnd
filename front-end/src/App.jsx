@@ -47,8 +47,8 @@ function App() {
             <Navigationbar />
           </section>
           <Routes>
-            <Route path="/Servers" element={<ServerPage />}></Route>
-            <Route path="/Apps" element={<ApplicationPage />}></Route>
+            <Route path="/servers" element={<ServerPage />}></Route>
+            <Route path="/apps" element={<ApplicationPage />}></Route>
             <Route path="/addApp" element={<AddAppsForm />}></Route>
             <Route path="/addServer" element={<AddServerForm />}></Route>
             <Route path="/Servers/Instance" element={<InstancePage />}></Route>
@@ -68,6 +68,8 @@ function App() {
        {/* ) */}
     </BrowserRouter>
   );
+
 }
+
 
 export default App;

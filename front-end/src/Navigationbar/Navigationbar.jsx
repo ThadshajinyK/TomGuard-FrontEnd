@@ -15,16 +15,16 @@ export const Navigationbar = () => {
         </li>
 
         <li>
-          <a href="/Servers" className="sidebar-item ">
+          <Link to ="/servers" className="sidebar-item ">
             <Icon icon="ion:server-outline" />
             <span>Server</span>
-          </a>
+          </Link>
         </li>
         <li>
-          <a href="/Apps" className="sidebar-item">
+          <Link to ="/apps" className="sidebar-item">
             <Icon icon="ion:apps-sharp" />
             <span>Apps</span>
-          </a>
+          </Link>
         </li>
 
         <li>
