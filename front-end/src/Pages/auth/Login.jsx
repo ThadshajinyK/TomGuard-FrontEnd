@@ -11,26 +11,26 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    setLoading(true);
-    axios
-      .post("/api/auth/login", { email, password })
-      .then((response) => {
-        localStorage.setItem("loggedInUser", JSON.stringify(response.data));
-        setLoading(false);
-        window.location.reload();
-      })
-      .catch((err) => {
-        setError(err?.response?.data?.message);
+  // const handleSubmit = (event) => {
+  //   event.preventDefault();
+  //   setLoading(true);
+  //   axios
+  //     .post("/api/auth/login", { email, password })
+  //     .then((response) => {
+  //       localStorage.setItem("loggedInUser", JSON.stringify(response.data));
+  //       setLoading(false);
+  //       window.location.reload();
+  //     })
+  //     .catch((err) => {
+  //       setError(err?.response?.data?.message);
 
-        setLoading(false);
-      });
-  };
+  //       setLoading(false);
+  //     });
+  // };
 
   return (
     <AuthLayout>
-      <form onSubmit={handleSubmit}>
+      <form >
         <div className="d-flex flex-column align-items-center mb-3">
           <img className="logo" src={Icon} />
           <p className="text-white text-center mb-3">Welcome to eleos !</p>
@@ -46,7 +46,7 @@ const Login = () => {
             onChange={(event) => setEmail(event.target.value)}
             className="form-control"
             placeholder="Enter your email"
-            required
+         
           />
         </div>
         <div className="mb-3">
@@ -57,7 +57,7 @@ const Login = () => {
             onChange={(event) => setPassword(event.target.value)}
             className="form-control"
             placeholder="Enter your password"
-            required
+           
           />
         </div>
         <div className="mb-3">
@@ -80,7 +80,9 @@ const Login = () => {
 
         {/* Login button */}
 
-        <button className="btn btn-secondary w-100">
+        <button className="btn btn-secondary w-100" onClick={()=> {
+          localStorage.setItem("loggedInUser",JSON.stringify({accessToken:"dummy Token"}))
+        }}>
           {loading ? "loading..." : "Login"}
         </button>
         <div className="mt-3">
