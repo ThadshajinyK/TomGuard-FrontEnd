@@ -42,16 +42,19 @@ export const ServerPage = () => {
           <thead className="table-dark">
             <tr>{/*1st row */}
               <th>Server Id</th>
-              <th  class="text-center">Availability</th>
               <th  class="text-center">Host name</th>
+              <th  class="text-center">Availability</th>
               <th>IP address</th>
-              <th  class="text-center">CPU capacity</th>
-              <th  class="text-center">Disk capacity</th>
-              <th  class="text-center">server location</th>
-              <th  class="text-center">memory capacity</th>
-              <th class="text-center">server name</th>
               <th class="text-center">server port</th>
               <th class="text-center">server uptime</th>
+              <th  class="text-center">CPU capacity</th>
+              <th  class="text-center">Disk capacity</th>
+              <th  class="text-center">memory capacity</th>
+              <th  class="text-center">server location</th>
+              <th class="text-center">server name</th>
+              
+              
+              
             </tr>
           </thead>
           {/*2nd row*/}
@@ -59,16 +62,18 @@ export const ServerPage = () => {
           {data.map(item => (
             <tr key={item.serverId}>
               <td>{item.serverId}</td>
-              <td className="text-center">{item.availability}</td>
               <td className="text-center">{item.hostName}</td>
+              <td className="text-center">{item.availability}</td>
               <td className="text-center">{item.ipAddress}</td>
-              <td className="text-center">{item.serverCpuCapacity}</td>
-              <td className="text-center">{item.serverDiskCapacity}</td>
-              <td className="text-center">{item.serverLocation}</td>
-              <td className="text-center">{item.serverMemoryCapacity}</td>
-              <td className="text-center">{item.serverName}</td>
               <td className="text-center">{item.serverPort}</td>
               <td className="text-center">{item.uptime}</td>
+              <td className="text-center">{item.serverCpuCapacity}</td>
+              <td className="text-center">{item.serverDiskCapacity}</td>
+              <td className="text-center">{item.serverMemoryCapacity}</td>
+              <td className="text-center">{item.serverLocation}</td>
+              <td className="text-center">{item.serverName}</td>
+              
+              
               {/* ...other table cells... */}
             </tr>
           ))}

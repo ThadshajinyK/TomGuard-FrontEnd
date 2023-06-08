@@ -15,29 +15,33 @@ import Login from "./Pages/auth/Login";
 import Signup from "./Pages/auth/Signup";
 import ForgotPassword from "./Pages/auth/ForgotPassword";
 
-function App() {
-  const [token, setToken] = useState(null);
 
-  useEffect(() => {
-    const user = JSON.parse(localStorage.getItem("loggedInUser")) || null;
-    setToken(user?.accessToken);
-  }, [token]);
+
+function App() {
+  // const [token, setToken] = useState(null);
+
+  // useEffect(() => {
+  //   const user = JSON.parse(localStorage.getItem("loggedInUser")) || null;
+  //   setToken(user?.accessToken);
+  // }, [token]);
 
   return (
     <BrowserRouter>
-      {!token ? (
-        <Fragment>
+      {/* {!token ? ( */}
+         {/* <Fragment> */}
           {/* These are public pages   */}
-          <Routes>
-            <Route path="*" element={<Navigate to="/login" replace />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/sign-up" element={<Signup />} />
-            <Route path="/forgot-password" element={<ForgotPassword />} />
-          </Routes>
-        </Fragment>
-      ) : (
-        <Fragment>
+          {/* <Routes> */}
+            {/* <Route path="*" element={<Navigate to="/login" replace />} /> */}
+            {/* <Route path="/login" element={<Login />} /> */}
+            {/* <Route path="/sign-up" element={<Signup />} /> */}
+            {/* <Route path="/forgot-password" element={<ForgotPassword />} /> */}
+          {/* </Routes> */}
+        {/* </Fragment> */}
+       {/* ) : ( */}
+        {/* <Fragment> */}
           {/* These are private pages   */}
+
+          
           <Titlebar2 />
           <section className="sidebar">
             <Navigationbar />
@@ -60,8 +64,8 @@ function App() {
             <Route path="/settings" element={<Settings />}></Route>
             <Route path="*" element={<Navigate to="/dashboard" replace />} />
           </Routes>
-        </Fragment>
-      )}
+        {/* </Fragment> */}
+       {/* ) */}
     </BrowserRouter>
   );
 }
