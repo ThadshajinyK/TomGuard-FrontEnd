@@ -1,12 +1,36 @@
 import AuthLayout from "../../layout/AuthLayout";
 import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
 import Icon from "../../images/logo.png";
+import axios from "axios";
 
 const Login = () => {
   const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    setLoading(true);
+    axios
+      .post("/api/auth/login", { email, password })
+      .then((response) => {
+        localStorage.setItem("loggedInUser", JSON.stringify(response.data));
+        setLoading(false);
+        window.location.reload();
+      })
+      .catch((err) => {
+        setError(err?.response?.data?.message);
+
+        setLoading(false);
+      });
+  };
+
   return (
     <AuthLayout>
-      <form onSubmit={(e) => e.preventDefault()}>
+      <form onSubmit={handleSubmit}>
         <div className="d-flex flex-column align-items-center mb-3">
           <img className="logo" src={Icon} />
           <p className="text-white text-center mb-3">Welcome to eleos !</p>
@@ -14,20 +38,26 @@ const Login = () => {
             Log in
           </p>
         </div>
-        <div class="mb-3">
+        <div className="mb-3">
           <label>Email</label>
           <input
             type="email"
-            class="form-control"
+            value={email}
+            onChange={(event) => setEmail(event.target.value)}
+            className="form-control"
             placeholder="Enter your email"
+            required
           />
         </div>
-        <div class="mb-3">
+        <div className="mb-3">
           <label>Password</label>
           <input
             type="password"
-            class="form-control"
+            value={password}
+            onChange={(event) => setPassword(event.target.value)}
+            className="form-control"
             placeholder="Enter your password"
+            required
           />
         </div>
         <div className="mb-3">
@@ -44,7 +74,15 @@ const Login = () => {
           </Link>
         </div>
 
-        <button class="btn btn-secondary w-100">Login</button>
+        {/* Error massage component */}
+
+        <p className="text-danger text-center">{error}</p>
+
+        {/* Login button */}
+
+        <button className="btn btn-secondary w-100">
+          {loading ? "loading..." : "Login"}
+        </button>
         <div className="mt-3">
           <p className="text-white ">
             Don't you have an account ?{" "}

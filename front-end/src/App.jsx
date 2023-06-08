@@ -10,13 +10,19 @@ import AlertTable from "./Alert_page/AlertTable/AlertTable";
 import ChatRoom from "./Alert_page/Chat/ChatRoom";
 import Dashboard from "./Dashboard/Dashboard";
 import Settings from "./Pages/Settings";
-import { Fragment } from "react";
+import { Fragment, useEffect, useState } from "react";
 import Login from "./Pages/auth/Login";
 import Signup from "./Pages/auth/Signup";
 import ForgotPassword from "./Pages/auth/ForgotPassword";
 
 function App() {
-  const token = "";
+  const [token, setToken] = useState(null);
+
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("loggedInUser")) || null;
+    setToken(user?.accessToken);
+  }, [token]);
+
   return (
     <BrowserRouter>
       {!token ? (

@@ -1,11 +1,13 @@
 {
   "name": "server-moni-sys",
   "version": "0.1.0",
+  "proxy": "http://localhost:7000/",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
     "@mui/base": "^5.0.0-alpha.117",
+    "@mui/lab": "^5.0.0-alpha.133",
     "@mui/material": "^5.11.8",
     "@mui/x-data-grid": "^5.17.22",
     "@testing-library/jest-dom": "^5.16.5",
