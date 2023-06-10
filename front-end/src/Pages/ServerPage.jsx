@@ -103,10 +103,10 @@ export const ServerPage = () => {
           <thead className="table-dark">
             <tr>{/*1st row */}
               <th className="text-center">Metrics Id</th>
-              <th class="text-center">Availability</th>
-              <th class="text-center">uptime</th>
-              <th class="text-center">Request time</th>
-              <th class="text-center">Response Time</th>
+              <th className="text-center">Availability</th>
+              <th className="text-center">uptime</th>
+              <th className="text-center">Request time</th>
+              <th className="text-center">Response Time</th>
             </tr>
           </thead>
           {/*2nd row*/}
@@ -114,12 +114,11 @@ export const ServerPage = () => {
             {metricsData.map(metric => (
               <tr key={metric.MetricId}>
                 <td className="text-center">{metric.metricId}</td>
-                <td className="text-center">
-  <span className="badge rounded-pill" style={{backgroundColor
-  :metric.availability === "online"? 'rgb(54, 139, 84)' 
-  :metric.availability === "offline"? 'rgb(190, 25, 25)' 
-  : 'orange'}}>{metric.availability} </span>
-</td>
+                <td className="text-center"><span className="badge rounded-pill" style={{backgroundColor
+                     :metric.availability === "online"? 'rgb(54, 139, 84)' 
+                     :metric.availability === "offline"? 'rgb(190, 25, 25)' 
+                     : 'orange'}}>{metric.availability} </span>
+                </td>
                 <td className="text-center">{metric.uptimeInMillis}</td>
                 <td className="text-center">{metric.requestTimeInMillis}</td>
                 <td className="text-center">{metric.responseTimeInMillis}</td>
@@ -152,63 +151,6 @@ export const ServerPage = () => {
 
 }
 
-// export const AddServerForm = () => {
-//   return (
-//     <div className="formContent">
-//       <h1>Server Details</h1>
-//       <form class="row g-3 mt-3">
-//         <div class="col-md-6">
-//           <label for="inputEmail4" class="form-label">Host Name</label>
-//           <input type="text" class="form-control" id="appName" />
-//         </div>
-//         <div class="col-md-6">
-//           <label for="inputPassword4" class="form-label">IP address</label>
-//           <input type="text" class="form-control" id="clientName" />
-//         </div>
-//         <div class="col-md-4">
-//           <label for="inputAddress" class="form-label">Memory capacity</label>
-//           <input type="text" class="form-control" id="appType" placeholder="Memory" />
-//         </div>
-//         <div class="col-md-4">
-//           <label for="inputAddress2" class="form-label">Disk capacity</label>
-//           <input type="text" class="form-control" id="appVersion" placeholder="Disk" />
-//         </div>
-//         <div class="col-md-4">
-//           <label for="inputAddress2" class="form-label">CPU capacity</label>
-//           <input type="text" class="form-control" id="appVersion" placeholder="CPU" />
-//         </div>
-//         <div class="col-md-4">
-//           <fieldset class="row">
-//             <legend class="col-form-label col-sm-2 pt-0">Status</legend>
-//             <div class="col-sm-10">
-//               <div class="form-check">
-//                 <input class="form-check-input" type="radio" name="status" id="status" value="online" />
-//                 <label class="form-check-label" for="gridRadios1">
-//                   online
-//                 </label>
-//               </div>
-//               <div class="form-check">
-//                 <input class="form-check-input" type="radio" name="status" id="status" value="offline" />
-//                 <label class="form-check-label" for="gridRadios2">
-//                   offline
-//                 </label>
-//               </div>
-//             </div>
-//           </fieldset>
-
-//         </div>
-//         <div class="col-md-4">
-//           <label for="inputAddress2" class="form-label">Server Port no</label>
-//           <input type="text" class="form-control" id="appVersion" placeholder="type app version" />
-//         </div>
-//         <div class="col-12">
-//           <button type="submit" class="btn btn-primary">Add server</button>
-//         </div>
-//       </form>
-//     </div>
-//   );
-
-// }
 
 export const AddServerForm = () => {
 
