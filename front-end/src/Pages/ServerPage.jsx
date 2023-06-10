@@ -26,22 +26,22 @@ export const ServerPage = () => {
   return (
     <div className="serverContent">
       {/* Apps Overview Navbar */}
-      <nav class="navbar navbar-expand-lg bg-body-tertiary overView-nav">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="#">Servers Overview</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
+      <nav className="navbar navbar-expand-lg bg-body-tertiary overView-nav">
+        <div className="container-fluid">
+          <a className="navbar-brand" href="#">Servers Overview</a>
+          <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span className="navbar-toggler-icon"></span>
           </button>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <div className="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
 
             </ul>
             <Link to="/addServer" className="btn btn-outline-primary me-2">
               Add new server
             </Link>
-            <form class="d-flex" role="search">
-              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-              <button class="btn btn-outline-success" type="submit">Search</button>
+            <form className="d-flex" role="search">
+              <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
+              <button className="btn btn-outline-success" type="submit">Search</button>
             </form>
           </div>
         </div>
@@ -51,14 +51,14 @@ export const ServerPage = () => {
           <thead className="table-dark">
             <tr>{/*1st row */}
               <th className="text-center">Server Id</th>
-              <th class="text-center">Host name</th>
-              <th class="text-center">Availability</th>
+              <th className="text-center">Host name</th>
+              <th className="text-center">Availability</th>
               <th>IP address</th>
-              <th class="text-center">server uptime</th>
-              <th class="text-center">OS Name</th>
-              <th class="text-center">OS Version</th>
-              <th class="text-center">OS Architecture</th>
-              <th class="text-center">JVM version</th>
+              <th className="text-center">server uptime</th>
+              <th className="text-center">OS Name</th>
+              <th className="text-center">OS Version</th>
+              <th className="text-center">OS Architecture</th>
+              <th className="text-center">JVM version</th>
             </tr>
           </thead>
           {/*2nd row*/}
@@ -87,9 +87,6 @@ export const ServerPage = () => {
                 <td className="text-center">{item.osVersion}</td>
                 <td className="text-center">{item.osArchitecture}</td>
                 <td className="text-center">{item.jvmVersion}</td>
-
-
-
                 {/* ...other table cells... */}
               </tr>
             ))}
@@ -122,9 +119,6 @@ export const ServerPage = () => {
                 <td className="text-center">{metric.uptimeInMillis}</td>
                 <td className="text-center">{metric.requestTimeInMillis}</td>
                 <td className="text-center">{metric.responseTimeInMillis}</td>
-                
-                
-                
                 {/* ...other table cells... */}
               </tr>
             ))}
@@ -133,15 +127,15 @@ export const ServerPage = () => {
       </div>
 
       <nav aria-label="Page navigation example">
-        <ul class="pagination justify-content-end">
-          <li class="page-item">
-            <a class="page-link" href="#">Previous</a>
+        <ul className="pagination justify-content-end">
+          <li className="page-item">
+            <a className="page-link" href="#">Previous</a>
           </li>
-          <li class="page-item"><a class="page-link" href="#">1</a></li>
-          <li class="page-item"><a class="page-link" href="#">2</a></li>
-          <li class="page-item"><a class="page-link" href="#">3</a></li>
-          <li class="page-item">
-            <a class="page-link" href="#">Next</a>
+          <li className="page-item"><a className="page-link" href="#">1</a></li>
+          <li className="page-item"><a className="page-link" href="#">2</a></li>
+          <li className="page-item"><a className="page-link" href="#">3</a></li>
+          <li className="page-item">
+            <a className="page-link" href="#">Next</a>
           </li>
         </ul>
       </nav>
@@ -180,46 +174,110 @@ export const AddServerForm = () => {
   return (
 
     <div className="formContent">
-      <h1>Server Details</h1>
-      <form class="row g-3 mt-3">
-        <div class="col-md-6">
-          <label for="hostName" class="form-label">Host Name</label>
-          <input type="text" class="form-control" id="hostName" value={hostName}
+       <h1>Server Details</h1>
+      <form className="row g-3 mt-3">
+        <div className="col-md-6">
+          <label htmlFor="hostName" className="form-label">Host Name</label>
+          <input type="text" className="form-control" id="hostName" value={hostName}
             onChange={(e) => sethostName(e.target.value)} />
         </div>
-        <div class="col-md-6">
-          <label for="ipAddress" class="form-label">IP address</label>
-          <input type="text" class="form-control" id="ipAddress" value={ipAddress}
+        <div className="col-md-6">
+          <label htmlFor="ipAddress" className="form-label">IP address</label>
+          <input type="text" className="form-control" id="ipAddress" value={ipAddress}
             onChange={(e) => setipAddress(e.target.value)} />
         </div>
-        <div class="col-md-4">
-          <label for="memoryCapacity" class="form-label">Memory capacity</label>
-          <input type="text" class="form-control" id="memoryCapacity" placeholder="Memory"
+        <div className="col-md-4">
+          <label htmlFor="memoryCapacity" className="form-label">Memory capacity</label>
+          <input type="text" className="form-control" id="memoryCapacity" placeholder="Memory"
             value={memoryCapacity} onChange={(e) => setmemoryCapacity(e.target.value)} />
         </div>
-        <div class="col-md-4">
-          <label for="diskCapacity" class="form-label">Disk capacity</label>
-          <input type="text" class="form-control" id="diskCapacity" placeholder="Disk"
+        <div className="col-md-4">
+          <label htmlFor="diskCapacity" className="form-label">Disk capacity</label>
+          <input type="text" className="form-control" id="diskCapacity" placeholder="Disk"
             value={diskCapacity} onChange={(e) => setdiskCapacity(e.target.value)} />
         </div>
-        <div class="col-md-4">
-          <label for="cpuCapacity" class="form-label">CPU capacity</label>
-          <input type="text" class="form-control" id="cpuCapacity" placeholder="CPU"
+        <div className="col-md-4">
+          <label htmlFor="cpuCapacity" className="form-label">CPU capacity</label>
+          <input type="text" className="form-control" id="cpuCapacity" placeholder="CPU"
             value={cpuCapacity} onChange={(e) => setcpuCapacity(e.target.value)} />
         </div>
 
-        <div class="col-md-4">
-          <label for="serverPortNo" class="form-label">Port no</label>
-          <input type="text" class="form-control" id="appVersion" placeholder="server port no"
-            value={portNo} onChange={(e) => setportNo(e.target.value)} />
+        <div className="col-md-4">
+          <label htmlFor="memoryCapacity" className="form-label">Memory capacity</label>
+          <input type="text" className="form-control" id="memoryCapacity" placeholder="Memory"
+            value={memoryCapacity} onChange={(e) => setmemoryCapacity(e.target.value)} />
         </div>
-        <div class="col-12">
-          <button type="submit" class="btn btn-outline-success m-3" onClick={handleClick}>Submit</button>
-          <button type="submit" class="btn btn-outline-danger m-3">Cancel</button>
+        <div className="col-md-4">
+          <label htmlFor="diskCapacity" className="form-label">Disk capacity</label>
+          <input type="text" className="form-control" id="diskCapacity" placeholder="Disk"
+            value={diskCapacity} onChange={(e) => setdiskCapacity(e.target.value)} />
+        </div>
+        <div className="col-md-4">
+          <label htmlFor="cpuCapacity" className="form-label">CPU capacity</label>
+          <input type="text" className="form-control" id="cpuCapacity" placeholder="CPU"
+            value={cpuCapacity} onChange={(e) => setcpuCapacity(e.target.value)} />
+        </div>
+        <div className="col-12">
+          <button type="submit" className="btn btn-outline-success m-3" onClick={handleClick}>Submit</button>
+          <button type="submit" className="btn btn-outline-danger m-3">Cancel</button>
         </div>
 
-      </form>
+      </form> 
     </div>
   );
 
 }
+
+
+// export const AddServerForm = () =>{
+
+//   return(
+//     <div className="formContent">
+//       <h1>Server Details</h1>
+//       <form>
+//   <div className="form-row">
+//     <div className="col-md-4 mb-3">
+//       <input type="text" className="form-control" id="validationDefault01" placeholder="First name" value="Mark" required/>
+//     </div>
+//     <div className="col-md-4 mb-3">
+  
+//       <input type="text" className="form-control" id="validationDefault02" placeholder="Last name" value="Otto" required/>
+//     </div>
+//     <div className="col-md-4 mb-3">
+      
+//       <div className="input-group">
+//         <div className="input-group-prepend">
+//           <span className="input-group-text" id="inputGroupPrepend2">@</span>
+//         </div>
+//         <input type="text" className="form-control" id="validationDefaultUsername" placeholder="Username" aria-describedby="inputGroupPrepend2" required/>
+//       </div>
+//     </div>
+//   </div>
+//   <div className="form-row">
+//     <div className="col-md-6 mb-3">
+      
+//       <input type="text" className="form-control" id="validationDefault03" placeholder="City" required/>
+//     </div>
+//     <div className="col-md-3 mb-3">
+      
+//       <input type="text" className="form-control" id="validationDefault04" placeholder="State" required/>
+//     </div>
+//     <div className="col-md-3 mb-3">
+      
+//       <input type="text" className="form-control" id="validationDefault05" placeholder="Zip" required/>
+//     </div>
+//   </div>
+//   <div className="form-group">
+//     <div className="form-check">
+//       <input className="form-check-input" type="checkbox" value="" id="invalidCheck2" required/>
+      
+//         Agree to terms and conditions
+      
+//     </div>
+//   </div>
+//   <button className="btn btn-primary" type="submit">Submit form</button>
+// </form>
+//     </div>
+//   );
+
+// }

@@ -103,23 +103,23 @@ export const InstancePage = () => {
     return (
         <div className="InstanceContent">
             {/* Apps Overview Navbar */}
-            <nav class="navbar navbar-expand-lg bg-body-tertiary overView-nav">
-                <div class="container-fluid">
-                    <a class="navbar-brand" href="#">Server1...Instances Overview</a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
+            <nav className="navbar navbar-expand-lg bg-body-tertiary overView-nav">
+                <div className="container-fluid">
+                    <a className="navbar-brand" href="#">Server1...Instances Overview</a>
+                    <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span className="navbar-toggler-icon"></span>
                     </button>
 
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <div className="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul className="navbar-nav me-auto mb-2 mb-lg-0">
 
                         </ul>
                         <Link to="/addInstance" className="btn btn-outline-primary me-2">
                             Add new Instance
                         </Link>
-                        <form class="d-flex" role="search">
-                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-                            <button class="btn btn-outline-success" type="submit">Search</button>
+                        <form className="d-flex" role="search">
+                            <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
+                            <button className="btn btn-outline-success" type="submit">Search</button>
                         </form>
                     </div>
                 </div>
@@ -132,13 +132,13 @@ export const InstancePage = () => {
                     <thead className="table-dark"><tr>{/*1st row */}
                         <th>Server Instance</th>
                         <th>IP address</th>
-                        <th class="text-center">Host name</th>
-                        <th class="text-center">Status</th>
-                        <th class="text-center">CPU</th>
-                        <th class="text-center">Memory</th>
-                        <th class="text-center">Disk</th>
-                        <th class="text-center">Applications</th>
-                        <th class="text-center">Uptime</th>
+                        <th className="text-center">Host name</th>
+                        <th className="text-center">Status</th>
+                        <th className="text-center">CPU</th>
+                        <th className="text-center">Memory</th>
+                        <th className="text-center">Disk</th>
+                        <th className="text-center">Applications</th>
+                        <th className="text-center">Uptime</th>
                     </tr></thead>
 
                     {/*2nd row*/}
@@ -148,17 +148,17 @@ export const InstancePage = () => {
                             <tbody><tr key={key}>
                                 <td><Link to="/logPerform">{val.instance}</Link></td>
                                 <td>{val.ip}</td>
-                                <td class="text-center">{val.hostname}</td>
-                                <td class="text-center">
+                                <td className="text-center">{val.hostname}</td>
+                                <td className="text-center">
                                     <span className="badge rounded-pill" style={{ backgroundColor: val.status === "running" ? 'rgb(54, 139, 84)' : 'rgb(190, 25, 25)' }}>
                                         {val.status}
                                     </span>
                                 </td>
-                                <td class="text-center">{val.cpu}</td>
-                                <td class="text-center">{val.memory}</td>
-                                <td class="text-center">{val.disk}</td>
-                                <td class="text-center">{val.applications}</td>
-                                <td class="text-center">{val.uptime}</td>
+                                <td className="text-center">{val.cpu}</td>
+                                <td className="text-center">{val.memory}</td>
+                                <td className="text-center">{val.disk}</td>
+                                <td className="text-center">{val.applications}</td>
+                                <td className="text-center">{val.uptime}</td>
                             </tr>
                             </tbody>
                         )
@@ -168,15 +168,15 @@ export const InstancePage = () => {
                 </table>
             </div>
             <nav aria-label="Page navigation example">
-                <ul class="pagination justify-content-end">
-                    <li class="page-item">
-                        <a class="page-link" href="#">Previous</a>
+                <ul className="pagination justify-content-end">
+                    <li className="page-item">
+                        <a className="page-link" href="#">Previous</a>
                     </li>
-                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">Next</a>
+                    <li className="page-item"><a className="page-link" href="#">1</a></li>
+                    <li className="page-item"><a className="page-link" href="#">2</a></li>
+                    <li className="page-item"><a className="page-link" href="#">3</a></li>
+                    <li className="page-item">
+                        <a className="page-link" href="#">Next</a>
                     </li>
                 </ul>
             </nav>
@@ -191,40 +191,40 @@ export const AddInstanceForm = () => {
     return (
         <div className="formContent">
             <h1>Instance Details</h1>
-            <form class="row g-3 mt-3">
-                <div class="col-md-6">
-                    <label for="inputEmail4" class="form-label">Instance Name</label>
-                    <input type="text" class="form-control" id="appName" />
+            <form className="row g-3 mt-3">
+                <div className="col-md-6">
+                    <label for="inputEmail4" className="form-label">Instance Name</label>
+                    <input type="text" className="form-control" id="appName" />
                 </div>
-                <div class="col-md-6">
-                    <label for="inputPassword4" class="form-label">IP address</label>
-                    <input type="text" class="form-control" id="clientName" />
+                <div className="col-md-6">
+                    <label for="inputPassword4" className="form-label">IP address</label>
+                    <input type="text" className="form-control" id="clientName" />
                 </div>
-                <div class="col-md-4">
-                    <label for="inputAddress" class="form-label">Memory capacity</label>
-                    <input type="text" class="form-control" id="appType" placeholder="Memory" />
+                <div className="col-md-4">
+                    <label for="inputAddress" className="form-label">Memory capacity</label>
+                    <input type="text" className="form-control" id="appType" placeholder="Memory" />
                 </div>
-                <div class="col-md-4">
-                    <label for="inputAddress2" class="form-label">Disk capacity</label>
-                    <input type="text" class="form-control" id="appVersion" placeholder="Disk" />
+                <div className="col-md-4">
+                    <label for="inputAddress2" className="form-label">Disk capacity</label>
+                    <input type="text" className="form-control" id="appVersion" placeholder="Disk" />
                 </div>
-                <div class="col-md-4">
-                    <label for="inputAddress2" class="form-label">CPU capacity</label>
-                    <input type="text" class="form-control" id="appVersion" placeholder="CPU" />
+                <div className="col-md-4">
+                    <label for="inputAddress2" className="form-label">CPU capacity</label>
+                    <input type="text" className="form-control" id="appVersion" placeholder="CPU" />
                 </div>
-                <div class="col-md-4">
-                    <fieldset class="row">
-                        <legend class="col-form-label col-sm-2 pt-0">Status</legend>
-                        <div class="col-sm-10">
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="status" id="status" value="online" />
-                                <label class="form-check-label" for="gridRadios1">
+                <div className="col-md-4">
+                    <fieldset className="row">
+                        <legend className="col-form-label col-sm-2 pt-0">Status</legend>
+                        <div className="col-sm-10">
+                            <div className="form-check">
+                                <input className="form-check-input" type="radio" name="status" id="status" value="online" />
+                                <label className="form-check-label" for="gridRadios1">
                                     online
                                 </label>
                             </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="status" id="status" value="offline" />
-                                <label class="form-check-label" for="gridRadios2">
+                            <div className="form-check">
+                                <input className="form-check-input" type="radio" name="status" id="status" value="offline" />
+                                <label className="form-check-label" for="gridRadios2">
                                     offline
                                 </label>
                             </div>
@@ -232,9 +232,9 @@ export const AddInstanceForm = () => {
                     </fieldset>
 
                 </div>
-                <div class="col-md-4">
-                    <label for="inputState" class="form-label">deployed Server</label>
-                    <select id="inputState" class="form-select">
+                <div className="col-md-4">
+                    <label for="inputState" className="form-label">deployed Server</label>
+                    <select id="inputState" className="form-select">
                         <option>server 1</option>
                         <option>server 2</option>
                         <option>server 3</option>
@@ -242,8 +242,8 @@ export const AddInstanceForm = () => {
                         <option>server 5</option>
                     </select>
                 </div>
-                <div class="col-12">
-                    <button type="submit" class="btn btn-primary">Add server</button>
+                <div className="col-12">
+                    <button type="submit" className="btn btn-primary">Add server</button>
                 </div>
             </form>
         </div>

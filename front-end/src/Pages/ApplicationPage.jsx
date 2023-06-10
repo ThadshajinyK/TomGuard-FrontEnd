@@ -90,23 +90,23 @@ export const ApplicationPage = () => {
   return (
     <div className=" appContent">
       {/* Apps Overview Navbar */}
-      <nav class="navbar navbar-expand-lg bg-body-tertiary overView-nav">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="#">Apps Overview</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
+      <nav className="navbar navbar-expand-lg bg-body-tertiary overView-nav">
+        <div className="container-fluid">
+          <a className="navbar-brand" href="#">Apps Overview</a>
+          <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span className="navbar-toggler-icon"></span>
           </button>
 
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <div className="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
 
             </ul>
             <Link to="/addApp" className="btn btn-outline-primary me-2">
-                                Add new App
-                            </Link>
-            <form class="d-flex" role="search">
-              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-              <button class="btn btn-outline-success" type="submit">Search</button>
+              Add new App
+            </Link>
+            <form className="d-flex" role="search">
+              <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
+              <button className="btn btn-outline-success" type="submit">Search</button>
             </form>
           </div>
         </div>
@@ -157,15 +157,15 @@ export const ApplicationPage = () => {
         </table>
       </div>
       <nav aria-label="Page navigation example">
-        <ul class="pagination justify-content-end">
-          <li class="page-item">
-            <a class="page-link" href="#">Previous</a>
+        <ul className="pagination justify-content-end">
+          <li className="page-item">
+            <a className="page-link" href="#">Previous</a>
           </li>
-          <li class="page-item"><a class="page-link" href="#">1</a></li>
-          <li class="page-item"><a class="page-link" href="#">2</a></li>
-          <li class="page-item"><a class="page-link" href="#">3</a></li>
-          <li class="page-item">
-            <a class="page-link" href="#">Next</a>
+          <li className="page-item"><a className="page-link" href="#">1</a></li>
+          <li className="page-item"><a className="page-link" href="#">2</a></li>
+          <li className="page-item"><a className="page-link" href="#">3</a></li>
+          <li className="page-item">
+            <a className="page-link" href="#">Next</a>
           </li>
         </ul>
       </nav>
@@ -180,57 +180,58 @@ export const AddAppsForm = () => {
   return (
     <div className="formContent">
       <h1>Application Details</h1>
-      <form class="row g-3 mt-3">
-        <div class="col-md-6">
-          <label for="inputEmail4" class="form-label">App Name</label>
-          <input type="text" class="form-control" id="appName" />
+      <form className="row g-3 mt-3">
+        <div className="col-md-6">
+          <label htmlFor="inputEmail4" className="form-label">App Name</label>
+          <input type="text" className="form-control" id="appName" />
         </div>
-        <div class="col-md-6">
-          <label for="inputPassword4" class="form-label">Client Name</label>
-          <input type="text" class="form-control" id="clientName" />
+        <div className="col-md-6">
+          <label htmlFor="inputPassword4" className="form-label">Client Name</label>
+          <input type="text" className="form-control" id="clientName" />
         </div>
-        <div class="col-md-6">
-          <label for="inputAddress" class="form-label">App type</label>
-          <input type="text" class="form-control" id="appType" placeholder="select correct type" />
+        <div className="col-md-6">
+          <label htmlFor="inputAddress" className="form-label">App type</label>
+          <input type="text" className="form-control" id="appType" placeholder="select correct type" />
         </div>
-        <div class="col-md-6">
-          <label for="inputAddress2" class="form-label">App version</label>
-          <input type="text" class="form-control" id="appVersion" placeholder="type app version" />
+        <div className="col-md-6">
+          <label htmlFor="inputAddress2" className="form-label">App version</label>
+          <input type="text" className="form-control" id="appVersion" placeholder="type app version" />
         </div>
-        <div class="col-md-6">
-          <fieldset class="row">
-            <legend class="col-form-label col-sm-2 pt-0">Status</legend>
-            <div class="col-sm-10">
-              <div class="form-check">
-                <input class="form-check-input" type="radio" name="status" id="status" value="stopped" />
-                <label class="form-check-label" for="gridRadios1">
+        <div className="col-md-6">
+          <fieldset className="row">
+            <legend className="col-form-label col-sm-2 pt-0">Status</legend>
+            <div className="col-sm-10">
+              <div className="form-check">
+                <input className="form-check-input" type="radio" name="status" id="status" value="stopped" />
+                <label className="form-check-label" htmlFor="gridRadios1">
                   stopped
                 </label>
               </div>
-              <div class="form-check">
-                <input class="form-check-input" type="radio" name="status" id="status" value="running" />
-                <label class="form-check-label" for="gridRadios2">
+              <div className="form-check">
+                <input className="form-check-input" type="radio" name="status" id="status" value="running" />
+                <label className="form-check-label" htmlFor="gridRadios2">
                   running
                 </label>
               </div>
             </div>
           </fieldset>
-          {/* <label for="inputCity" class="form-label">Status</label>
-    <input type="text" class="form-control" id="inputCity"/> */}
+          {/* <label htmlFor="inputCity" className="form-label">Status</label>
+    <input type="text" className="form-control" id="inputCity"/> */}
         </div>
-        <div class="col-md-4">
-          <label for="inputState" class="form-label">deployed Server Instance</label>
-          <select id="inputState" class="form-select">
-            <option selected>Instance 1</option>
-            <option>Instance 2</option>
-            <option>Instance 3</option>
-            <option>Instance 4</option>
-            <option>Instance 4</option>
+        <div className="col-md-4">
+          <label htmlFor="inputState" className="form-label">Deployed Server Instance</label>
+          <select id="inputState" className="form-select" defaultValue="Instance 1">
+            <option value="Instance 1">Instance 1</option>
+            <option value="Instance 2">Instance 2</option>
+            <option value="Instance 3">Instance 3</option>
+            <option value="Instance 4">Instance 4</option>
+            <option value="Instance 5">Instance 5</option>
           </select>
         </div>
 
-        <div class="col-12">
-          <button type="submit" class="btn btn-primary">Add app</button>
+
+        <div className="col-12">
+          <button type="submit" className="btn btn-primary">Add app</button>
         </div>
       </form>
     </div>

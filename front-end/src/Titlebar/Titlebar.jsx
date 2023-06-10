@@ -8,13 +8,13 @@ import { useNavigate } from "react-router-dom";
 // export const Titlebar = () => {
 //   return (
 //     <div className="container-fluid navbar fixed-top">
-//       <ul class="menu">
-//         <li class="nav-brand">
-//           <img src={Logo} class="logo" alt="logo" />
-//           <span class="nav-item">Eleos Web (pvt) Ltd</span>
+//       <ul className="menu">
+//         <li className="nav-brand">
+//           <img src={Logo} className="logo" alt="logo" />
+//           <span className="nav-item">Eleos Web (pvt) Ltd</span>
 //         </li>
 //         <li>
-//           <div class="nav-right">
+//           <div className="nav-right">
 //             <div className="searchbar">
 //               <input
 //                 type="text"
@@ -24,13 +24,13 @@ import { useNavigate } from "react-router-dom";
 //               <button className="btn-aqua m-2">Search</button>
 //             </div>
 
-//             {/* <div class="avatar"> */}
-//               <img src={Girl} alt="avatar" class="avatar-img" />
+//             {/* <div className="avatar"> */}
+//               <img src={Girl} alt="avatar" className="avatar-img" />
 //             {/* </div> */}
 
-//             <div class="user-info justify-content-end">
-//               <span class="name">Eleos</span>
-//               <span class="username">https://eleos.lk/</span>
+//             <div className="user-info justify-content-end">
+//               <span className="name">Eleos</span>
+//               <span className="username">https://eleos.lk/</span>
 //             </div>
 //           </div>
 //         </li>
@@ -56,27 +56,27 @@ export const Titlebar2 = () => {
           {/* <span className="logoname">Eleos Web (pvt) Ltd</span> */}
         </li>
 
-        <div class="d-flex">
+        <div className="d-flex">
           <div className="">
-            <form class="d-flex" role="search">
+            <form className="d-flex" role="search">
               <input
-                class="form-control me-2"
+                className="form-control me-2"
                 type="search"
                 placeholder="Search"
                 aria-label="Search"
               />
-              <button class="buton p-1" type="submit">
+              <button className="buton p-1" type="submit">
                 Search
               </button>
             </form>
           </div>
 
-          {/* <div class="avatar"> */}
-          <img src={Girl} alt="avatar" class="avatar-img" />
+          {/* <div className="avatar"> */}
+          <img src={Girl} alt="avatar" className="avatar-img" />
           {/* </div> */}
 
-          <div class="mt-2">
-            <span class="name">{`${user?.data?.first_name} ${user?.data?.last_name}`}</span>
+          <div className="mt-2">
+            <span className="name">{`${user?.data?.first_name} ${user?.data?.last_name}`}</span>
           </div>
 
           <button
