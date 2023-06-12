@@ -19,6 +19,7 @@ const Signup = () => {
     setLoading(true);
     axios
       .post("api/auth/register", {
+
         first_name: firstName,
         last_name: lastName,
         email,
