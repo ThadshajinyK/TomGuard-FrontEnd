@@ -31,7 +31,10 @@
 .avatar-img {
   width: 100%;
   max-width: 60px;
+  height: 60px;
+  border-radius: 50%;
   cursor: pointer;
+  margin-left: 20px;
 }
 
 .name {
@@ -41,6 +44,7 @@
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   padding: 10px;
   color: rgb(164, 179, 193);
+  white-space: nowrap;
 }
 
 .logoname {

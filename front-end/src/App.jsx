@@ -14,13 +14,14 @@ import { Fragment, useEffect, useState } from "react";
 import Login from "./Pages/auth/Login";
 import Signup from "./Pages/auth/Signup";
 import ForgotPassword from "./Pages/auth/ForgotPassword";
+import ResetPassword from "./Pages/auth/ResetPassword";
 
 function App() {
   const [token, setToken] = useState(null);
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("loggedInUser")) || null;
-    setToken(user?.accessToken);
+    setToken(user?.token);
   }, [token]);
 
   return (
@@ -33,6 +34,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/sign-up" element={<Signup />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
           </Routes>
         </Fragment>
       ) : (
@@ -62,12 +64,8 @@ function App() {
           </Routes>
         </Fragment>
       )}
-
-      
     </BrowserRouter>
   );
-
 }
-
 
 export default App;

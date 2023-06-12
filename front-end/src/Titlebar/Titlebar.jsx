@@ -72,7 +72,11 @@ export const Titlebar2 = () => {
           </div>
 
           {/* <div class="avatar"> */}
-          <img src={Girl} alt="avatar" class="avatar-img" />
+          <img
+            src={user?.data?.image || Girl}
+            alt="avatar"
+            class="avatar-img"
+          />
           {/* </div> */}
 
           <div class="mt-2">
@@ -81,6 +85,7 @@ export const Titlebar2 = () => {
 
           <button
             className="btn btn-outline-danger btn-sm logout-btn "
+            style={{ minWidth: "100px" }}
             onClick={handleLogout}
           >
             Log out
