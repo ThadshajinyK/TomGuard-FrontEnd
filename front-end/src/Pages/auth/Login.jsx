@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import Icon from "../../images/logo.png";
 import axios from "axios";
+import "../../Styles/AuthLayoutStyles.css";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -11,26 +12,26 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  // const handleSubmit = (event) => {
-  //   event.preventDefault();
-  //   setLoading(true);
-  //   axios
-  //     .post("/api/auth/login", { email, password })
-  //     .then((response) => {
-  //       localStorage.setItem("loggedInUser", JSON.stringify(response.data));
-  //       setLoading(false);
-  //       window.location.reload();
-  //     })
-  //     .catch((err) => {
-  //       setError(err?.response?.data?.message);
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    setLoading(true);
+    axios
+      .post("/api/auth/login", { email, password })
+      .then((response) => {
+        localStorage.setItem("loggedInUser", JSON.stringify(response.data));
+        setLoading(false);
+        window.location.reload();
+      })
+      .catch((err) => {
+        setError(err?.response?.data);
 
-  //       setLoading(false);
-  //     });
-  // };
+        setLoading(false);
+      });
+  };
 
   return (
     <AuthLayout>
-      <form >
+      <form onSubmit={handleSubmit}>
         <div className="d-flex flex-column align-items-center mb-3">
           <img className="logo" src={Icon} />
           <p className="text-white text-center mb-3">Welcome to eleos !</p>
@@ -39,25 +40,25 @@ const Login = () => {
           </p>
         </div>
         <div className="mb-3">
-          <label>Email</label>
+          <label className="label">Email</label>
           <input
             type="email"
             value={email}
             onChange={(event) => setEmail(event.target.value)}
             className="form-control"
             placeholder="Enter your email"
-         
+            required
           />
         </div>
         <div className="mb-3">
-          <label>Password</label>
+          <label className="label">Password</label>
           <input
             type="password"
             value={password}
             onChange={(event) => setPassword(event.target.value)}
             className="form-control"
             placeholder="Enter your password"
-           
+            required
           />
         </div>
         <div className="mb-3">
@@ -80,9 +81,7 @@ const Login = () => {
 
         {/* Login button */}
 
-        <button className="btn btn-secondary w-100" onClick={()=> {
-          localStorage.setItem("loggedInUser",JSON.stringify({accessToken:"dummy Token"}))
-        }}>
+        <button className="btn btn-secondary w-100">
           {loading ? "loading..." : "Login"}
         </button>
         <div className="mt-3">

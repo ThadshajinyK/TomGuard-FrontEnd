@@ -4,8 +4,8 @@
   border-radius: 10%;
 }
 
-label {
-  color: #fff;
+.label {
+  color: #fff !important;
   margin-bottom: 10px;
 }
 
@@ -13,4 +13,3 @@ label {
   height: 70px;
   width: 90%;
 }
-

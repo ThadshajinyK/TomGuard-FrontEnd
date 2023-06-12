@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Icon from "../../images/logo.png";
 import { useState } from "react";
 import axios from "axios";
+import "../../Styles/AuthLayoutStyles.css";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -45,7 +46,7 @@ const Signup = () => {
           </p>
         </div>
         <div class="mb-3">
-          <label>First name</label>
+          <label className="label">First name</label>
           <input
             value={firstName}
             type="first name"
@@ -56,7 +57,7 @@ const Signup = () => {
           />
         </div>
         <div class="mb-3">
-          <label>Last name</label>
+          <label className="label">Last name</label>
           <input
             value={lastName}
             type="last name"
@@ -67,7 +68,7 @@ const Signup = () => {
           />
         </div>
         <div class="mb-3">
-          <label>Email</label>
+          <label className="label">Email</label>
           <input
             value={email}
             type="email"
@@ -78,7 +79,7 @@ const Signup = () => {
           />
         </div>
         <div class="mb-3">
-          <label>Password</label>
+          <label className="label">Password</label>
           <input
             value={password}
             type="password"
