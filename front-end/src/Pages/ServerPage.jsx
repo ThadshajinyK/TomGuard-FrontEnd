@@ -2,33 +2,96 @@ import React, { useEffect, useState } from "react";
 import "../Styles/ServerStyles.css";
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { Icon } from '@iconify/react';
 
 
 export const ServerPage = () => {
   const [data, setData] = useState([]);
   const [metricsData, setMetricsData] = useState([]);
-
-  useEffect(() => {
-    axios.get('http://localhost:9090/')
-      .then(response => { setData(response.data); })
-      .catch(error => { console.error('Error fetching data', error); });
-
-    axios.get('http://localhost:9090/myMetrics/findMyMetrics')
+  const handleDelete = (id) => {
+    // Make a DELETE request to the delete endpoint
+    fetch(`http://localhost:9090/server/${id}`, {
+      method: 'DELETE'
+    })
       .then(response => {
-        setMetricsData(response.data);
+        if (response.ok) {
+          // Delete successful, perform any necessary actions (e.g., update UI)
+          setData(prevData => prevData.filter(item => item.id !== id));
+          console.log('Record deleted successfully');
+        } else {
+          // Delete failed, handle the error (e.g., show error message)
+          console.error('Failed to delete record');
+        }
       })
       .catch(error => {
-        console.error('Error fetching metrics data', error);
+        // Handle network or other errors
+        console.error('Error occurred while deleting record:', error);
       });
+  };
 
+  const handleDeleteMetrics = (id) => {
+    // Make a DELETE request to the delete endpoint
+    fetch(`http://localhost:9090/metrics/${id}`, {
+      method: 'DELETE'
+    })
+      .then(response => {
+        if (response.ok) {
+          // Delete successful, perform any necessary actions (e.g., update UI)
+          setMetricsData(prevData => prevData.filter(item => item.id !== id));
+          console.log('Record deleted successfully');
+        } else {
+          // Delete failed, handle the error (e.g., show error message)
+          console.error('Failed to delete record');
+        }
+      })
+      .catch(error => {
+        // Handle network or other errors
+        console.error('Error occurred while deleting record:', error);
+      });
+  };
+
+  // useEffect(() => {
+  //   axios.get('http://localhost:9090/server/all')
+  //     .then(response => { setData(response.data); })
+  //     .catch(error => { console.error('Error fetching data', error); });
+
+  //   axios.get('http://localhost:9090/metrics/all')
+  //     .then(response => {
+  //       setMetricsData(response.data);
+  //     })
+  //     .catch(error => {
+  //       console.error('Error fetching metrics data', error);
+  //     });
+
+  // }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const serverResponse = await axios.get('http://localhost:9090/server/all');
+        setData(serverResponse.data);
+      } catch (error) {
+        console.error('Error fetching server data:', error);
+      }
+  
+      try {
+        const metricsResponse = await axios.get('http://localhost:9090/metrics/all');
+        setMetricsData(metricsResponse.data);
+      } catch (error) {
+        console.error('Error fetching metrics data:', error);
+      }
+    };
+  
+    fetchData();
   }, []);
+  
 
   return (
     <div className="serverContent">
       {/* Apps Overview Navbar */}
       <nav className="navbar navbar-expand-lg bg-body-tertiary overView-nav">
         <div className="container-fluid">
-          <a className="navbar-brand" href="#">Servers Overview</a>
+          <a className="navbar-brand" href="#">Server Details</a>
           <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon"></span>
           </button>
@@ -39,10 +102,7 @@ export const ServerPage = () => {
             <Link to="/addServer" className="btn btn-outline-primary me-2">
               Add new server
             </Link>
-            <form className="d-flex" role="search">
-              <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-              <button className="btn btn-outline-success" type="submit">Search</button>
-            </form>
+            
           </div>
         </div>
       </nav>
@@ -50,7 +110,7 @@ export const ServerPage = () => {
         <table className="table table-striped server-table" >
           <thead className="table-dark">
             <tr>{/*1st row */}
-              <th className="text-center">Server Id</th>
+              <th className="text-center">Record Id</th>
               <th className="text-center">Host name</th>
               <th className="text-center">Availability</th>
               <th>IP address</th>
@@ -59,13 +119,14 @@ export const ServerPage = () => {
               <th className="text-center">OS Version</th>
               <th className="text-center">OS Architecture</th>
               <th className="text-center">JVM version</th>
+              <th></th>
             </tr>
           </thead>
           {/*2nd row*/}
           <tbody>
             {data.map(item => (
-              <tr key={item.serverId}>
-                <td className="text-center">{item.serverId}</td>
+              <tr key={item.id}>
+                <td className="text-center">{item.id}</td>
                 <td className="text-center">{item.hostName}</td>
                 <td className="text-center">
                   <span className="badge rounded-pill"
@@ -87,6 +148,19 @@ export const ServerPage = () => {
                 <td className="text-center">{item.osVersion}</td>
                 <td className="text-center">{item.osArchitecture}</td>
                 <td className="text-center">{item.jvmVersion}</td>
+                <td><button 
+                class="btn btn-link" 
+                type="button" 
+                data-toggle="tooltip" 
+                data-placement="top" 
+                title="Delete"
+                onClick={() => handleDelete(item.id)}>
+                  <Icon 
+                  icon="mdi:delete-outline" 
+                  color="#DC3545"
+                  width="25" 
+                  height="25" /></button></td>
+                
                 {/* ...other table cells... */}
               </tr>
             ))}
@@ -94,23 +168,43 @@ export const ServerPage = () => {
         </table>
       </div>
 
+      <nav className="navbar navbar-expand-lg bg-body-tertiary overView-nav">
+        <div className="container-fluid">
+          <a className="navbar-brand" href="#">Metrics Records</a>
+          <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span className="navbar-toggler-icon"></span>
+          </button>
+          <div className="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+
+            </ul>
+            <Link to="/addServer" className="btn btn-outline-primary me-2">
+              Add new server
+            </Link>
+          
+          </div>
+        </div>
+      </nav>
+      
+
       {/* Metrics Table */}
       <div className="table-responsive-xxl mt-5 metricTable">
         <table className="table table-striped " >
           <thead className="table-dark">
             <tr>{/*1st row */}
-              <th className="text-center">Metrics Id</th>
+              <th className="text-center">Record id</th>
               <th className="text-center">Availability</th>
               <th className="text-center">uptime</th>
               <th className="text-center">Request time</th>
               <th className="text-center">Response Time</th>
+              <th></th>
             </tr>
           </thead>
           {/*2nd row*/}
           <tbody>
             {metricsData.map(metric => (
-              <tr key={metric.MetricId}>
-                <td className="text-center">{metric.metricId}</td>
+              <tr key={metric.id}>
+                <td className="text-center">{metric.id}</td>
                 <td className="text-center"><span className="badge rounded-pill" style={{
                   backgroundColor
                     : metric.availability === "online" ? 'rgb(54, 139, 84)'
@@ -121,6 +215,18 @@ export const ServerPage = () => {
                 <td className="text-center">{metric.uptimeInMillis}</td>
                 <td className="text-center">{metric.requestTimeInMillis}</td>
                 <td className="text-center">{metric.responseTimeInMillis}</td>
+                <td><button 
+                class="btn btn-link" 
+                type="button" 
+                data-toggle="tooltip" 
+                data-placement="top" 
+                title="Delete"
+                onClick={() => handleDeleteMetrics(metric.id)}>
+                  <Icon 
+                  icon="mdi:delete-outline" 
+                  color="#DC3545"
+                  width="25" 
+                  height="25" /></button></td>
                 {/* ...other table cells... */}
               </tr>
             ))}
@@ -128,7 +234,7 @@ export const ServerPage = () => {
         </table>
       </div>
 
-      <nav aria-label="Page navigation example">
+      {/* <nav aria-label="Page navigation example">
         <ul className="pagination justify-content-end">
           <li className="page-item">
             <a className="page-link" href="#">Previous</a>
@@ -140,7 +246,10 @@ export const ServerPage = () => {
             <a className="page-link" href="#">Next</a>
           </li>
         </ul>
-      </nav>
+      </nav> */}
+      <div>
+
+      </div>
 
     </div>
   );
@@ -181,7 +290,7 @@ export const AddServerForm = () => {
     e.preventDefault()
     const server = { hostName, availability, ipAddress, uptime, osName, osVersion, osArchitecture, jvmVersion }
     console.log(server)
-    fetch("http://localhost:9090/metrics", {
+    fetch("http://localhost:9090/server/add", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(server)
