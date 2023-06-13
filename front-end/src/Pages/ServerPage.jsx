@@ -110,7 +110,7 @@ export const ServerPage = () => {
         <table className="table table-striped server-table" >
           <thead className="table-dark">
             <tr>{/*1st row */}
-              <th className="text-center">Record Id</th>
+              <th className="text-center">TimeStamp</th>
               <th className="text-center">Host name</th>
               <th className="text-center">Availability</th>
               <th>IP address</th>
@@ -126,7 +126,7 @@ export const ServerPage = () => {
           <tbody>
             {data.map(item => (
               <tr key={item.id}>
-                <td className="text-center">{item.id}</td>
+                <td className="text-center">{item.timestamp}</td>
                 <td className="text-center">{item.hostName}</td>
                 <td className="text-center">
                   <span className="badge rounded-pill"
@@ -192,7 +192,7 @@ export const ServerPage = () => {
         <table className="table table-striped " >
           <thead className="table-dark">
             <tr>{/*1st row */}
-              <th className="text-center">Record id</th>
+              <th className="text-center">Timestamp</th>
               <th className="text-center">Availability</th>
               <th className="text-center">uptime</th>
               <th className="text-center">Request time</th>
@@ -204,7 +204,7 @@ export const ServerPage = () => {
           <tbody>
             {metricsData.map(metric => (
               <tr key={metric.id}>
-                <td className="text-center">{metric.id}</td>
+                <td className="text-center">{metric.timestamp}</td>
                 <td className="text-center"><span className="badge rounded-pill" style={{
                   backgroundColor
                     : metric.availability === "online" ? 'rgb(54, 139, 84)'
