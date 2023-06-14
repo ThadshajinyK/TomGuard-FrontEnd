@@ -8,6 +8,8 @@ import { Icon } from '@iconify/react';
 export const ServerPage = () => {
   const [data, setData] = useState([]);
   const [metricsData, setMetricsData] = useState([]);
+  const [logsData, setLogsData]=useState([]);
+
   const handleDelete = (id) => {
     // Make a DELETE request to the delete endpoint
     fetch(`http://localhost:9090/server/${id}`, {
@@ -50,6 +52,27 @@ export const ServerPage = () => {
       });
   };
 
+  const handleDeleteLogs = (logsId) => {
+    // Make a DELETE request to the delete endpoint
+    fetch(`http://localhost:9090/logs/${logsId}`, {
+      method: 'DELETE'
+    })
+      .then(response => {
+        if (response.ok) {
+          // Delete successful, perform any necessary actions (e.g., update UI)
+          setLogsData(prevData => prevData.filter(item => item.logsId !== logsId));
+          console.log('Record deleted successfully');
+        } else {
+          // Delete failed, handle the error (e.g., show error message)
+          console.error('Failed to delete record');
+        }
+      })
+      .catch(error => {
+        // Handle network or other errors
+        console.error('Error occurred while deleting record:', error);
+      });
+  };
+
   // useEffect(() => {
   //   axios.get('http://localhost:9090/server/all')
   //     .then(response => { setData(response.data); })
@@ -80,6 +103,14 @@ export const ServerPage = () => {
       } catch (error) {
         console.error('Error fetching metrics data:', error);
       }
+
+      try {
+        const logsResponse = await axios.get('http://localhost:9090/logs/all');
+        setLogsData(logsResponse.data);
+      } catch (error) {
+        console.error('Error fetching logs data:', error);
+      }
+
     };
   
     fetchData();
@@ -234,7 +265,85 @@ export const ServerPage = () => {
         </table>
       </div>
 
-      {/* <nav aria-label="Page navigation example">
+<nav className="navbar navbar-expand-lg bg-body-tertiary overView-nav">
+        <div className="container-fluid">
+          <a className="navbar-brand" href="#">Logs Details</a>
+          <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span className="navbar-toggler-icon"></span>
+          </button>
+          <div className="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+
+            </ul>
+            {/* <Link to="/addServer" className="btn btn-outline-primary me-2">
+              Add new server
+            </Link> */}
+            
+          </div>
+        </div>
+      </nav>
+      <div className="table-responsive-xxl mt-4">
+        <table className="table table-striped server-table" >
+          <thead className="table-dark">
+            <tr>{/*1st row */}
+              <th className="text-center">TimeStamp</th>
+              <th className="text-center">Log Level</th>
+              <th className="text-center">Logger Name</th>
+              <th className="text-center">Thread Name</th>
+              <th className="text-center">Message</th>
+              <th></th> {/*Delete button space */}
+            </tr>
+          </thead>
+          {/*2nd row*/}
+          <tbody>
+            {logsData.map(item => (
+              <tr key={item.logsId}>
+                <td className="text-center">{item.timestamp}</td>
+                 <td className="text-center">
+                  <span className="badge rounded-pill"
+                    style={{
+                      backgroundColor:
+                        item.logLevel === "INFO"
+                          ? 'rgb(54, 139, 84)' // Green color 
+                          : item.logLevel === "DEBUG"
+                          ? 'rgb(0, 171, 193)' // cyan color 
+                          :item.logLevel === "WARNING"
+                          ? 'rgb(247, 165, 49)' // yellow color 
+                          :item.logLevel === "FATAL"
+                          ? 'rgb(62, 9, 7)' // bold red color 
+                          : item.logLevel === "SEVERE"
+                            ? 'rgb(190, 25, 25)' // Red color 
+                            : 'orange' // Orange color for 'NotFound'
+                    }}
+                  >
+                    {item.logLevel}
+                  </span>
+                </td> 
+                <td className="text-center">{item.loggerName}</td>
+                <td className="text-center">{item.threadName}</td>
+                <td className="text-center">{item.message}</td>
+                <td><button 
+                class="btn btn-link" 
+                type="button" 
+                data-toggle="tooltip" 
+                data-placement="top" 
+                title="Delete"
+                onClick={() => handleDeleteLogs(item.logsId)}>
+                  <Icon 
+                  icon="mdi:delete-outline" 
+                  color="#DC3545"
+                  width="25" 
+                  height="25" /></button></td>
+                
+                {/* ...other table cells... */}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <div>
+
+        {/* <nav aria-label="Page navigation example">
         <ul className="pagination justify-content-end">
           <li className="page-item">
             <a className="page-link" href="#">Previous</a>
@@ -247,7 +356,6 @@ export const ServerPage = () => {
           </li>
         </ul>
       </nav> */}
-      <div>
 
       </div>
 
