@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "../Styles/AppPageStyles.css";
 import { Link } from 'react-router-dom';
+
 
 
 export const ApplicationPage = () => {
@@ -156,6 +157,11 @@ export const ApplicationPage = () => {
 
         </table>
       </div>
+
+      <div>
+        <Link to="/addClientDetails"> Add Clients Details</Link>
+      </div>
+
       <nav aria-label="Page navigation example">
         <ul className="pagination justify-content-end">
           <li className="page-item">
@@ -237,4 +243,33 @@ export const AddAppsForm = () => {
     </div>
   );
 
+}
+
+export const ClientForm = () => {
+
+  const [companyName, setCompanyName] = useState('')
+  const [contactPerson, setContactPerson] = useState('')
+  const [emailAddress, setEmailAddress] = useState('')
+  const [phoneNumber, setPhoneNumber] = useState('')
+  const [businessType, setBusinessType] = useState('')
+  const [projectType, setProjectType] = useState('')
+  const [ProjectName, setProjectName] = useState('')
+  const [projectScope, setProjectScope] = useState('')
+  const [targetAudience, setTargetAudience] = useState('')
+  const [expectedFeatures, SetExpectedFeatures] = useState('')
+
+
+  return (
+    <div className="ClientFormContent">
+      <h1>Client Details Form</h1>
+      
+      <form>
+        <label
+        for="companyName"
+        className="form-label"
+        >Company Name</label>
+        <input type="text" id="companyName" name="companyName" ></input>
+      </form>
+    </div>
+  );
 }
