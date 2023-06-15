@@ -14,14 +14,18 @@
     border-radius: 5px;
     border:1px solid rgba(0, 0, 0, 0.212);
   }
-
+  .col-form-label{
+    color: rgba(0, 0, 0, 0.721);
+  }
 
   /* apps table */
 .apps-table{
     margin-right: 50px;
     margin-top: 30px;
 }
-
+.form-label{
+  color: rgba(0, 0, 0, 0.789);
+}
 
 /* add apps form */
 .formContent{

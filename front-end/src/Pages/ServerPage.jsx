@@ -529,7 +529,7 @@ export const AddServerForm = () => {
         </div>
         <div className="col-md-4">
           <label htmlFor="jvmVersion" className="form-label">
-            jvmVersion
+          JVM Version
           </label>
           <input
             type="text"

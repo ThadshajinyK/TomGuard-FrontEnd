@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react";
 import "../Styles/AppPageStyles.css";
 import { Link } from 'react-router-dom';
 
-
-
 export const ApplicationPage = () => {
   const apps = [
     {
@@ -262,13 +260,184 @@ export const ClientForm = () => {
   return (
     <div className="ClientFormContent">
       <h1>Client Details Form</h1>
-      
-      <form>
-        <label
-        for="companyName"
-        className="form-label"
-        >Company Name</label>
-        <input type="text" id="companyName" name="companyName" ></input>
+
+      <form className="mt-3">
+        {/* Company Name */}
+        <div className="form-group row">
+          <label htmlFor="companyName"
+            className="col-sm-2 col-form-label">
+            Company Name
+          </label>
+          <div className="col-sm-6">
+            <input
+              type="text"
+              className="form-control"
+              id="companyName"
+              placeholder="Company or Business Name"
+              value={companyName}
+              onChange={(e) => setCompanyName(e.target.value)}
+            ></input>
+          </div>
+        </div>
+
+        {/* Contact Person */}
+        <div className="form-group row">
+          <label htmlFor="emailAddress"
+            className="col-sm-2 col-form-label">
+            Contact Person 
+          </label>
+          <div className="col-sm-6">
+            <input
+              type="text"
+              className="form-control"
+              id="contactPerson"
+              placeholder="Contact Person Name"
+              value={contactPerson}
+              onChange={(e) => setContactPerson(e.target.value)}
+            ></input>
+          </div>
+        </div>
+
+        {/* Email address */}
+        <div className="form-group row">
+          <label htmlFor="emailAddress"
+            className="col-sm-2 col-form-label">
+            Email Address
+          </label>
+          <div className="col-sm-6">
+            <input
+              type="text"
+              className="form-control"
+              id="emailAddress"
+              placeholder="example@example.com"
+              value={emailAddress}
+              onChange={(e) => setEmailAddress(e.target.value)}
+            ></input>
+          </div>
+        </div>
+
+        {/* Phone Number */}
+
+        <div className="form-group row">
+          <label htmlFor="phoneNumber"
+            className="col-sm-2 col-form-label">
+            Contact No
+          </label>
+          <div className="col-sm-6">
+            <input
+              type="text"
+              className="form-control"
+              id="phoneNumber"
+              placeholder="123-456-7890"
+              value={phoneNumber}
+              onChange={(e) => setPhoneNumber(e.target.value)}
+            ></input>
+          </div>
+        </div>
+{/* Business Type */}
+        <div className="form-group row">
+          <label htmlFor="companyName"
+            className="col-sm-2 col-form-label">
+            Company Name
+          </label>
+          <div className="col-sm-6">
+            <input
+              type="text"
+              className="form-control"
+              id="companyName"
+              placeholder="Company or Business Name"
+              value={companyName}
+              onChange={(e) => setCompanyName(e.target.value)}
+            ></input>
+          </div>
+        </div>
+
+{/* Project Type */}
+        <div className="form-group row">
+          <label htmlFor="companyName"
+            className="col-sm-2 col-form-label">
+            Company Name
+          </label>
+          <div className="col-sm-6">
+            <input
+              type="text"
+              className="form-control"
+              id="companyName"
+              placeholder="Company or Business Name"
+              value={companyName}
+              onChange={(e) => setCompanyName(e.target.value)}
+            ></input>
+          </div>
+        </div>
+{/* Project Name */}
+        <div className="form-group row">
+          <label htmlFor="companyName"
+            className="col-sm-2 col-form-label">
+            Company Name
+          </label>
+          <div className="col-sm-6">
+            <input
+              type="text"
+              className="form-control"
+              id="companyName"
+              placeholder="Company or Business Name"
+              value={companyName}
+              onChange={(e) => setCompanyName(e.target.value)}
+            ></input>
+          </div>
+        </div>
+{/* Project Scope */}
+        <div className="form-group row">
+          <label htmlFor="companyName"
+            className="col-sm-2 col-form-label">
+            Company Name
+          </label>
+          <div className="col-sm-6">
+            <input
+              type="text"
+              className="form-control"
+              id="companyName"
+              placeholder="Company or Business Name"
+              value={companyName}
+              onChange={(e) => setCompanyName(e.target.value)}
+            ></input>
+          </div>
+        </div>
+{/* Target Audience */}
+        <div className="form-group row">
+          <label htmlFor="companyName"
+            className="col-sm-2 col-form-label">
+            Company Name
+          </label>
+          <div className="col-sm-6">
+            <input
+              type="text"
+              className="form-control"
+              id="companyName"
+              placeholder="Company or Business Name"
+              value={companyName}
+              onChange={(e) => setCompanyName(e.target.value)}
+            ></input>
+          </div>
+        </div>
+{/* Expected Features */}
+        <div className="form-group row">
+          <label htmlFor="expectedFeatures"
+            className="col-sm-2 col-form-label">
+            Expected Features
+          </label>
+          <div className="col-sm-6">
+            <input
+              type="text"
+              className="form-control"
+              id="expectedFeatures"
+              placeholder="Company or Business Name"
+              value={expectedFeatures}
+              onChange={(e) => SetExpectedFeatures(e.target.value)}
+            ></input>
+          </div>
+        </div>
+
       </form>
     </div>
   );
