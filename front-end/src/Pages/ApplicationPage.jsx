@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import axios from 'axios';
+import { Icon } from '@iconify/react';
 import "../Styles/AppPageStyles.css";
 import { Link } from 'react-router-dom';
 
@@ -156,8 +158,9 @@ export const ApplicationPage = () => {
         </table>
       </div>
 
+      
       <div>
-        <Link to="/addClientDetails"> Add Clients Details</Link>
+        <Link to="/ClientsDetails">View Clients Details Table</Link>
       </div>
 
       <nav aria-label="Page navigation example">
@@ -251,10 +254,37 @@ export const ClientForm = () => {
   const [phoneNumber, setPhoneNumber] = useState('')
   const [businessType, setBusinessType] = useState('')
   const [projectType, setProjectType] = useState('')
-  const [ProjectName, setProjectName] = useState('')
+  const [projectName, setProjectName] = useState('')
   const [projectScope, setProjectScope] = useState('')
   const [targetAudience, setTargetAudience] = useState('')
   const [expectedFeatures, SetExpectedFeatures] = useState('')
+  const [popupMessage, setPopupMessage] = useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    const clients = { companyName, contactPerson,phoneNumber,emailAddress,businessType, projectType,projectName,projectScope,targetAudience,expectedFeatures}
+    console.log(clients)
+    fetch("http://localhost:9090/clients/add", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(clients)
+    }).then(() => {
+      console.log("New Clients details added ")
+    })
+    setPopupMessage("Form submitted successfully!");
+
+    setCompanyName("");
+    setContactPerson("");
+    setEmailAddress("");
+    setPhoneNumber("");
+    setBusinessType("");
+    setProjectType("");
+    setProjectName("");
+    setProjectScope("");
+    setTargetAudience("");
+    SetExpectedFeatures("");
+
+  };
 
 
   return (
@@ -263,12 +293,12 @@ export const ClientForm = () => {
 
       <form className="mt-3">
         {/* Company Name */}
-        <div className="form-group row">
+        <div className="form-group row mt-3">
           <label htmlFor="companyName"
             className="col-sm-2 col-form-label">
             Company Name
           </label>
-          <div className="col-sm-6">
+          <div className="col-sm-5">
             <input
               type="text"
               className="form-control"
@@ -281,12 +311,12 @@ export const ClientForm = () => {
         </div>
 
         {/* Contact Person */}
-        <div className="form-group row">
+        <div className="form-group row mt-3">
           <label htmlFor="emailAddress"
             className="col-sm-2 col-form-label">
-            Contact Person 
+            Contact Person
           </label>
-          <div className="col-sm-6">
+          <div className="col-sm-5">
             <input
               type="text"
               className="form-control"
@@ -299,12 +329,12 @@ export const ClientForm = () => {
         </div>
 
         {/* Email address */}
-        <div className="form-group row">
+        <div className="form-group row mt-3">
           <label htmlFor="emailAddress"
             className="col-sm-2 col-form-label">
             Email Address
           </label>
-          <div className="col-sm-6">
+          <div className="col-sm-3">
             <input
               type="text"
               className="form-control"
@@ -318,12 +348,12 @@ export const ClientForm = () => {
 
         {/* Phone Number */}
 
-        <div className="form-group row">
+        <div className="form-group row mt-3">
           <label htmlFor="phoneNumber"
             className="col-sm-2 col-form-label">
             Contact No
           </label>
-          <div className="col-sm-6">
+          <div className="col-sm-3">
             <input
               type="text"
               className="form-control"
@@ -334,111 +364,262 @@ export const ClientForm = () => {
             ></input>
           </div>
         </div>
-{/* Business Type */}
-        <div className="form-group row">
-          <label htmlFor="companyName"
+        {/* Business Type */}
+        <div className="form-group row mt-3">
+          <label htmlFor="businessType"
             className="col-sm-2 col-form-label">
-            Company Name
+            Business Type
           </label>
-          <div className="col-sm-6">
+          <div className="col-sm-3">
             <input
               type="text"
               className="form-control"
-              id="companyName"
-              placeholder="Company or Business Name"
-              value={companyName}
-              onChange={(e) => setCompanyName(e.target.value)}
+              id="businessType"
+              placeholder="Eg: Retail, E-com"
+              value={businessType}
+              onChange={(e) => setBusinessType(e.target.value)}
             ></input>
           </div>
         </div>
 
-{/* Project Type */}
-        <div className="form-group row">
-          <label htmlFor="companyName"
+        {/* Project Type */}
+        <div className="form-group row mt-3">
+          <label htmlFor="projectType"
             className="col-sm-2 col-form-label">
-            Company Name
+            Project Type
           </label>
-          <div className="col-sm-6">
+          <div className="col-sm-3">
+            <select
+              className="form-select"
+              id="projectType"
+              value={projectType}
+              defaultValue="None"
+              onChange={(e) => setProjectType(e.target.value)}>
+              <option value="Retail POS">Retail POS</option>
+              <option value="Food POS">Food POS</option>
+              <option value="E-Commerce">E-Commerce</option>
+            </select>
+          </div>
+        </div>
+        {/* Project Name */}
+        <div className="form-group row mt-3">
+          <label htmlFor="projectName"
+            className="col-sm-2 col-form-label">
+            Project Name
+          </label>
+          <div className="col-sm-3">
             <input
               type="text"
               className="form-control"
-              id="companyName"
-              placeholder="Company or Business Name"
-              value={companyName}
-              onChange={(e) => setCompanyName(e.target.value)}
+              id="projectName"
+              placeholder="project Name"
+              value={projectName}
+              onChange={(e) => setProjectName(e.target.value)}
             ></input>
           </div>
         </div>
-{/* Project Name */}
-        <div className="form-group row">
-          <label htmlFor="companyName"
+        {/* Project Scope */}
+        <div className="form-group row mt-3">
+          <label htmlFor="projectScope"
             className="col-sm-2 col-form-label">
-            Company Name
+            Project Scope
           </label>
-          <div className="col-sm-6">
-            <input
+          <div className="col-sm-8">
+          
+            <textarea
               type="text"
               className="form-control"
-              id="companyName"
-              placeholder="Company or Business Name"
-              value={companyName}
-              onChange={(e) => setCompanyName(e.target.value)}
-            ></input>
+              rows="5"
+              id="projectScope"
+              placeholder="Briefly describe your project requirements and scope"
+            
+              value={projectScope}
+              onChange={(e) => setProjectScope(e.target.value)}
+            ></textarea>
           </div>
         </div>
-{/* Project Scope */}
-        <div className="form-group row">
-          <label htmlFor="companyName"
+        {/* Target Audience */}
+        <div className="form-group row mt-3">
+          <label htmlFor="targetAudience"
             className="col-sm-2 col-form-label">
-            Company Name
+            Target Audience
           </label>
-          <div className="col-sm-6">
-            <input
+          <div className="col-sm-8">
+            <textarea
               type="text"
               className="form-control"
-              id="companyName"
-              placeholder="Company or Business Name"
-              value={companyName}
-              onChange={(e) => setCompanyName(e.target.value)}
-            ></input>
+              id="targetAudience"
+              rows="3"
+              
+              placeholder="Enter Project's target audience"
+              value={targetAudience}
+              onChange={(e) => setTargetAudience(e.target.value)}
+            ></textarea>
           </div>
         </div>
-{/* Target Audience */}
-        <div className="form-group row">
-          <label htmlFor="companyName"
-            className="col-sm-2 col-form-label">
-            Company Name
-          </label>
-          <div className="col-sm-6">
-            <input
-              type="text"
-              className="form-control"
-              id="companyName"
-              placeholder="Company or Business Name"
-              value={companyName}
-              onChange={(e) => setCompanyName(e.target.value)}
-            ></input>
-          </div>
-        </div>
-{/* Expected Features */}
-        <div className="form-group row">
+        {/* Expected Features */}
+        <div className="form-group row mt-3">
           <label htmlFor="expectedFeatures"
             className="col-sm-2 col-form-label">
             Expected Features
           </label>
-          <div className="col-sm-6">
-            <input
+          <div className="col-sm-8">
+            <textarea
               type="text"
               className="form-control"
               id="expectedFeatures"
-              placeholder="Company or Business Name"
+              rows="5"
+              
+              placeholder="List the expected features you require"
               value={expectedFeatures}
               onChange={(e) => SetExpectedFeatures(e.target.value)}
-            ></input>
+            ></textarea>
           </div>
         </div>
 
+        <div className="col-12">
+          <button type="submit" className="btn btn-outline-success m-3" onClick={handleSubmit}>
+            Submit
+          </button>
+          <button type="submit" className="btn btn-outline-danger m-3">
+            Cancel
+          </button>
+          </div>
       </form>
+      {popupMessage && <div className="alert alert-success">{popupMessage}</div>}
     </div>
+  );
+}
+
+export const ClientsDetails= () =>{
+
+  const [clientsData, setClientsData] = useState([]);
+
+  const handleDeleteMetrics = (id) => {
+    // Make a DELETE request to the delete endpoint
+    fetch(`http://localhost:9090/clients/${id}`, {
+      method: 'DELETE'
+    })
+      .then(response => {
+        if (response.ok) {
+          // Delete successful, perform any necessary actions (e.g., update UI)
+          setClientsData(prevData => prevData.filter(item => item.id !== id));
+          console.log('Record deleted successfully');
+        } else {
+          // Delete failed, handle the error (e.g., show error message)
+          console.error('Failed to delete record');
+        }
+      })
+      .catch(error => {
+        // Handle network or other errors
+        console.error('Error occurred while deleting record:', error);
+      });
+  };
+
+
+  useEffect(() => {
+    const fetchData = async () => {
+
+      try {
+        const metricsResponse = await axios.get('http://localhost:9090/clients/all');
+        setClientsData(metricsResponse.data);
+      } catch (error) {
+        console.error('Error fetching metrics data:', error);
+      }
+
+    };
+
+    fetchData();
+  }, []);
+
+  return (
+    <div className="ClientFormContent">
+      <nav className="navbar navbar-expand-lg bg-body-tertiary overView-nav">
+        <div className="container-fluid">
+          <a className="navbar-brand" href="#">Clients Details</a>
+          <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span className="navbar-toggler-icon"></span>
+          </button>
+          <div className="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+
+            </ul>
+            <Link to="/addClient" className="btn btn-outline-primary me-2">
+              Add Client Details
+            </Link>
+            <div>
+      </div>
+
+          </div>
+        </div>
+      </nav>
+
+
+      {/* Metrics Table */}
+      <div className="table-responsive-xxl mt-5 clientsTable">
+        <table className="table table-striped " >
+          <thead className="table-dark">
+            <tr>{/*1st row */}
+              <th className="text-center">Timestamp</th>
+              <th className="text-center">Company name</th>
+              <th className="text-center">Contact Person</th>
+              <th className="text-center">Business Type</th>
+              <th className="text-center">Email Address</th>
+              <th className="text-center">Project Name</th>
+              <th className="text-center">Project Type</th>
+              <th className="text-center">Project Details</th>
+              {/* <th className="text-center">Project Scope</th>
+              <th className="text-center">Target Audience</th>
+              <th className="text-center">Expected Features</th> */}
+              <th></th>
+            </tr>
+          </thead>
+          {/*2nd row*/}
+          <tbody>
+            {clientsData.map(client => (
+              <tr key={client.id}>
+                <td className="text-center">{client.timestamp}</td>
+                <td className="text-center">{client.companyName}</td>
+                <td className="text-center">{client.contactPerson}</td>
+                <td className="text-center">{client.businessType}</td>
+                <td className="text-center">{client.emailAddress}</td>
+                <td className="text-center">{client.projectName}</td>
+                <td className="text-center">{client.projectType}</td>
+                <td>
+                <div><b>Project Scope:</b> {client.projectScope}</div>
+                <div className="mt-2"><b>Target Audience:</b> </div>
+                <div>{client.targetAudience}</div>
+                <div className="mt-2"><b>Expected Features and Requirements: </b></div>
+                <div>{client.expectedFeatures}</div>
+                
+                </td>
+                {/* <td className="text-center">{client.projectScope}</td>
+                <td className="text-center">{client.targetAudience}</td>
+                <td className="text-center">{client.expectedFeatures}</td> */}
+
+                <td><button
+                  class="btn btn-link"
+                  type="button"
+                  data-toggle="tooltip"
+                  data-placement="top"
+                  title="Delete"
+                  onClick={() => handleDeleteMetrics(client.id)}>
+                  <Icon
+                    icon="mdi:delete-outline"
+                    color="#DC3545"
+                    width="25"
+                    height="25" /></button></td>
+                {/* ...other table cells... */}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+
+    </div>
+
+
+
   );
 }

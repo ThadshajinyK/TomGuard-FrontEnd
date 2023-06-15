@@ -1,7 +1,7 @@
 import { Titlebar, Titlebar2 } from "./Titlebar/Titlebar";
 import { Navigationbar } from "./Navigationbar/Navigationbar";
 import { ServerPage, AddServerForm, MetricsTable, LogsTable } from "./Pages/ServerPage";
-import { ApplicationPage, AddAppsForm , ClientForm} from "./Pages/ApplicationPage";
+import { ApplicationPage, AddAppsForm , ClientForm, ClientsDetails} from "./Pages/ApplicationPage";
 import { InstancePage, AddInstanceForm } from "./Pages/InstancesPage";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { LogPerform } from "./Pages/LogPerform";
@@ -50,7 +50,8 @@ function App() {
             <Route path="/servers" element={<ServerPage />}></Route>
             <Route path="/apps" element={<ApplicationPage />}></Route>
             <Route path="/addApp" element={<AddAppsForm />}></Route>
-            <Route path="/addClientDetails" element={<ClientForm/>}></Route>
+            <Route path="/addClient" element={<ClientForm/>}></Route>
+            <Route path="/ClientsDetails" element={<ClientsDetails/>}></Route>
             <Route path="/addServer" element={<AddServerForm />}></Route>
             <Route path="/performance" element={<MetricsTable/>}></Route>
             <Route path="/logs" element={<LogsTable/>}></Route>
