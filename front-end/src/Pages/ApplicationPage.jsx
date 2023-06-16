@@ -268,10 +268,19 @@ export const ClientForm = () => {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(clients)
-    }).then(() => {
-      console.log("New Clients details added ")
+    }).then((response) => {
+      if(response.ok){
+        console.log("New Clients details added ");
+        setPopupMessage("Form submitted successfully!");
+      }else{
+        throw new Error("Form submission Failed");
+      }
+      
     })
-    setPopupMessage("Form submitted successfully!");
+    .catch((error)=> {
+      console.error(error);
+      setPopupMessage("Form submission failed. ")
+    });
 
     setCompanyName("");
     setContactPerson("");
@@ -469,7 +478,6 @@ export const ClientForm = () => {
               className="form-control"
               id="expectedFeatures"
               rows="5"
-              
               placeholder="List the expected features you require"
               value={expectedFeatures}
               onChange={(e) => SetExpectedFeatures(e.target.value)}
