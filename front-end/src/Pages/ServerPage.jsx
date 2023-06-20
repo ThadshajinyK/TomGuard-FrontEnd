@@ -123,15 +123,15 @@ export const MetricsTable = () => {
 
 export const LogsTable = () => {
   const [logsData, setLogsData] = useState([]);
-  const handleDeleteLogs = (logsId) => {
+  const handleDeleteLogs = (timestamp) => {
     // Make a DELETE request to the delete endpoint
-    fetch(`http://localhost:9090/logs/${logsId}`, {
+    fetch(`http://localhost:9090/logs/${timestamp}`, {
       method: 'DELETE'
     })
       .then(response => {
         if (response.ok) {
           // Delete successful, perform any necessary actions (e.g., update UI)
-          setLogsData(prevData => prevData.filter(item => item.logsId !== logsId));
+          setLogsData(prevData => prevData.filter(item => item.timestamp !== timestamp));
           console.log('Record deleted successfully');
         } else {
           // Delete failed, handle the error (e.g., show error message)
@@ -193,7 +193,7 @@ export const LogsTable = () => {
           {/*2nd row*/}
           <tbody>
             {logsData.map(item => (
-              <tr key={item.logsId}>
+              <tr key={item.timestamp}>
                 <td className="text-center">{item.timestamp}</td>
                 <td className="text-center">
                   <span className="badge rounded-pill"
@@ -224,7 +224,7 @@ export const LogsTable = () => {
                   data-toggle="tooltip"
                   data-placement="top"
                   title="Delete"
-                  onClick={() => handleDeleteLogs(item.logsId)}>
+                  onClick={() => handleDeleteLogs(item.timestamp)}>
                   <Icon
                     icon="mdi:delete-outline"
                     color="#DC3545"
@@ -242,15 +242,15 @@ export const LogsTable = () => {
 
 export const ServerPage = () => {
   const [data, setData] = useState([]);
-  const handleDelete = (id) => {
+  const handleDelete = (hostName) => {
     // Make a DELETE request to the delete endpoint
-    fetch(`http://localhost:9090/server/${id}`, {
+    fetch(`http://localhost:9090/server/${hostName}`, {
       method: 'DELETE'
     })
       .then(response => {
         if (response.ok) {
           // Delete successful, perform any necessary actions (e.g., update UI)
-          setData(prevData => prevData.filter(item => item.id !== id));
+          setData(prevData => prevData.filter(item => item.hostName !== hostName));
           console.log('Record deleted successfully');
         } else {
           // Delete failed, handle the error (e.g., show error message)
@@ -302,7 +302,6 @@ export const ServerPage = () => {
         <table className="table table-striped server-table" >
           <thead className="table-dark">
             <tr>{/*1st row */}
-              <th className="text-center">TimeStamp</th>
               <th className="text-center">Host name</th>
               <th className="text-center">Availability</th>
               <th>IP address</th>
@@ -317,8 +316,7 @@ export const ServerPage = () => {
           {/*2nd row*/}
           <tbody>
             {data.map(item => (
-              <tr key={item.id}>
-                <td className="text-center">{item.timestamp}</td>
+              <tr key={item.hostName}>
                 <td className="text-center">{item.hostName}</td>
                 <td className="text-center">
                   <span className="badge rounded-pill"
@@ -346,7 +344,7 @@ export const ServerPage = () => {
                   data-toggle="tooltip"
                   data-placement="top"
                   title="Delete"
-                  onClick={() => handleDelete(item.id)}>
+                  onClick={() => handleDelete(item.hostName)}>
                   <Icon
                     icon="mdi:delete-outline"
                     color="#DC3545"

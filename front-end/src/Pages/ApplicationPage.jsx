@@ -5,88 +5,44 @@ import "../Styles/AppPageStyles.css";
 import { Link } from 'react-router-dom';
 
 export const ApplicationPage = () => {
-  const apps = [
-    {
-      App_ID: "001",
-      App_name: "Ticket Master",
-      Client_name: "David Johnson",
-      status: "running",
-      app_type: "Retail POS",
-      Version: "2.0",
-      instance: "Instance 01"
-    }
-    ,
-    {
-      App_ID: "002",
-      App_name: "Event Planner",
-      Client_name: "Maria Rodriguez",
-      status: "stopped",
-      app_type: "Event Management",
-      Version: "1.5",
-      instance: "Instance 02"
-    }
-    ,
-    {
-      App_ID: "003",
-      App_name: "Sales Tracker",
-      Client_name: "John Smith",
-      status: "running",
-      app_type: "Sales Management",
-      Version: "3.2",
-      instance: "Instance 03"
-    }
-    ,
-    {
-      App_ID: "004",
-      App_name: "Inventory Manager",
-      Client_name: "Sophia Lee",
-      status: "running",
-      app_type: "Inventory Management",
-      Version: "2.1",
-      instance: "Instance 04"
-    }
-    ,
-    {
-      App_ID: "005",
-      App_name: "Time Tracker",
-      Client_name: "James Kim",
-      status: "stopped",
-      app_type: "Time Management",
-      Version: "1.0",
-      instance: "Instance 05"
-    }
-    ,
-    {
-      App_ID: "006",
-      App_name: "Task Manager",
-      Client_name: "Emily Chen",
-      status: "running",
-      app_type: "Task Management",
-      Version: "2.3",
-      instance: "Instance 06"
-    }
-    ,
-    {
-      App_ID: "007",
-      App_name: "CRM",
-      Client_name: "Brian Wilson",
-      status: "running",
-      app_type: "CRM",
-      Version: "4.0",
-      instance: "Instance 07"
-    }
-    ,
-    {
-      App_ID: "008",
-      App_name: "Expense Tracker",
-      Client_name: "Linda Nguyen",
-      status: "stopped",
-      app_type: "Expense Management",
-      Version: "1.2",
-      instance: "Instance 08"
-    }
-    ,
-  ];
+  const [appsData, setAppsData] = useState([]);
+
+  //delete function
+  const handleDeleteApps = (applicationName) => {
+    // Make a DELETE request to the delete endpoint
+    fetch(`http://localhost:9090/apps/${applicationName}`, {
+      method: 'DELETE'
+    })
+      .then(response => {
+        if (response.ok) {
+          // Delete successful, perform any necessary actions (e.g., update UI)
+          setAppsData(prevData => prevData.filter(item => item.applicationName !== applicationName));
+          console.log('Record deleted successfully');
+        } else {
+          // Delete failed, handle the error (e.g., show error message)
+          console.error('Failed to delete record');
+        }
+      })
+      .catch(error => {
+        // Handle network or other errors
+        console.error('Error occurred while deleting record:', error);
+      });
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+
+      try {
+        const appsResponse = await axios.get('http://localhost:9090/apps/all');
+        setAppsData(appsResponse.data);
+      } catch (error) {
+        console.error('Error fetching metrics data:', error);
+      }
+
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <div className=" appContent">
@@ -115,50 +71,62 @@ export const ApplicationPage = () => {
 
 
       {/* Apps Table  */}
-      <div className="table-responsive-xxl">
-        <table className="table table-striped apps-table"  >
-          <thead className="table-dark"><tr>{/*1st row */}
-            <th>App ID</th>
-            <th>App Name</th>
-            <th>Client Name</th>
-            <th>Status</th>
+      <div className="table-responsive-xxl apps-table">
+        <table className="table table-striped "  >
+          <thead className="table-dark">
+            <tr>
+            <th>Application Name</th>
+            <th>App path</th>
+            <th>status</th>
             <th>App Type</th>
-            <th>Version</th>
-            <th>Server Instance</th>
-          </tr></thead>
+            <th>Client Name</th>
+            <th>start</th>
+            <th>dlt</th>
+          </tr>
+          </thead>
 
           {/*2nd row*/}
-
-          {apps.map((val, key) => {
-            return (
-              <tbody><tr key={key}>
-                <td>{val.App_ID}</td>
-                <td>{val.App_name}</td>
-                <td>{val.Client_name}</td>
-                <td>
-                  <span className="badge rounded-pill" style={{ backgroundColor: val.status === "running" ? 'rgb(54, 139, 84)' : 'rgb(190, 25, 25)' }}>
-                    {val.status}
-                  </span>
-                </td>
-
-                {/* <td>
-                  <span className={`badge rounded-pill text-bg-${val.status === "running" ? "success" : "danger"}`}>
-                    {val.status}
-                  </span>
+          <tbody>
+            {appsData.map(apps => (
+              <tr key={apps.applicationName}>
+                <td> {apps.applicationName}</td>
+                <td>{apps.path}</td>
+                {/* <td className="text-center"><span className="badge rounded-pill" style={{
+                  backgroundColor
+                    : apps.state === "online" ? 'rgb(54, 139, 84)'
+                      : apps.availability === "offline" ? 'rgb(190, 25, 25)'
+                        : 'orange'
+                }}>{apps.availability} </span>
                 </td> */}
-                <td>{val.app_type}</td>
-                <td>{val.Version}</td>
-                <td>{val.instance}</td>
+
+                <td>{apps.state}</td>
+                <td>{apps.appType}</td>
+                <td>{apps.clientName}</td>
+                <td>
+                <button className="btn btn-outline-primary">start/stop</button>
+                </td>
+                <td><button
+                  className="btn btn-link"
+                  type="button"
+                  data-toggle="tooltip"
+                  data-placement="top"
+                  title="Delete"
+                  onClick={() => handleDeleteApps(apps.applicationName)}>
+                  <Icon
+                    icon="mdi:delete-outline"
+                    color="#DC3545"
+                    width="25"
+                    height="25" /></button></td>
+                {/* ...other table cells... */}
               </tr>
-              </tbody>
-            )
-          })}
+            ))}
+          </tbody>
 
 
         </table>
       </div>
 
-      
+
       <div>
         <Link to="/ClientsDetails">View Clients Details Table</Link>
       </div>
@@ -192,16 +160,9 @@ export const AddAppsForm = () => {
           <label htmlFor="inputEmail4" className="form-label">App Name</label>
           <input type="text" className="form-control" id="appName" />
         </div>
+        
         <div className="col-md-6">
-          <label htmlFor="inputPassword4" className="form-label">Client Name</label>
-          <input type="text" className="form-control" id="clientName" />
-        </div>
-        <div className="col-md-6">
-          <label htmlFor="inputAddress" className="form-label">App type</label>
-          <input type="text" className="form-control" id="appType" placeholder="select correct type" />
-        </div>
-        <div className="col-md-6">
-          <label htmlFor="inputAddress2" className="form-label">App version</label>
+          <label htmlFor="inputAddress2" className="form-label">App path</label>
           <input type="text" className="form-control" id="appVersion" placeholder="type app version" />
         </div>
         <div className="col-md-6">
@@ -225,16 +186,7 @@ export const AddAppsForm = () => {
           {/* <label htmlFor="inputCity" className="form-label">Status</label>
     <input type="text" className="form-control" id="inputCity"/> */}
         </div>
-        <div className="col-md-4">
-          <label htmlFor="inputState" className="form-label">Deployed Server Instance</label>
-          <select id="inputState" className="form-select" defaultValue="Instance 1">
-            <option value="Instance 1">Instance 1</option>
-            <option value="Instance 2">Instance 2</option>
-            <option value="Instance 3">Instance 3</option>
-            <option value="Instance 4">Instance 4</option>
-            <option value="Instance 5">Instance 5</option>
-          </select>
-        </div>
+        
 
 
         <div className="col-12">
@@ -262,25 +214,33 @@ export const ClientForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    const clients = { companyName, contactPerson,phoneNumber,emailAddress,businessType, projectType,projectName,projectScope,targetAudience,expectedFeatures}
+
+    //email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(emailAddress)) {
+      setPopupMessage("Please provide a valid email address");
+      return;
+    }
+    //If all validations pass, proceed with form submission
+    const clients = { companyName, contactPerson, phoneNumber, emailAddress, businessType, projectType, projectName, projectScope, targetAudience, expectedFeatures }
     console.log(clients)
     fetch("http://localhost:9090/clients/add", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(clients)
     }).then((response) => {
-      if(response.ok){
+      if (response.ok) {
         console.log("New Clients details added ");
         setPopupMessage("Form submitted successfully!");
-      }else{
+      } else {
         throw new Error("Form submission Failed");
       }
-      
+
     })
-    .catch((error)=> {
-      console.error(error);
-      setPopupMessage("Form submission failed. ")
-    });
+      .catch((error) => {
+        console.error(error);
+        setPopupMessage("Form submission failed. ")
+      });
 
     setCompanyName("");
     setContactPerson("");
@@ -300,7 +260,7 @@ export const ClientForm = () => {
     <div className="ClientFormContent">
       <h1>Client Details Form</h1>
 
-      <form className="mt-3">
+      <form className="mt-3 ">
         {/* Company Name */}
         <div className="form-group row mt-3">
           <label htmlFor="companyName"
@@ -315,7 +275,9 @@ export const ClientForm = () => {
               placeholder="Company or Business Name"
               value={companyName}
               onChange={(e) => setCompanyName(e.target.value)}
-            ></input>
+              required
+            >
+            </input>
           </div>
         </div>
 
@@ -345,13 +307,15 @@ export const ClientForm = () => {
           </label>
           <div className="col-sm-3">
             <input
-              type="text"
-              className="form-control"
+              type="email"
+              // className={'form-control ${emailAddress ? 'is-valid' : 'is-invalid'}'}
               id="emailAddress"
               placeholder="example@example.com"
               value={emailAddress}
               onChange={(e) => setEmailAddress(e.target.value)}
-            ></input>
+            />
+            <div className="valid-feedback">Looks good!</div>
+            <div className="invalid-feedback">Please provide a valid email address</div>
           </div>
         </div>
 
@@ -434,14 +398,14 @@ export const ClientForm = () => {
             Project Scope
           </label>
           <div className="col-sm-8">
-          
+
             <textarea
               type="text"
               className="form-control"
               rows="5"
               id="projectScope"
               placeholder="Briefly describe your project requirements and scope"
-            
+
               value={projectScope}
               onChange={(e) => setProjectScope(e.target.value)}
             ></textarea>
@@ -459,7 +423,7 @@ export const ClientForm = () => {
               className="form-control"
               id="targetAudience"
               rows="3"
-              
+
               placeholder="Enter Project's target audience"
               value={targetAudience}
               onChange={(e) => setTargetAudience(e.target.value)}
@@ -492,14 +456,15 @@ export const ClientForm = () => {
           <button type="submit" className="btn btn-outline-danger m-3">
             Cancel
           </button>
-          </div>
+        </div>
       </form>
       {popupMessage && <div className="alert alert-success">{popupMessage}</div>}
+
     </div>
   );
 }
 
-export const ClientsDetails= () =>{
+export const ClientsDetails = () => {
 
   const [clientsData, setClientsData] = useState([]);
 
@@ -523,6 +488,7 @@ export const ClientsDetails= () =>{
         console.error('Error occurred while deleting record:', error);
       });
   };
+
 
 
   useEffect(() => {
@@ -556,7 +522,7 @@ export const ClientsDetails= () =>{
               Add Client Details
             </Link>
             <div>
-      </div>
+            </div>
 
           </div>
         </div>
@@ -565,7 +531,7 @@ export const ClientsDetails= () =>{
 
       {/* Metrics Table */}
       <div className="table-responsive-xxl mt-5 clientsTable">
-        <table className="table table-striped " >
+        <table className="table table-hover " >
           <thead className="table-dark">
             <tr>{/*1st row */}
               <th className="text-center">Timestamp</th>
@@ -594,19 +560,19 @@ export const ClientsDetails= () =>{
                 <td className="text-center">{client.projectName}</td>
                 <td className="text-center">{client.projectType}</td>
                 <td>
-                <div><b>Project Scope:</b> {client.projectScope}</div>
-                <div className="mt-2"><b>Target Audience:</b> </div>
-                <div>{client.targetAudience}</div>
-                <div className="mt-2"><b>Expected Features and Requirements: </b></div>
-                <div>{client.expectedFeatures}</div>
-                
+                  <div><b>Project Scope:</b> {client.projectScope}</div>
+                  <div className="mt-2"><b>Target Audience:</b> </div>
+                  <div>{client.targetAudience}</div>
+                  <div className="mt-2"><b>Expected Features and Requirements: </b></div>
+                  <div>{client.expectedFeatures}</div>
+
                 </td>
                 {/* <td className="text-center">{client.projectScope}</td>
                 <td className="text-center">{client.targetAudience}</td>
                 <td className="text-center">{client.expectedFeatures}</td> */}
 
                 <td><button
-                  class="btn btn-link"
+                  className="btn btn-link"
                   type="button"
                   data-toggle="tooltip"
                   data-placement="top"
