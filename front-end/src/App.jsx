@@ -9,10 +9,14 @@ import AlertTable from "./Alert_page/AlertTable/AlertTable";
 import Dashboard from "./Dashboard/Dashboard";
 import Settings from "./Pages/Settings";
 import { Fragment, useContext, useEffect, useState } from "react";
+import Login from "./Pages/auth/Login";
+import Signup from "./Pages/auth/Signup";
+import ForgotPassword from "./Pages/auth/ForgotPassword";
 import ChatLogin from "./Alert_page/Chat/chat_pages/ChatLogin";
 import ChatRegister from "./Alert_page/Chat/chat_pages/ChatRegister";
 import { AuthContext } from "./Alert_page/Chat/context/AuthContext";
 import ChatHome from "./Alert_page/Chat/chat_pages/ChatHome";
+
 
 function App() {
   // const [token, setToken] = useState(null);
@@ -22,46 +26,51 @@ function App() {
   //   setToken(user?.accessToken);
   // }, [token]);
 
-  //This code for chat
-  const { currentUser } = useContext(AuthContext);
-  const ProtectedRoute = ({ children }) => {
-    if (!currentUser) {
-      return <Navigate to="/chatLogin" />;
-    }
-    return children;
-  };
-  //end
+   //This code for chat
+   const { currentUser } = useContext(AuthContext);
+   const ProtectedRoute = ({ children }) => {
+     if (!currentUser) {
+       return <Navigate to="/chatLogin" />;
+     }
+     return children;
+   };
+   //end
 
   return (
     <BrowserRouter>
       {/* {!token ? ( */}
-      {/* <Fragment> */}
-      {/* These are public pages   */}
-      {/* <Routes> */}
-      {/* <Route path="*" element={<Navigate to="/login" replace />} /> */}
-      {/* <Route path="/login" element={<Login />} /> */}
-      {/* <Route path="/sign-up" element={<Signup />} /> */}
-      {/* <Route path="/forgot-password" element={<ForgotPassword />} /> */}
-      {/* </Routes> */}
-      {/* </Fragment> */}
-      {/* ) : ( */}
-      {/* <Fragment> */}
-      {/* These are private pages   */}
+         {/* <Fragment> */}
+          {/* These are public pages   */}
+          {/* <Routes> */}
+            {/* <Route path="*" element={<Navigate to="/login" replace />} /> */}
+            {/* <Route path="/login" element={<Login />} /> */}
+            {/* <Route path="/sign-up" element={<Signup />} /> */}
+            {/* <Route path="/forgot-password" element={<ForgotPassword />} /> */}
+          {/* </Routes> */}
+        {/* </Fragment> */}
+       {/* ) : ( */}
+        {/* <Fragment> */}
+          {/* These are private pages   */}
 
-      <Titlebar2 />
-      <section className="sidebar">
-        <Navigationbar />
-      </section>
-      <Routes>
-        <Route path="/servers" element={<ServerPage />}></Route>
-        <Route path="/apps" element={<ApplicationPage />}></Route>
-        <Route path="/addApp" element={<AddAppsForm />}></Route>
-        <Route path="/addServer" element={<AddServerForm />}></Route>
-        <Route path="/Servers/Instance" element={<InstancePage />}></Route>
-        <Route path="/addInstance" element={<AddInstanceForm />}></Route>
-        <Route path="/logPerform" element={<LogPerform />}></Route>
-
-        <Route
+          
+          <Titlebar2 />
+          <section className="sidebar">
+            <Navigationbar />
+          </section>
+          <Routes>
+            <Route path="/servers" element={<ServerPage />}></Route>
+            <Route path="/apps" element={<ApplicationPage />}></Route>
+            <Route path="/addApp" element={<AddAppsForm />}></Route>
+            <Route path="/addClient" element={<ClientForm/>}></Route>
+            <Route path="/ClientsDetails" element={<ClientsDetails/>}></Route>
+            <Route path="/addServer" element={<AddServerForm />}></Route>
+            <Route path="/performance" element={<MetricsTable/>}></Route>
+            <Route path="/logs" element={<LogsTable/>}></Route>
+            <Route path="/Servers/Instance" element={<InstancePage />}></Route>
+            <Route path="/addInstance" element={<AddInstanceForm />}></Route>
+            <Route path="/logPerform" element={<LogPerform />}></Route>
+            
+            <Route
           path="/alert"
           element={<AlertTable />}
         ></Route>
@@ -80,8 +89,12 @@ function App() {
         <Route path="/settings" element={<Settings />}></Route>
         <Route path="*" element={<Navigate to="/dashboard" replace />} />
       </Routes>
+        {/* </Fragment> */}
+       {/* ) */}
     </BrowserRouter>
   );
+
 }
+
 
 export default App;
