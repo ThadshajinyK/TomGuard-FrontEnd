@@ -3,8 +3,6 @@ import "../Styles/ServerStyles.css";
 import { Link } from 'react-router-dom';
 import speed from "../images/speed.png";
 import logs from "../images/logs.png";
-import speedometer from "../images/Speedometer.png";
-import dashboard from "../images/dashboard.png";
 import axios from 'axios';
 import { Icon } from '@iconify/react';
 
