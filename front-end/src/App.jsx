@@ -1,7 +1,17 @@
 import { Titlebar2 } from "./Titlebar/Titlebar";
 import { Navigationbar } from "./Navigationbar/Navigationbar";
-import { ServerPage, AddServerForm } from "./Pages/ServerPage";
-import { ApplicationPage, AddAppsForm } from "./Pages/ApplicationPage";
+import {
+  ServerPage,
+  AddServerForm,
+  MetricsTable,
+  LogsTable,
+} from "./Pages/ServerPage";
+import {
+  ApplicationPage,
+  AddAppsForm,
+  ClientForm,
+  ClientsDetails,
+} from "./Pages/ApplicationPage";
 import { InstancePage, AddInstanceForm } from "./Pages/InstancesPage";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { LogPerform } from "./Pages/LogPerform";
@@ -56,15 +66,16 @@ function App() {
         <Route path="/servers" element={<ServerPage />}></Route>
         <Route path="/apps" element={<ApplicationPage />}></Route>
         <Route path="/addApp" element={<AddAppsForm />}></Route>
+        <Route path="/addClient" element={<ClientForm />}></Route>
+        <Route path="/ClientsDetails" element={<ClientsDetails />}></Route>
         <Route path="/addServer" element={<AddServerForm />}></Route>
+        <Route path="/performance" element={<MetricsTable />}></Route>
+        <Route path="/logs" element={<LogsTable />}></Route>
         <Route path="/Servers/Instance" element={<InstancePage />}></Route>
         <Route path="/addInstance" element={<AddInstanceForm />}></Route>
         <Route path="/logPerform" element={<LogPerform />}></Route>
 
-        <Route
-          path="/alert"
-          element={<AlertTable />}
-        ></Route>
+        <Route path="/alert" element={<AlertTable />}></Route>
         <Route
           path="/chat"
           element={
@@ -75,11 +86,12 @@ function App() {
         />
         <Route path="/chatLogin" element={<ChatLogin />}></Route>
         <Route path="/chatRegister" element={<ChatRegister />}></Route>
-
         <Route path="/dashboard" element={<Dashboard />}></Route>
         <Route path="/settings" element={<Settings />}></Route>
         <Route path="*" element={<Navigate to="/dashboard" replace />} />
       </Routes>
+      {/* </Fragment> */}
+      {/* ) */}
     </BrowserRouter>
   );
 }
