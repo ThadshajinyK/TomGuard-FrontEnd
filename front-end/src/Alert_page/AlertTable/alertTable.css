@@ -1,3 +1,6 @@
 .tableContainer{
-    margin-left: 200px;
+    width:80%;
+    position: relative;
+    left: 250px;
+    top:150px;
 }

@@ -28,7 +28,7 @@ export const Navigationbar = () => {
         </li>
 
         <li>
-          <Link to="/alertNavbar" className="sidebar-item">
+          <Link to="/alert" className="sidebar-item">
             <Icon icon="ri:notification-4-line" />
             <span className="side"></span>
             <span>Alerts</span>
@@ -39,6 +39,11 @@ export const Navigationbar = () => {
           <Icon icon="material-symbols:settings-applications-outline" />
             <span className="side"></span>
             <span>Settings</span>
+          </Link>
+        </li>
+        <li>
+          <Link to="/chat" className="chatLink">
+          <Icon icon="fluent:chat-12-filled" className="chatIcon" />
           </Link>
         </li>
 
