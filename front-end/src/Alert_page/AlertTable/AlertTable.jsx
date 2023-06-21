@@ -1,4 +1,3 @@
-import Alertnavbar from "../AlertNavbar/AlertNavbar";
 import { useState, useEffect } from "react";
 import "./alertTable.css";
 import AlertService from "../AlertService";
@@ -34,14 +33,11 @@ const AlertTable = () => {
 
   return (
     <div>
-      <div>
-        <Alertnavbar />
-      </div>
       <div className="tableContainer">
         <div className="container">
           <div className="table-responsive">
-            <table className="table table-striped table-bordered table-hover ">
-              <thead className="table-info">
+            <table className="table table-striped table-hover table-bordered">
+              <thead className="table-dark">
                 <tr>
                   <th>Alert Type</th>
                   <th>Severity Level</th>
