@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
 import "../Styles/ServerStyles.css";
 import { Link } from 'react-router-dom';
+import speed from "../images/speed.png";
+import logs from "../images/logs.png";
+import speedometer from "../images/Speedometer.png";
+import dashboard from "../images/dashboard.png";
 import axios from 'axios';
 import { Icon } from '@iconify/react';
 
@@ -48,7 +52,7 @@ export const MetricsTable = () => {
     <div className="metricsContent">
       <nav className="navbar navbar-expand-lg bg-body-tertiary overView-nav">
         <div className="container-fluid">
-          <a className="navbar-brand" href="#">Metrics Records</a>
+          <h4>Metrics Table</h4>
           <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon"></span>
           </button>
@@ -56,9 +60,10 @@ export const MetricsTable = () => {
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
 
             </ul>
-            <Link to="/addServer" className="btn btn-outline-primary me-2">
-              Add new server
-            </Link>
+            <form className="d-flex" role="search">
+              <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
+              <button className="btn btn-success" type="submit">Search</button>
+            </form>
 
           </div>
         </div>
@@ -163,17 +168,17 @@ export const LogsTable = () => {
     <div className="logsContent">
       <nav className="navbar navbar-expand-lg bg-body-tertiary overView-nav">
         <div className="container-fluid">
-          <a className="navbar-brand" href="#">Logs Details</a>
+          <h3>Logs Details</h3>
           <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon"></span>
           </button>
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+            <ul className="navbar-nav me-auto mb-2 mb-lg-0">            </ul>
+            <form className="d-flex" role="search">
+              <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
+              <button className="btn btn-success" type="submit">Search</button>
+            </form>
 
-            </ul>
-            {/* <Link to="/addServer" className="btn btn-outline-primary me-2">
-              Add new server
-            </Link> */}
 
           </div>
         </div>
@@ -349,17 +354,17 @@ export const ServerPage = () => {
               <td><p className="serverDetail"> {item.jvmVersion}</p></td>
             </tr> */}
           </table>
-          <div><a href="#">View More</a></div>
+          
         </div>
       ))}
-      <div class="accordion" id="accordionExample">
+      <div className="accordion mb-4" id="accordionExample">
         <div class="accordion-item">
           <h2 class="accordion-header">
             <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
               View more in detail
             </button>
           </h2>
-          <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+          <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
             <div class="accordion-body">
               {/* <strong>This is the first item's accordion body.</strong> It is shown by default,
          until the collapse plugin adds the appropriate classes that we use to style each element. 
@@ -424,16 +429,42 @@ export const ServerPage = () => {
                     ))}
                   </tbody>
                 </table>
-                <div><Link to="/performance">Show Metrics Table</Link></div>
-                <div><Link to="/logs">Show Logs Table</Link></div>
 
               </div>
             </div>
           </div>
         </div>
       </div>
-      
+      {/* accordian end */}
 
+      {/* <div><Link to="/performance">Show Metrics Table</Link></div>
+      <div><Link to="/logs">Show Logs Table</Link></div> */}
+
+      <div className="perLogCards">
+      <div class="row">
+  <div class="col-sm-6 mb-5 mb-sm-0">
+    <div class="card mb-5 ms-5 me-5">
+      <div class="card-body">
+        <h4 class="card-title text-center">Performance Metrics</h4>
+        <div className="imagebox"><img src={speed} alt="performance" className="speedImage"></img></div>
+        <Link to ="/performance" className="imagebox">View Metrics<Icon icon="bi:arrow-up" color="#0d6efd" rotate={1} /></Link>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6 mb-5 mb-sm-0">
+    <div class="card mb-5 ms-5 me-5">
+      <div class="card-body">
+        <h4 class="card-title text-center">Log Monitoring</h4>
+        <div className="imagebox">
+        <img src={logs} alt = "logs" className="logsImage"></img>
+        </div>
+        <Link to="/logs" className="imagebox">View Logs<Icon icon="bi:arrow-up" color="#0d6efd" rotate={1} /></Link>
+      </div>
+    </div>
+  </div>
+</div>
+
+      </div>
     </div>
   );
 
