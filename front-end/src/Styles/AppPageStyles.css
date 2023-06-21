@@ -5,8 +5,12 @@
      position:inherit;
      flex-direction:column; 
   } */
+
+  @import url('https://fonts.googleapis.com/css2?family=Barlow:wght@300&family=Caladea:wght@700&family=Doppio+One&family=Kanit&family=Montserrat:wght@400;600&family=Nanum+Gothic:wght@800&display=swap');
+
   .appContent{
     margin:170px 40px 20px 230px;
+    font-family: 'Kanit', sans-serif;
   }
 
   /* overview box */
@@ -34,11 +38,13 @@
 /* add apps form */
 .formContent{
     margin:130px 30px 10px 300px;
+    font-family: 'Kanit', sans-serif;
   }
 
   /*Clients Details form styles*/
   .ClientFormContent{
     margin:170px 40px 20px 230px;
+    font-family: 'Kanit', sans-serif;
   }
 
   .form-floating{
