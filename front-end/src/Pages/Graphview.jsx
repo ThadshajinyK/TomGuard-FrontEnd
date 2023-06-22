@@ -20,7 +20,7 @@ function Graphview  () {
         { month: 'Jun', value: 350 },
         { month: 'Jul', value: 450 },
         { month: 'Aug', value: 550 },
-        { month: 'Sep', value: 250 },
+        { month: 'Sep', value: 350 },
         { month: 'Oct', value: 700 },
         { month: 'Nov', value: 400 },
         { month: 'Dec', value: 550 },
