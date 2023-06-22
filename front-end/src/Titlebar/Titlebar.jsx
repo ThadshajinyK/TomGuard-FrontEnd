@@ -5,40 +5,6 @@ import "../Styles/TitlePageStyles.css";
 import { Navbar, Nav, Form, FormControl, Image, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
-// export const Titlebar = () => {
-//   return (
-//     <div className="container-fluid navbar fixed-top">
-//       <ul className="menu">
-//         <li className="nav-brand">
-//           <img src={Logo} className="logo" alt="logo" />
-//           <span className="nav-item">Eleos Web (pvt) Ltd</span>
-//         </li>
-//         <li>
-//           <div className="nav-right">
-//             <div className="searchbar">
-//               <input
-//                 type="text"
-//                 placeholder="Search.."
-//                 className="m-2 searchbox"
-//               ></input>
-//               <button className="btn-aqua m-2">Search</button>
-//             </div>
-
-//             {/* <div className="avatar"> */}
-//               <img src={Girl} alt="avatar" className="avatar-img" />
-//             {/* </div> */}
-
-//             <div className="user-info justify-content-end">
-//               <span className="name">Eleos</span>
-//               <span className="username">https://eleos.lk/</span>
-//             </div>
-//           </div>
-//         </li>
-//       </ul>
-//     </div>
-//   );
-// }
-
 export const Titlebar2 = () => {
   const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem("loggedInUser"));

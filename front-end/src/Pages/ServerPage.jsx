@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "../Styles/ServerStyles.css";
 import { Link } from 'react-router-dom';
+import speed from "../images/speed.png";
+import logs from "../images/logs.png";
 import axios from 'axios';
 import { Icon } from '@iconify/react';
 
@@ -48,7 +50,7 @@ export const MetricsTable = () => {
     <div className="metricsContent">
       <nav className="navbar navbar-expand-lg bg-body-tertiary overView-nav">
         <div className="container-fluid">
-          <a className="navbar-brand" href="#">Metrics Records</a>
+          <h4>Metrics Table</h4>
           <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon"></span>
           </button>
@@ -56,9 +58,10 @@ export const MetricsTable = () => {
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
 
             </ul>
-            <Link to="/addServer" className="btn btn-outline-primary me-2">
-              Add new server
-            </Link>
+            <form className="d-flex" role="search">
+              <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
+              <button className="btn btn-success" type="submit">Search</button>
+            </form>
 
           </div>
         </div>
@@ -163,17 +166,17 @@ export const LogsTable = () => {
     <div className="logsContent">
       <nav className="navbar navbar-expand-lg bg-body-tertiary overView-nav">
         <div className="container-fluid">
-          <a className="navbar-brand" href="#">Logs Details</a>
+          <h3>Logs Details</h3>
           <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon"></span>
           </button>
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+            <ul className="navbar-nav me-auto mb-2 mb-lg-0">            </ul>
+            <form className="d-flex" role="search">
+              <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
+              <button className="btn btn-success" type="submit">Search</button>
+            </form>
 
-            </ul>
-            {/* <Link to="/addServer" className="btn btn-outline-primary me-2">
-              Add new server
-            </Link> */}
 
           </div>
         </div>
@@ -283,7 +286,7 @@ export const ServerPage = () => {
       {/* Apps Overview Navbar */}
       <nav className="navbar navbar-expand-lg bg-body-tertiary overView-nav">
         <div className="container-fluid">
-          <a className="navbar-brand" href="#">Server Details</a>
+          <h3>Server Details</h3>
           <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon"></span>
           </button>
@@ -291,97 +294,175 @@ export const ServerPage = () => {
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
 
             </ul>
+
             <Link to="/addServer" className="btn btn-outline-primary me-2">
               Add new server
             </Link>
+            <form className="d-flex" role="search">
+              <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
+              <button className="btn btn-outline-success" type="submit">Search</button>
+            </form>
 
           </div>
         </div>
       </nav>
-      <div className="table-responsive-xxl mt-4">
-        <table className="table table-striped server-table" >
-          <thead className="table-dark">
-            <tr>{/*1st row */}
-              <th className="text-center">Host name</th>
-              <th className="text-center">Availability</th>
-              <th>IP address</th>
-              <th className="text-center">server uptime</th>
-              <th className="text-center">OS Name</th>
-              <th className="text-center">OS Version</th>
-              <th className="text-center">OS Architecture</th>
-              <th className="text-center">JVM version</th>
-              <th></th>
+
+
+      {/* Server details in boxes */}
+
+
+      {data.map(item => (
+        <div className="servergroup table-responsive-xxl mt-4">
+          <table>
+            <tr>
+              <td className="text-end"><h5>Host Name:</h5></td>
+              <td ><p className="serverDetail">{item.hostName}</p></td>
             </tr>
-          </thead>
-          {/*2nd row*/}
-          <tbody>
-            {data.map(item => (
-              <tr key={item.hostName}>
-                <td className="text-center">{item.hostName}</td>
-                <td className="text-center">
-                  <span className="badge rounded-pill"
-                    style={{
-                      backgroundColor:
-                        item.availability === "online"
-                          ? 'rgb(54, 139, 84)' // Green color for 'online'
-                          : item.availability === "offline"
-                            ? 'rgb(190, 25, 25)' // Red color for 'offline'
-                            : 'orange' // Orange color for 'NotFound'
-                    }}
-                  >
-                    {item.availability}
-                  </span>
-                </td>
-                <td className="text-center">{item.ipAddress}</td>
-                <td className="text-center">{item.uptime}</td>
-                <td className="text-center">{item.osName}</td>
-                <td className="text-center">{item.osVersion}</td>
-                <td className="text-center">{item.osArchitecture}</td>
-                <td className="text-center">{item.jvmVersion}</td>
-                <td><button
-                  class="btn btn-link"
-                  type="button"
-                  data-toggle="tooltip"
-                  data-placement="top"
-                  title="Delete"
-                  onClick={() => handleDelete(item.hostName)}>
-                  <Icon
-                    icon="mdi:delete-outline"
-                    color="#DC3545"
-                    width="25"
-                    height="25" /></button></td>
+            <tr>
+              <td className="text-end"><h5>IP address:</h5></td>
+              <td ><p className="serverDetail">{item.ipAddress}</p></td>
+            </tr>
+            <tr>
+              <td className="text-end"><h5>Availabailty:</h5></td>
+              <td><h5 className="serverDetail"
+                style={{
+                  color:
+                    item.availability === "online"
+                      ? 'rgb(54, 139, 84)' // Green color for 'online'
+                      : item.availability === "offline"
+                        ? 'rgb(190, 25, 25)' // Red color for 'offline'
+                        : 'orange' // Orange color for 'NotFound'
+                }}
+              >
+                {item.availability}
+              </h5></td>
+            </tr>
+            {/* <tr>
+              <td className="text-end"><h5>OS Name:</h5></td>
+              <td><p className="serverDetail"> {item.osName}</p></td>
+            </tr>
 
-                {/* ...other table cells... */}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-        <div><Link to="/performance">Show Metrics Table</Link></div>
-        <div><Link to="/logs">Show Logs Table</Link></div>
+            <tr>
+              <td className="text-end"><h5>OS Version:</h5></td>
+              <td><p className="serverDetail"> {item.osVersion}</p></td>
+            </tr>
+
+            <tr>
+              <td className="text-end"><h5>JVM version:</h5></td>
+              <td><p className="serverDetail"> {item.jvmVersion}</p></td>
+            </tr> */}
+          </table>
+          
+        </div>
+      ))}
+      <div className="accordion mb-4" id="accordionExample">
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+              View more in detail
+            </button>
+          </h2>
+          <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+              {/* <strong>This is the first item's accordion body.</strong> It is shown by default,
+         until the collapse plugin adds the appropriate classes that we use to style each element. 
+         These classes control the overall appearance, as well as the showing and hiding via CSS transitions.
+          You can modify any of this with custom CSS or overriding our default variables. It's also worth noting 
+          that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow. */}
+              <div className="table-responsive-xxl mt-4">
+                <table className="table table-striped server-table" >
+                  <thead className="table-dark">
+                    <tr>{/*1st row */}
+                      <th className="text-center">Host name</th>
+                      <th className="text-center">Availability</th>
+                      <th>IP address</th>
+                      <th className="text-center">server uptime</th>
+                      <th className="text-center">OS Name</th>
+                      <th className="text-center">OS Version</th>
+                      <th className="text-center">OS Architecture</th>
+                      <th className="text-center">JVM version</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  {/*2nd row*/}
+                  <tbody>
+                    {data.map(item => (
+                      <tr key={item.hostName}>
+                        <td className="text-center">{item.hostName}</td>
+                        <td className="text-center">
+                          <span className="badge rounded-pill"
+                            style={{
+                              backgroundColor:
+                                item.availability === "online"
+                                  ? 'rgb(54, 139, 84)' // Green color for 'online'
+                                  : item.availability === "offline"
+                                    ? 'rgb(190, 25, 25)' // Red color for 'offline'
+                                    : 'orange' // Orange color for 'NotFound'
+                            }}
+                          >
+                            {item.availability}
+                          </span>
+                        </td>
+                        <td className="text-center">{item.ipAddress}</td>
+                        <td className="text-center">{item.uptime}</td>
+                        <td className="text-center">{item.osName}</td>
+                        <td className="text-center">{item.osVersion}</td>
+                        <td className="text-center">{item.osArchitecture}</td>
+                        <td className="text-center">{item.jvmVersion}</td>
+                        <td><button
+                          class="btn btn-link"
+                          type="button"
+                          data-toggle="tooltip"
+                          data-placement="top"
+                          title="Delete"
+                          onClick={() => handleDelete(item.hostName)}>
+                          <Icon
+                            icon="mdi:delete-outline"
+                            color="#DC3545"
+                            width="25"
+                            height="25" /></button></td>
+
+                        {/* ...other table cells... */}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {/* accordian end */}
+
+      {/* <div><Link to="/performance">Show Metrics Table</Link></div>
+      <div><Link to="/logs">Show Logs Table</Link></div> */}
+
+      <div className="perLogCards">
+      <div class="row">
+  <div class="col-sm-6 mb-5 mb-sm-0">
+    <div class="card mb-5 ms-5 me-5">
+      <div class="card-body">
+        <h4 class="card-title text-center">Performance Metrics</h4>
+        <div className="imagebox"><img src={speed} alt="performance" className="speedImage"></img></div>
+        <Link to ="/performance" className="imagebox">View Metrics<Icon icon="bi:arrow-up" color="#0d6efd" rotate={1} /></Link>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6 mb-5 mb-sm-0">
+    <div class="card mb-5 ms-5 me-5">
+      <div class="card-body">
+        <h4 class="card-title text-center">Log Monitoring</h4>
+        <div className="imagebox">
+        <img src={logs} alt = "logs" className="logsImage"></img>
+        </div>
+        <Link to="/logs" className="imagebox">View Logs<Icon icon="bi:arrow-up" color="#0d6efd" rotate={1} /></Link>
+      </div>
+    </div>
+  </div>
+</div>
 
       </div>
-
-
-
-
-      <div>
-
-        {/* <nav aria-label="Page navigation example">
-        <ul className="pagination justify-content-end">
-          <li className="page-item">
-            <a className="page-link" href="#">Previous</a>
-          </li>
-          <li className="page-item"><a className="page-link" href="#">1</a></li>
-          <li className="page-item"><a className="page-link" href="#">2</a></li>
-          <li className="page-item"><a className="page-link" href="#">3</a></li>
-          <li className="page-item">
-            <a className="page-link" href="#">Next</a>
-          </li>
-        </ul>
-      </nav> */}
-
-      </div>
-
     </div>
   );
 
@@ -527,7 +608,7 @@ export const AddServerForm = () => {
         </div>
         <div className="col-md-4">
           <label htmlFor="jvmVersion" className="form-label">
-          JVM Version
+            JVM Version
           </label>
           <input
             type="text"

@@ -1,19 +1,69 @@
+
+
+  @import url('https://fonts.googleapis.com/css2?family=Barlow:wght@300&family=Caladea:wght@700&family=Doppio+One&family=Kanit&family=Montserrat:wght@400;600&family=Nanum+Gothic:wght@800&display=swap');
+
+  /* font-family: 'Barlow', sans-serif;
+font-family: 'Caladea', serif;
+font-family: 'Doppio One', sans-serif;
+font-family: 'Kanit', sans-serif;
+font-family: 'Montserrat', sans-serif;
+font-family: 'Nanum Gothic', sans-serif; */
+
 .serverContent{
     margin:170px 40px 20px 230px;
+    font-family: 'Kanit', sans-serif;
+    
   }
 
   .metricsContent{
     margin:170px 40px 20px 230px;
+    font-family: 'Kanit', sans-serif;
   }
 
   .logsContent{
     margin:170px 40px 20px 230px;
+    font-family: 'Kanit', sans-serif;
   }
 
   .metricTable{
-    margin-right:500px;
+    margin:0px 100px 20px 20px;
   }
 
   .formContent{
     margin:200px 30px 10px 300px;
+    font-family: 'Kanit', sans-serif;
   }
+
+  .servergroup{
+    background-color: rgba(234, 238, 248, 0.447);
+    padding:20px 5px 5px 20px;
+    margin: 30px 700px 10px 150px;
+    border-radius: 5px;
+    border: 1px solid rgb(226, 226, 226);
+    box-shadow: 4px;
+  }
+
+  .serverDetail{
+    margin-left:10px;
+  }
+
+  .table-hover tr:hover {
+    
+    border: 1px solid rgb(49, 39, 39);
+  }
+
+  .speedImage{
+    width: 110px;
+    height: 100px;
+  }
+
+  .logsImage{
+    width: 110px;
+    height: 100px;
+  }
+
+  .imagebox{
+ margin:5px 25px 25px 240px;
+  }
+
+  
