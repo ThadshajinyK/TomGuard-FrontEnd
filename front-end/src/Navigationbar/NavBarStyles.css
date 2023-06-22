@@ -19,8 +19,6 @@
   
 } 
 
-
-
 .serverContent{
     margin:110px 30px 10px 230px;
   }
@@ -47,10 +45,6 @@
   display: fixed;
   
 }
-
-
-
-
 
 
 .title-logo{
@@ -131,8 +125,6 @@ tr:hover {
 .sidebar-lists {
   padding: 1px 10px 1px 10px;
   margin: 3px;
-  
-  
 }
 
 .sidebar-item {
@@ -148,6 +140,21 @@ tr:hover {
  font-weight: 600;
   
 }
+.chatLink{
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  position: fixed;
+  bottom: 10px;
+  left:130px;
+
+}
+
+.chatIcon{
+  font-size: 50px;
+  color:white;
+}
+
 .sidebar-item:hover {
   background-color: var(--active-item);
   color: var(--light);
