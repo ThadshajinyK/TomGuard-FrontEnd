@@ -5,9 +5,7 @@ import { ApplicationPage, ClientForm,ClientsDetails } from "./Pages/ApplicationP
 import { InstancePage, AddInstanceForm } from "./Pages/InstancesPage";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { LogPerform } from "./Pages/LogPerform";
-import AlertNavbar from './Alert_page/AlertNavbar/AlertNavbar';
 import AlertTable from './Alert_page/AlertTable/AlertTable';
-import ChatRoom from './Alert_page/Chat/ChatRoom';
 import Dashboard from './Dashboard/Dashboard';
 import  Graphview  from "./Pages/Graphview";
 import Settings from "./Pages/Settings";
