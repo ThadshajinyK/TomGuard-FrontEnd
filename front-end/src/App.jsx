@@ -9,14 +9,10 @@ import AlertTable from "./Alert_page/AlertTable/AlertTable";
 import Dashboard from "./Dashboard/Dashboard";
 import Settings from "./Pages/Settings";
 import { Fragment, useContext, useEffect, useState } from "react";
-import Login from "./Pages/auth/Login";
-import Signup from "./Pages/auth/Signup";
-import ForgotPassword from "./Pages/auth/ForgotPassword";
 import ChatLogin from "./Alert_page/Chat/chat_pages/ChatLogin";
 import ChatRegister from "./Alert_page/Chat/chat_pages/ChatRegister";
 import { AuthContext } from "./Alert_page/Chat/context/AuthContext";
 import ChatHome from "./Alert_page/Chat/chat_pages/ChatHome";
-
 
 function App() {
   // const [token, setToken] = useState(null);
@@ -26,32 +22,31 @@ function App() {
   //   setToken(user?.accessToken);
   // }, [token]);
 
-   //This code for chat
-   const { currentUser } = useContext(AuthContext);
-   const ProtectedRoute = ({ children }) => {
-     if (!currentUser) {
-       return <Navigate to="/chatLogin" />;
-     }
-     return children;
-   };
-   //end
+  //This code for chat
+  const { currentUser } = useContext(AuthContext);
+  const ProtectedRoute = ({ children }) => {
+    if (!currentUser) {
+      return <Navigate to="/chatLogin" />;
+    }
+    return children;
+  };
+  //end
 
   return (
     <BrowserRouter>
       {/* {!token ? ( */}
-         {/* <Fragment> */}
-          {/* These are public pages   */}
-          {/* <Routes> */}
-            {/* <Route path="*" element={<Navigate to="/login" replace />} /> */}
-            {/* <Route path="/login" element={<Login />} /> */}
-            {/* <Route path="/sign-up" element={<Signup />} /> */}
-            {/* <Route path="/forgot-password" element={<ForgotPassword />} /> */}
-          {/* </Routes> */}
-        {/* </Fragment> */}
-       {/* ) : ( */}
-        {/* <Fragment> */}
-          {/* These are private pages   */}
-
+      {/* <Fragment> */}
+      {/* These are public pages   */}
+      {/* <Routes> */}
+      {/* <Route path="*" element={<Navigate to="/login" replace />} /> */}
+      {/* <Route path="/login" element={<Login />} /> */}
+      {/* <Route path="/sign-up" element={<Signup />} /> */}
+      {/* <Route path="/forgot-password" element={<ForgotPassword />} /> */}
+      {/* </Routes> */}
+      {/* </Fragment> */}
+      {/* ) : ( */}
+      {/* <Fragment> */}
+      {/* These are private pages   */}
           
           <Titlebar2 />
           <section className="sidebar">
@@ -83,17 +78,15 @@ function App() {
         />
         <Route path="/chatLogin" element={<ChatLogin />}></Route>
         <Route path="/chatRegister" element={<ChatRegister />}></Route>
-
+        
         <Route path="/dashboard" element={<Dashboard />}></Route>
         <Route path="/settings" element={<Settings />}></Route>
         <Route path="*" element={<Navigate to="/dashboard" replace />} />
       </Routes>
-        {/* </Fragment> */}
-       {/* ) */}
+      {/* </Fragment> */}
+      {/* ) */}
     </BrowserRouter>
   );
-
 }
-
 
 export default App;

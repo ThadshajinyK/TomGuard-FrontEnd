@@ -36,7 +36,7 @@ const AlertTable = () => {
       <div className="tableContainer">
         <div className="container">
           <div className="table-responsive">
-            <table className="table table-striped table-hover table-bordered">
+            <table className="table table-striped">
               <thead className="table-dark">
                 <tr>
                   <th>Alert Type</th>
