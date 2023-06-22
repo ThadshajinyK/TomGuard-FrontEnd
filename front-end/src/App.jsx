@@ -9,6 +9,7 @@ import AlertNavbar from './Alert_page/AlertNavbar/AlertNavbar';
 import AlertTable from './Alert_page/AlertTable/AlertTable';
 import ChatRoom from './Alert_page/Chat/ChatRoom';
 import Dashboard from './Dashboard/Dashboard';
+import  Graphview  from "./Pages/Graphview";
 
 
 function App() {
@@ -33,6 +34,7 @@ function App() {
         <Route path="/alertTable" element={<AlertTable />}></Route>
         <Route path="/chat" element={<ChatRoom/>}></Route>
         <Route path="/dashboard" element={<Dashboard/>}></Route>
+        <Route path="/graphview" element={<Graphview/>}></Route>
         
       </Routes>
     </BrowserRouter>
