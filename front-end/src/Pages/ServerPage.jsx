@@ -352,7 +352,7 @@ export const ServerPage = () => {
               <td><p className="serverDetail"> {item.jvmVersion}</p></td>
             </tr> */}
           </table>
-          
+
         </div>
       ))}
       <div className="accordion mb-4" id="accordionExample">
@@ -365,10 +365,10 @@ export const ServerPage = () => {
           <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
             <div class="accordion-body">
               {/* <strong>This is the first item's accordion body.</strong> It is shown by default,
-         until the collapse plugin adds the appropriate classes that we use to style each element. 
-         These classes control the overall appearance, as well as the showing and hiding via CSS transitions.
-          You can modify any of this with custom CSS or overriding our default variables. It's also worth noting 
-          that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow. */}
+             until the collapse plugin adds the appropriate classes that we use to style each element. 
+             These classes control the overall appearance, as well as the showing and hiding via CSS transitions.
+              You can modify any of this with custom CSS or overriding our default variables. It's also worth noting 
+             that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow. */}
               <div className="table-responsive-xxl mt-4">
                 <table className="table table-striped server-table" >
                   <thead className="table-dark">
@@ -439,28 +439,28 @@ export const ServerPage = () => {
       <div><Link to="/logs">Show Logs Table</Link></div> */}
 
       <div className="perLogCards">
-      <div class="row">
-  <div class="col-sm-6 mb-5 mb-sm-0">
-    <div class="card mb-5 ms-5 me-5">
-      <div class="card-body">
-        <h4 class="card-title text-center">Performance Metrics</h4>
-        <div className="imagebox"><img src={speed} alt="performance" className="speedImage"></img></div>
-        <Link to ="/performance" className="imagebox">View Metrics<Icon icon="bi:arrow-up" color="#0d6efd" rotate={1} /></Link>
-      </div>
-    </div>
-  </div>
-  <div class="col-sm-6 mb-5 mb-sm-0">
-    <div class="card mb-5 ms-5 me-5">
-      <div class="card-body">
-        <h4 class="card-title text-center">Log Monitoring</h4>
-        <div className="imagebox">
-        <img src={logs} alt = "logs" className="logsImage"></img>
+        <div class="row">
+          <div class="col-sm-6 mb-5 mb-sm-0">
+            <div class="card mb-5 ms-5 me-5">
+              <div class="card-body">
+                <h4 class="card-title text-center">Performance Metrics</h4>
+                <div className="imagebox"><img src={speed} alt="performance" className="speedImage"></img></div>
+                <Link to="/performance" className="imagebox">View Metrics<Icon icon="bi:arrow-up" color="#0d6efd" rotate={1} /></Link>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6 mb-5 mb-sm-0">
+            <div class="card mb-5 ms-5 me-5">
+              <div class="card-body">
+                <h4 class="card-title text-center">Log Monitoring</h4>
+                <div className="imagebox">
+                  <img src={logs} alt="logs" className="logsImage"></img>
+                </div>
+                <Link to="/logs" className="imagebox">View Logs<Icon icon="bi:arrow-up" color="#0d6efd" rotate={1} /></Link>
+              </div>
+            </div>
+          </div>
         </div>
-        <Link to="/logs" className="imagebox">View Logs<Icon icon="bi:arrow-up" color="#0d6efd" rotate={1} /></Link>
-      </div>
-    </div>
-  </div>
-</div>
 
       </div>
     </div>

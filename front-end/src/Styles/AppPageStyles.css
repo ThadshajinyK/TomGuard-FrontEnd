@@ -26,7 +26,7 @@
 
   /* apps table */
  .apps-table{
-    margin-right: 200px;
+    margin-right: 500px;
     margin-top: 30px;
     margin-bottom: 20px;
     margin-left:10px;
@@ -50,3 +50,13 @@
   .form-floating{
     color: rgb(44, 43, 43);
   }
+
+  .id{
+    width: 50px;
+    /* height:40px; */
+    margin-right: 10px;
+    margin-bottom: 10px;
+    margin-left: 50px;
+  }
+
+  
