@@ -1,11 +1,18 @@
 import React, { useEffect, useState } from "react";
 import axios from 'axios';
+import id from "../images/ID Card.png";
 import { Icon } from '@iconify/react';
 import "../Styles/AppPageStyles.css";
 import { Link } from 'react-router-dom';
 
 export const ApplicationPage = () => {
   const [appsData, setAppsData] = useState([]);
+  const [clientsData, setClientsData] = useState([]);
+  const [selectedClient, setSelectedClient] = useState('');
+
+  const handleSelectClient = (event) => {
+    setSelectedClient(event.target.value);
+  };
 
   //delete function
   const handleDeleteApps = (applicationName) => {
@@ -29,6 +36,11 @@ export const ApplicationPage = () => {
       });
   };
 
+  //update apps details
+  const updateApps = (applicationName) => {
+    
+  };
+
   useEffect(() => {
     const fetchData = async () => {
 
@@ -44,12 +56,28 @@ export const ApplicationPage = () => {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    const fetchData = async () => {
+
+      try {
+        const appsResponse = await axios.get('http://localhost:9090/clients/all');
+        setClientsData(appsResponse.data);
+      } catch (error) {
+        console.error('Error fetching metrics data:', error);
+      }
+
+    };
+
+    fetchData();
+  }, []);
+
+
   return (
     <div className=" appContent">
       {/* Apps Overview Navbar */}
       <nav className="navbar navbar-expand-lg bg-body-tertiary overView-nav">
         <div className="container-fluid">
-          <a className="navbar-brand" href="#">Apps Overview</a>
+          <h3>Apps Overview</h3>
           <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon"></span>
           </button>
@@ -58,9 +86,7 @@ export const ApplicationPage = () => {
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
 
             </ul>
-            <Link to="/addApp" className="btn btn-outline-primary me-2">
-              Add new App
-            </Link>
+
             <form className="d-flex" role="search">
               <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
               <button className="btn btn-outline-success" type="submit">Search</button>
@@ -75,14 +101,15 @@ export const ApplicationPage = () => {
         <table className="table table-striped "  >
           <thead className="table-dark">
             <tr>
-            <th>Application Name</th>
-            <th>App path</th>
-            <th>status</th>
-            <th>App Type</th>
-            <th>Client Name</th>
-            <th>start</th>
-            <th>dlt</th>
-          </tr>
+              <th>Application Name</th>
+              <th>App path</th>
+              <th>status</th>
+              {/* <th>App Type</th>
+              <th>Client Name</th> */}
+              {/* <th className="text-center">start</th> */}
+              <th className="text-center">delete</th>
+              {/* <th className="text-center">Edit</th> */}
+            </tr>
           </thead>
 
           {/*2nd row*/}
@@ -90,7 +117,7 @@ export const ApplicationPage = () => {
             {appsData.map(apps => (
               <tr key={apps.applicationName}>
                 <td> {apps.applicationName}</td>
-                <td>{apps.path}</td>
+                <td><a href={`http://localhost:8080/${apps.path}`}>{apps.path}</a></td>
                 {/* <td className="text-center"><span className="badge rounded-pill" style={{
                   backgroundColor
                     : apps.state === "online" ? 'rgb(54, 139, 84)'
@@ -100,12 +127,14 @@ export const ApplicationPage = () => {
                 </td> */}
 
                 <td>{apps.state}</td>
-                <td>{apps.appType}</td>
-                <td>{apps.clientName}</td>
-                <td>
-                <button className="btn btn-outline-primary">start/stop</button>
-                </td>
-                <td><button
+                {/* <td>{apps.appType}</td>
+                <td>{apps.clientName}</td> */}
+                {/* <td className="text-center">
+                  <button className="btn btn-outline-primary">start/stop</button>
+                </td> */}
+
+                {/* delete button */}
+                <td className="text-center"><button
                   className="btn btn-link"
                   type="button"
                   data-toggle="tooltip"
@@ -117,86 +146,75 @@ export const ApplicationPage = () => {
                     color="#DC3545"
                     width="25"
                     height="25" /></button></td>
-                {/* ...other table cells... */}
+
+                {/* edit button  */}
+                {/* <td className="text-center ">
+                  <button
+                    className="btn btn-link  "
+                    type="button"
+                    data-placement="top"
+                    data-bs-toggle="modal" data-bs-target="#clients"
+                    title="edit"
+                  >
+                    <Icon icon="material-symbols:edit-outline" color="#4989f4" /></button></td> */}
+                {/* ...modal hidden popup... */}
+                <div class="modal fade" id="clients" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Add more details</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                        <form>
+                          <div className="row">
+                            <label htmlFor="client" className="form-label">
+                              Client Company Name
+                            </label>
+                            <select
+                              className="form-select"
+                              id="client"
+                              value={selectedClient}
+                              onChange={handleSelectClient}
+                              required
+                            >
+                              <option value="" disabled>Choose...</option>
+                              {clientsData.map((client) => (
+                                <option key={client.id} value={client.id}>
+                                  {client.companyName} -{client.contactPerson}
+                                </option>
+                              ))}
+                            </select>
+
+                          </div>
+                        </form>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" onClick={() => updateApps(apps.applicationName)}>Save changes</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
               </tr>
             ))}
           </tbody>
-
-
         </table>
       </div>
 
 
+
       <div>
-        <Link to="/ClientsDetails">View Clients Details Table</Link>
+        <Link to="/ClientsDetails"><img src={id} className="id"></img>View Clients Details Table<Icon icon="bi:arrow-up" color="#0d6efd" rotate={1} /></Link>
+      
       </div>
-
-      <nav aria-label="Page navigation example">
-        <ul className="pagination justify-content-end">
-          <li className="page-item">
-            <a className="page-link" href="#">Previous</a>
-          </li>
-          <li className="page-item"><a className="page-link" href="#">1</a></li>
-          <li className="page-item"><a className="page-link" href="#">2</a></li>
-          <li className="page-item"><a className="page-link" href="#">3</a></li>
-          <li className="page-item">
-            <a className="page-link" href="#">Next</a>
-          </li>
-        </ul>
-      </nav>
-
-
     </div>
   );
 
 }
 
-export const AddAppsForm = () => {
-  return (
-    <div className="formContent">
-      <h1>Application Details</h1>
-      <form className="row g-3 mt-3">
-        <div className="col-md-6">
-          <label htmlFor="inputEmail4" className="form-label">App Name</label>
-          <input type="text" className="form-control" id="appName" />
-        </div>
-        
-        <div className="col-md-6">
-          <label htmlFor="inputAddress2" className="form-label">App path</label>
-          <input type="text" className="form-control" id="appVersion" placeholder="type app version" />
-        </div>
-        <div className="col-md-6">
-          <fieldset className="row">
-            <legend className="col-form-label col-sm-2 pt-0">Status</legend>
-            <div className="col-sm-10">
-              <div className="form-check">
-                <input className="form-check-input" type="radio" name="status" id="status" value="stopped" />
-                <label className="form-check-label" htmlFor="gridRadios1">
-                  stopped
-                </label>
-              </div>
-              <div className="form-check">
-                <input className="form-check-input" type="radio" name="status" id="status" value="running" />
-                <label className="form-check-label" htmlFor="gridRadios2">
-                  running
-                </label>
-              </div>
-            </div>
-          </fieldset>
-          {/* <label htmlFor="inputCity" className="form-label">Status</label>
-    <input type="text" className="form-control" id="inputCity"/> */}
-        </div>
-        
 
-
-        <div className="col-12">
-          <button type="submit" className="btn btn-primary">Add app</button>
-        </div>
-      </form>
-    </div>
-  );
-
-}
 
 export const ClientForm = () => {
 
