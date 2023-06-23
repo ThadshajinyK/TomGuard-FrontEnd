@@ -69,10 +69,7 @@ function App() {
           path="/alert"
           element={<AlertTable />}
         ></Route>
-        <Route
-          path="/alert"
-          element={<AlertTable />}
-        ></Route>
+        
         <Route
           path="/chat"
           element={
@@ -88,6 +85,8 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />}></Route>
         <Route path="/settings" element={<Settings />}></Route>
         <Route path="*" element={<Navigate to="/dashboard" replace />} />
+        <Route path="/graphview" element={<Graphview />}></Route>
+
 
       </Routes>
       {/* </Fragment> */}

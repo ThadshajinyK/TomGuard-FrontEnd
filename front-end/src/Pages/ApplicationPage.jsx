@@ -146,6 +146,7 @@ export const ApplicationPage = () => {
                     color="#DC3545"
                     width="25"
                     height="25" /></button></td>
+                    <button>pdf</button>
 
                 {/* edit button  */}
                 {/* <td className="text-center ">
