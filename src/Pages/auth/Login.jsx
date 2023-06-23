@@ -5,7 +5,7 @@ import Icon from "../../images/logo.png";
 import axios from "axios";
 import "../../Styles/AuthLayoutStyles.css";
 
-const Login = () => {
+const Login = ({ handleDummyLogin }) => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -28,6 +28,11 @@ const Login = () => {
         setLoading(false);
       });
   };
+
+  const handleSetDummyToken = () =>
+    localStorage.setItem("dummyToken", "dummyToken");
+
+  // navigate("/dashboard");
 
   return (
     <AuthLayout>
@@ -81,7 +86,7 @@ const Login = () => {
 
         {/* Login button */}
 
-        <button className="btn btn-secondary w-100">
+        <button className="btn btn-secondary w-100" onClick={handleDummyLogin}>
           {loading ? "loading..." : "Login"}
         </button>
         <div className="mt-3">

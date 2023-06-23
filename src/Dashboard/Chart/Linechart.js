@@ -63,7 +63,6 @@ const labels = [
 
 export function Linechart() {
   const colorCollections = JSON.parse(localStorage.getItem("colorCollections"));
-
   const data = {
     labels,
     datasets: [
@@ -73,14 +72,11 @@ export function Linechart() {
           20, 43, 78, 87, 23, 76, 98, 28, 98, 47, 76, 26, 65, 89, 57, 73, 17,
           63, 43, 86, 43, 56, 29, 11,
         ],
-        // borderColor: "rgb(255, 99, 132)",
-        // backgroundColor: "rgba(255, 99, 132, 0.5)",
         borderColor: colorCollections?.colors?.[0] || "#1F9ACF",
         backgroundColor: colorCollections?.colors?.[1] || "#CF541F",
       },
     ],
   };
-
   return (
     <div
       style={{

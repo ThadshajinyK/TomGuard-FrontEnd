@@ -61,8 +61,6 @@ const General = () => {
     }
   };
 
-  console.log("image base 64 =>", selectedImage);
-
   const handleChange = (e) => {
     setFieldValues({
       ...fieldValues,
@@ -113,6 +111,7 @@ const General = () => {
                 style={{
                   cursor: "pointer",
                   marginLeft: "10px",
+                  color: "black",
                   fontWeight: 500,
                 }}
               >

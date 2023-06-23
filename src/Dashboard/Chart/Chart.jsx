@@ -12,41 +12,39 @@ function CircularProgressBar() {
       }
     }, 50);
   }, [percentage]);
-
   const colorCollections = JSON.parse(localStorage.getItem("colorCollections"));
-
   return (
     <ul>
       <li style={{ width: 100 }}>
         <CircularProgressbar
+          value={67}
+          text={`${67}%`}
           styles={{
             path: { stroke: colorCollections?.colors?.[1] || "#CF541F" },
             text: { fill: colorCollections?.colors?.[1] || "#CF541F" },
           }}
-          value={67}
-          text={`${67}%`}
         />
         <h4 style={{ fontSize: 15 }}>cpu usage</h4>
       </li>
       <li style={{ width: 100 }}>
         <CircularProgressbar
+          value={81}
+          text={`${81}%`}
           styles={{
             path: { stroke: colorCollections?.colors?.[1] || "#CF541F" },
             text: { fill: colorCollections?.colors?.[1] || "#CF541F" },
           }}
-          value={81}
-          text={`${81}%`}
         />
         <h4 style={{ fontSize: 15 }}>memory usage</h4>
       </li>
       <li style={{ width: 100 }}>
         <CircularProgressbar
+          value={74}
+          text={`${74}%`}
           styles={{
             path: { stroke: colorCollections?.colors?.[1] || "#CF541F" },
             text: { fill: colorCollections?.colors?.[1] || "#CF541F" },
           }}
-          value={74}
-          text={`${74}%`}
         />
         <h4 style={{ fontSize: 15 }}>storage usage</h4>
       </li>

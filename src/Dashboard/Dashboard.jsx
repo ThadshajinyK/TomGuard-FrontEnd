@@ -1,14 +1,15 @@
-import Gutters from "./gutter";
+
+import Gutters from './gutter';
 import BasicTable from "./Table";
-import { Linechart } from "./Chart/Linechart";
-import CircularProgressBar from "./Chart/Chart";
-import "../Styles/dashboardStyles.css";
+import { Linechart } from './Chart/Linechart';
+import CircularProgressBar from './Chart/Chart';
+import '../Styles/dashboardStyles.css'
+
+
 
 function Dashboard() {
-  
-
   return (
-    <div className="Content">
+    <div className='Content'>
       <section className="content">
         <Gutters />
         <div class="row justify-content-center">

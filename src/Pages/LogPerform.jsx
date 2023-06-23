@@ -63,17 +63,17 @@ export const LogPerform = () => {
 
             {/* Logs Table */}
             <div className="row">
-                <div class="mt-4">
+                <div className="mt-4">
                     <h3>Logs</h3>
                     <div className="table-responsive-xxl">
-                    <table class="table table-hover">
+                    <table className="table table-hover">
                         <thead className="table-active">
                             <tr>
                                 <th>timestamp</th>
                                 <th>Level</th>
                                 <th>Message</th>
-                                <th class="text-center">meta.OS.type</th>
-                                <th class="text-center">meta.version.code</th>
+                                <th className="text-center">meta.OS.type</th>
+                                <th className="text-center">meta.version.code</th>
 
                             </tr>
                         </thead>
@@ -83,8 +83,8 @@ export const LogPerform = () => {
                                     <td><Link to="/logPerform"><Icon icon="ri:external-link-line" color="#36b5bd" width="25" height="25" /></Link>{val.timestamp}</td>
                                     <td>{val.level}</td>
                                     <td >{val.message}</td>
-                                    <td class="text-center">{val.metaOS}</td>
-                                    <td class="text-center">{val.metaVersionCode}<Icon icon="ic:outline-more-horiz" width="25" height="25" /></td>
+                                    <td className="text-center">{val.metaOS}</td>
+                                    <td className="text-center">{val.metaVersionCode}<Icon icon="ic:outline-more-horiz" width="25" height="25" /></td>
                                 </tr>
                                 </tbody>
                             )

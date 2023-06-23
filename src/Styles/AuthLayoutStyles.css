@@ -4,8 +4,8 @@
   border-radius: 10%;
 }
 
-.label {
-  color: #fff !important;
+label {
+  color: #fff;
   margin-bottom: 10px;
 }
 
@@ -13,3 +13,4 @@
   height: 70px;
   width: 90%;
 }
+
