@@ -429,6 +429,13 @@ export const ServerPage = () => {
                     ))}
                   </tbody>
                 </table>
+                <button
+                          type="button"
+                          className="btn btn-outline-info"
+                          
+                        >
+                          Download pdf
+                        </button>
 
               </div>
             </div>

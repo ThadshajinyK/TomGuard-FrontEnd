@@ -146,7 +146,7 @@ export const ApplicationPage = () => {
                     color="#DC3545"
                     width="25"
                     height="25" /></button></td>
-                    <button>pdf</button>
+                    
 
                 {/* edit button  */}
                 {/* <td className="text-center ">
@@ -202,6 +202,13 @@ export const ApplicationPage = () => {
             ))}
           </tbody>
         </table>
+        <button
+                          type="button"
+                          className="btn btn-outline-info"
+                          
+                        >
+                          Download pdf
+                        </button>
       </div>
 
 
@@ -607,6 +614,13 @@ export const ClientsDetails = () => {
             ))}
           </tbody>
         </table>
+        <button
+                          type="button"
+                          className="btn btn-outline-info"
+                          
+                        >
+                          Download pdf
+                        </button>
       </div>
 
 
