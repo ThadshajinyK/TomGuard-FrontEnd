@@ -1,16 +1,18 @@
 import React from "react";
 import Logo from "../images/logo.png";
-import Girl from "../images/female.png";
 import "../Styles/TitlePageStyles.css";
-import { Navbar, Nav, Form, FormControl, Image, Button } from "react-bootstrap";
+import Girl from '../images/girl.png'
 import { useNavigate } from "react-router-dom";
 
 export const Titlebar2 = () => {
-  const navigate = useNavigate();
+
+
+
   const user = JSON.parse(localStorage.getItem("loggedInUser"));
 
   const handleLogout = () => {
     localStorage.removeItem("loggedInUser");
+    // localStorage.removeItem("dummyToken");
     window.location.reload();
   };
 
@@ -24,7 +26,7 @@ export const Titlebar2 = () => {
 
         <div className="d-flex">
           <div className="">
-            <form className="d-flex" role="search">
+            {/* <form className="d-flex" role="search">
               <input
                 className="form-control me-2"
                 type="search"
@@ -34,11 +36,11 @@ export const Titlebar2 = () => {
               <button className="buton p-1" type="submit">
                 Search
               </button>
-            </form>
+            </form> */}
           </div>
 
           {/* <div className="avatar"> */}
-          <img src={Girl} alt="avatar" className="avatar-img" />
+          <img src={user?.data?.image || Girl} alt="avatar" className="avatar-img" />
           {/* </div> */}
 
           <div className="mt-2">

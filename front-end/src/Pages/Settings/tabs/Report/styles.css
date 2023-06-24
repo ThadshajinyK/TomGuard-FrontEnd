@@ -1,0 +1,43 @@
+/* general tab css */
+
+.report-container {
+  margin: 30px auto;
+  max-width: 600px;
+  width: 100%;
+  border-radius: 16px;
+  box-shadow: 4px 4px 20px #695f9714;
+  padding: 50px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.flex-item {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.action-btn {
+  height: "38px";
+  background-color: #f5f5f5;
+  border-radius: 9px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 15px;
+  padding: 10px;
+  cursor: pointer;
+}
+
+/* Switch color change  */
+
+.form-check-input:checked {
+  background-color: rgb(54, 181, 189) !important;
+}
+
+/* For small screens */
+
+@media (max-width: 800px) {
+}
