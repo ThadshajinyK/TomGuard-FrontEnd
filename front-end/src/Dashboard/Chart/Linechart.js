@@ -1,63 +1,46 @@
-import React from "react";
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend,
-} from "chart.js";
-import { Line } from "react-chartjs-2";
+import React, { useEffect, useState } from 'react';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tooltip, Legend } from 'recharts';
 
+ export function Linechart() {
+  const [data, setData] = useState([]);
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip
-  // Legend
-);
+  useEffect(() => {
+    fetchData();
+  }, []);
 
-export const options = {
-  responsive: true,
-  plugins: {
-    legend: {
-      position: "top" 
-    },
-    title: {
-      display: true,
-      text: "Network Traffic",
-    },
-  },
-};
+  const fetchData = async () => {
+    // Simulating fetching data from the backend
+    const response = [
+      { timestamp: '2023-06-24 09:00:00', uptime: 99.8, responseTime: 120, requestTime: 150 },
+      { timestamp: '2023-06-24 10:00:00', uptime: 99.9, responseTime: 110, requestTime: 160 },
+      { timestamp: '2023-06-24 11:00:00', uptime: 99.7, responseTime: 130, requestTime: 140 },
+      { timestamp: '2023-06-24 12:00:00', uptime: 99.6, responseTime: 140, requestTime: 170 },
+      { timestamp: '2023-06-24 13:00:00', uptime: 99.8, responseTime: 125, requestTime: 155 },
+      { timestamp: '2023-06-24 14:00:00', uptime: 99.9, responseTime: 115, requestTime: 165 },
+      { timestamp: '2023-06-24 15:00:00', uptime: 99.7, responseTime: 135, requestTime: 145 },
+      { timestamp: '2023-06-24 16:00:00', uptime: 99.6, responseTime: 145, requestTime: 175 },
+    ];
 
-const labels = ["00","1", "2", "3", "4", "5", "6", "7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23"];
+    setData(response);
+  };
 
-export const data = {
-  labels,
-  datasets: [
-    {
-      label: "hour",
-      data: [20,43,78,87,23,76,98,28,98,47,76,26,65,89,57,73,17,63,43,86,43,56,29,11],
-      borderColor: "rgb(255, 99, 132)",
-      backgroundColor: "rgba(255, 99, 132, 0.5)",
-    }
-  
-    
-  ],
-};
-
-export function Linechart() {
   return (
-  <div style={{
-    height:'100%'
-  
-  }}>
-     <Line options={options} data={data} />
-  </div>
- );
+    <div>
+      Time(ms)
+      <ResponsiveContainer width="100%" height={400}>
+        <LineChart data={data} margin={{ top: 5, right: 0, left: 0, bottom: 5 }}>
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="timestamp" />
+          <YAxis />
+          <Tooltip />
+          <Legend />
+          <Line type="monotone" dataKey="uptime" stroke="#8884d8" name="Uptime"/>
+          <Line type="monotone" dataKey="responseTime" stroke="#82ca9d" name="Response Time" />
+          <Line type="monotone" dataKey="requestTime" stroke="#ff0000" name="Request Time" />
+        </LineChart>
+
+      </ResponsiveContainer>
+    </div>
+
+  );
 }

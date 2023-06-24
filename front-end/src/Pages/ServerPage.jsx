@@ -8,6 +8,18 @@ import { Icon } from '@iconify/react';
 
 export const MetricsTable = () => {
   const [metricsData, setMetricsData] = useState([]);
+  
+  const deleteAllRecords = () => {
+    // Make an API request to your backend to delete all records
+    axios.delete(`http://localhost:9090/metrics/dltAll`).then(() => {
+      // Update the state to reflect the deletion
+      setMetricsData([]);
+      console.log('all Records deleted successfully');
+     
+    }).catch((error) => {
+      console.error('Error deleting all records:', error);
+    });
+  };
 
   const handleDeleteMetrics = (id) => {
     // Make a DELETE request to the delete endpoint
@@ -56,7 +68,6 @@ export const MetricsTable = () => {
           </button>
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-
             </ul>
             <form className="d-flex" role="search">
               <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
@@ -66,7 +77,6 @@ export const MetricsTable = () => {
           </div>
         </div>
       </nav>
-
 
       {/* Metrics Table */}
       <div className="table-responsive-xxl mt-5 metricTable">
@@ -78,7 +88,20 @@ export const MetricsTable = () => {
               <th className="text-center">uptime</th>
               <th className="text-center">Request time</th>
               <th className="text-center">Response Time</th>
-              <th></th>
+              <th><button
+                  className="btn btn-outline-danger"
+                  type="button"
+                  data-toggle="tooltip"
+                  data-placement="top"
+                  title="Delete"
+                  onClick={() => deleteAllRecords()}>
+                  {/* <Icon 
+                  icon="material-symbols:delete-outline" 
+                  color="#dc3545" 
+                  width="25"
+                  height="25"
+                  /> */}
+                  Delete All</button></th>
             </tr>
           </thead>
           {/*2nd row*/}
@@ -103,11 +126,12 @@ export const MetricsTable = () => {
                   data-placement="top"
                   title="Delete"
                   onClick={() => handleDeleteMetrics(metric.id)}>
-                  <Icon
-                    icon="mdi:delete-outline"
-                    color="#DC3545"
-                    width="25"
-                    height="25" /></button></td>
+                  <Icon 
+                  icon="material-symbols:delete-outline" 
+                  color="#dc3545" 
+                  width="25"
+                  height="25"
+                  /></button></td>
                 {/* ...other table cells... */}
               </tr>
             ))}
@@ -128,6 +152,19 @@ export const MetricsTable = () => {
 
 export const LogsTable = () => {
   const [logsData, setLogsData] = useState([]);
+
+  const deleteAllRecords = () => {
+    // Make an API request to your backend to delete all records
+    axios.delete(`http://localhost:9090/logs/dltAll`).then(() => {
+      // Update the state to reflect the deletion
+      setLogsData([]);
+      console.log('all Records deleted successfully');
+     
+    }).catch((error) => {
+      console.error('Error deleting all records:', error);
+    });
+  };
+
   const handleDeleteLogs = (timestamp) => {
     // Make a DELETE request to the delete endpoint
     fetch(`http://localhost:9090/logs/${timestamp}`, {
@@ -192,7 +229,20 @@ export const LogsTable = () => {
               <th className="text-center">Logger Name</th>
               <th className="text-center">Thread Name</th>
               <th className="text-center">Message</th>
-              <th></th> {/*Delete button space */}
+              <th><button
+                  className="btn btn-outline-danger"
+                  type="button"
+                  data-toggle="tooltip"
+                  data-placement="top"
+                  title="Delete"
+                  onClick={() => deleteAllRecords()}>
+                  {/* <Icon 
+                  icon="material-symbols:delete-outline" 
+                  color="#dc3545" 
+                  width="25"
+                  height="25"
+                  /> */}
+                  Delete All</button></th> {/*Delete button space */}
             </tr>
           </thead>
           {/*2nd row*/}
@@ -329,9 +379,9 @@ export const ServerPage = () => {
 
             </ul>
 
-            <Link to="/addServer" className="btn btn-outline-primary me-2">
+            {/* <Link to="/addServer" className="btn btn-outline-primary me-2">
               Add new server
-            </Link>
+            </Link> */}
             <form className="d-flex" role="search">
               <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
               <button className="btn btn-outline-success" type="submit">Search</button>
