@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import '../Styles/dashboardStyles.css'
 import axios from 'axios';
 
 function Gutters() {
@@ -38,7 +37,7 @@ function Gutters() {
     <div className="container mt-3">
       <div className="row">
         <div className="col-md-2">
-          <div className="p-3 border rounded bg-light m-2 " style={{ height: "85%" }}>
+          <div className="p-3 border border-dark shadow shadow-lg rounded bg-light m-2" style={{ height: "85%" }}>
             Servers<br /><br />
             <b>{servers}</b>
           </div>
