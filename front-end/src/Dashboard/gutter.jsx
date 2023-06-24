@@ -66,7 +66,7 @@ function Gutters() {
         <div className="col-md-4">
           <div className="p-3 border rounded bg-light m-2">
             <div className="row">
-              <div className="col-md-8">Thread Usage:</div>
+              <div className="col-md-8">Request time:</div>
               <div className="col-md-4"><b>{/* Add thread usage value here */}</b></div>
             </div>
           </div>

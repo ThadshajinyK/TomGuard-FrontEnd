@@ -7,7 +7,7 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { LogPerform } from "./Pages/LogPerform";
 import AlertTable from './Alert_page/AlertTable/AlertTable';
 import Dashboard from './Dashboard/Dashboard';
-
+import './App.css';
 import Settings from "./Pages/Settings";
 import { Fragment, useContext, useEffect, useState } from "react";
 import ChatLogin from "./Alert_page/Chat/chat_pages/ChatLogin";
@@ -34,6 +34,7 @@ function App() {
   //end
 
   return (
+    <div className="AppMain">
     <BrowserRouter>
       {/* {!token ? ( */}
       {/* <Fragment> */}
@@ -91,6 +92,7 @@ function App() {
       {/* </Fragment> */}
       {/* ) */}
     </BrowserRouter>
+    </div>
   );
 }
 

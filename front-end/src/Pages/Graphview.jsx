@@ -58,9 +58,9 @@ function Graphview() {
     <div >
       <section >
         Up Time
-        <AreaChartExample data={data1} color="#2e53b0" />
+        <AreaChartExample data={data1} color="#48C9B0" />
         Response Time
-        <AreaChartExample data={data2} color="#82ca9d" />
+        <AreaChartExample data={data2} color="#F7DC6F" />
         Sample
         <AreaChartExample data={data3} color="#ffc658" />
         <div class="row justify-content-center">
