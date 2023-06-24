@@ -14,8 +14,8 @@ import {
 import { InstancePage, AddInstanceForm } from "./Pages/InstancesPage";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { LogPerform } from "./Pages/LogPerform";
-import AlertTable from "./Alert_page/AlertTable/AlertTable";
-import Dashboard from "./Dashboard/Dashboard";
+import AlertTable from './Alert_page/AlertTable/AlertTable';
+import Dashboard from './Dashboard/Dashboard';
 import Settings from "./Pages/Settings";
 import { Fragment, useContext, useState } from "react";
 import ChatLogin from "./Alert_page/Chat/chat_pages/ChatLogin";
@@ -93,8 +93,7 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />}></Route>
         <Route path="/settings" element={<Settings />}></Route>
         <Route path="*" element={<Navigate to="/dashboard" replace />} />
-        <Route path="/graphview" element={<Graphview />}></Route>
-
+        
 
       </Routes>
         </BrowserRouter>

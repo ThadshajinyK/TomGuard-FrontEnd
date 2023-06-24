@@ -34,13 +34,7 @@ export const Navigationbar = () => {
             <span>Alerts</span>
           </Link>
         </li>
-        <li>
-          <Link to="/graphview" className="sidebar-item">
-            <Icon icon="ri:bar-chart-2-line" />
-            <span className="side"></span>
-            <span>Graph view</span>
-          </Link>
-        </li>
+        
 
         <li>
           <Link to="/settings" className="sidebar-item">
