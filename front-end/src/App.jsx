@@ -5,8 +5,9 @@ import { ApplicationPage, ClientForm,ClientsDetails } from "./Pages/ApplicationP
 import { InstancePage, AddInstanceForm } from "./Pages/InstancesPage";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { LogPerform } from "./Pages/LogPerform";
-import AlertTable from "./Alert_page/AlertTable/AlertTable";
-import Dashboard from "./Dashboard/Dashboard";
+import AlertTable from './Alert_page/AlertTable/AlertTable';
+import Dashboard from './Dashboard/Dashboard';
+
 import Settings from "./Pages/Settings";
 import { Fragment, useContext, useEffect, useState } from "react";
 import ChatLogin from "./Alert_page/Chat/chat_pages/ChatLogin";
@@ -68,6 +69,7 @@ function App() {
           path="/alert"
           element={<AlertTable />}
         ></Route>
+        
         <Route
           path="/chat"
           element={
@@ -78,10 +80,13 @@ function App() {
         />
         <Route path="/chatLogin" element={<ChatLogin />}></Route>
         <Route path="/chatRegister" element={<ChatRegister />}></Route>
+
         
         <Route path="/dashboard" element={<Dashboard />}></Route>
         <Route path="/settings" element={<Settings />}></Route>
         <Route path="*" element={<Navigate to="/dashboard" replace />} />
+        
+
       </Routes>
       {/* </Fragment> */}
       {/* ) */}

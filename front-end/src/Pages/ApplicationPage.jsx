@@ -13,6 +13,37 @@ export const ApplicationPage = () => {
   const handleSelectClient = (event) => {
     setSelectedClient(event.target.value);
   };
+  const [apps, setApps] = useState([]);
+
+  useEffect(() => {
+    loadapps();
+  }, []);
+
+  const loadapps = async () => {
+    try {
+      const response = await axios.get("http://localhost:9090/apps");
+      setApps(response.data);
+    } catch (error) {
+      console.error('Error occurred while loading apps:', error);
+    }
+  };
+  const generateAppPDF = async () => {
+    try {
+      const response = await axios.get("http://localhost:9090/apps/apppdf", {
+        responseType: 'blob', // Set the response type to 'blob'
+      });
+
+      // Create a download link
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', 'apps.pdf');
+      document.body.appendChild(link);
+      link.click();
+    } catch (error) {
+      console.error('Error occurred while generating or downloading the PDF:', error);
+    }
+  };
 
   //delete function
   const handleDeleteApps = (applicationName) => {
@@ -107,7 +138,7 @@ export const ApplicationPage = () => {
               {/* <th>App Type</th>
               <th>Client Name</th> */}
               {/* <th className="text-center">start</th> */}
-              <th className="text-center">delete</th>
+              {/* <th className="text-center">delete</th> */}
               {/* <th className="text-center">Edit</th> */}
             </tr>
           </thead>
@@ -134,7 +165,7 @@ export const ApplicationPage = () => {
                 </td> */}
 
                 {/* delete button */}
-                <td className="text-center"><button
+                {/* <td className="text-center"><button
                   className="btn btn-link"
                   type="button"
                   data-toggle="tooltip"
@@ -145,7 +176,8 @@ export const ApplicationPage = () => {
                     icon="mdi:delete-outline"
                     color="#DC3545"
                     width="25"
-                    height="25" /></button></td>
+                    height="25" /></button></td> */}
+                    
 
                 {/* edit button  */}
                 {/* <td className="text-center ">
@@ -201,12 +233,19 @@ export const ApplicationPage = () => {
             ))}
           </tbody>
         </table>
+        <button onClick={generateAppPDF}
+                          type="button"
+                          className="btn btn-outline-info"
+                          
+                        >
+                          Download pdf
+                        </button>
       </div>
 
 
 
       <div>
-        <Link to="/ClientsDetails"><img src={id} className="id"></img>View Clients Details Table<Icon icon="bi:arrow-up" color="#0d6efd" rotate={1} /></Link>
+        <Link to="/ClientsDetails"><img src={id} alt="clients details" className="id"></img>View Clients Details Table<Icon icon="bi:arrow-up" color="#0d6efd" rotate={1} /></Link>
       
       </div>
     </div>
@@ -232,6 +271,7 @@ export const ClientForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
+
 
     //email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -278,7 +318,7 @@ export const ClientForm = () => {
     <div className="ClientFormContent">
       <h1>Client Details Form</h1>
 
-      <form className="mt-3 ">
+      <form className="mt-3 " onSubmit={handleSubmit}>
         {/* Company Name */}
         <div className="form-group row mt-3">
           <label htmlFor="companyName"
@@ -313,6 +353,7 @@ export const ClientForm = () => {
               placeholder="Contact Person Name"
               value={contactPerson}
               onChange={(e) => setContactPerson(e.target.value)}
+              required
             ></input>
           </div>
         </div>
@@ -331,6 +372,7 @@ export const ClientForm = () => {
               placeholder="example@example.com"
               value={emailAddress}
               onChange={(e) => setEmailAddress(e.target.value)}
+              required
             />
             <div className="valid-feedback">Looks good!</div>
             <div className="invalid-feedback">Please provide a valid email address</div>
@@ -352,6 +394,7 @@ export const ClientForm = () => {
               placeholder="123-456-7890"
               value={phoneNumber}
               onChange={(e) => setPhoneNumber(e.target.value)}
+              required
             ></input>
           </div>
         </div>
@@ -369,6 +412,7 @@ export const ClientForm = () => {
               placeholder="Eg: Retail, E-com"
               value={businessType}
               onChange={(e) => setBusinessType(e.target.value)}
+              required
             ></input>
           </div>
         </div>
@@ -385,7 +429,9 @@ export const ClientForm = () => {
               id="projectType"
               value={projectType}
               defaultValue="None"
-              onChange={(e) => setProjectType(e.target.value)}>
+              onChange={(e) => setProjectType(e.target.value)}
+              required>
+                <option value="" selected>choose..</option>
               <option value="Retail POS">Retail POS</option>
               <option value="Food POS">Food POS</option>
               <option value="E-Commerce">E-Commerce</option>
@@ -406,6 +452,7 @@ export const ClientForm = () => {
               placeholder="project Name"
               value={projectName}
               onChange={(e) => setProjectName(e.target.value)}
+              required
             ></input>
           </div>
         </div>
@@ -426,6 +473,7 @@ export const ClientForm = () => {
 
               value={projectScope}
               onChange={(e) => setProjectScope(e.target.value)}
+              required
             ></textarea>
           </div>
         </div>
@@ -441,10 +489,10 @@ export const ClientForm = () => {
               className="form-control"
               id="targetAudience"
               rows="3"
-
               placeholder="Enter Project's target audience"
               value={targetAudience}
               onChange={(e) => setTargetAudience(e.target.value)}
+              required
             ></textarea>
           </div>
         </div>
@@ -463,6 +511,7 @@ export const ClientForm = () => {
               placeholder="List the expected features you require"
               value={expectedFeatures}
               onChange={(e) => SetExpectedFeatures(e.target.value)}
+              required
             ></textarea>
           </div>
         </div>
@@ -485,6 +534,38 @@ export const ClientForm = () => {
 export const ClientsDetails = () => {
 
   const [clientsData, setClientsData] = useState([]);
+  const [clients, setClients] = useState([]);
+
+  useEffect(() => {
+    loadclients();
+  }, []);
+
+  const loadclients = async () => {
+    try {
+      const response = await axios.get("http://localhost:9090/clients");
+      setClients(response.data);
+    } catch (error) {
+      console.error('Error occurred while loading clients:', error);
+    }
+  };
+  const generateClientPDF = async () => {
+    try {
+      const response = await axios.get("http://localhost:9090/clients/clientpdf", {
+        responseType: 'blob', // Set the response type to 'blob'
+      });
+
+      // Create a download link
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', 'clients.pdf');
+      document.body.appendChild(link);
+      link.click();
+    } catch (error) {
+      console.error('Error occurred while generating or downloading the PDF:', error);
+    }
+  };
+  
 
   const handleDeleteMetrics = (id) => {
     // Make a DELETE request to the delete endpoint
@@ -606,6 +687,13 @@ export const ClientsDetails = () => {
             ))}
           </tbody>
         </table>
+        <button           onClick={generateClientPDF}
+                          type="button"
+                          className="btn btn-outline-info"
+                          
+                        >
+                          Download pdf
+                        </button>
       </div>
 
 

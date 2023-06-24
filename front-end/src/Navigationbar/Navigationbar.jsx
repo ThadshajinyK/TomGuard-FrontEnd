@@ -34,6 +34,8 @@ export const Navigationbar = () => {
             <span>Alerts</span>
           </Link>
         </li>
+        
+
         <li>
           <Link to="/settings" className="sidebar-item">
           <Icon icon="material-symbols:settings-applications-outline" />
