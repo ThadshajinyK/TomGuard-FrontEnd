@@ -13,37 +13,6 @@ export const ApplicationPage = () => {
   const handleSelectClient = (event) => {
     setSelectedClient(event.target.value);
   };
-  const [apps, setApps] = useState([]);
-
-  useEffect(() => {
-    loadapps();
-  }, []);
-
-  const loadapps = async () => {
-    try {
-      const response = await axios.get("http://localhost:9090/apps");
-      setApps(response.data);
-    } catch (error) {
-      console.error('Error occurred while loading apps:', error);
-    }
-  };
-  const generateAppPDF = async () => {
-    try {
-      const response = await axios.get("http://localhost:9090/apps/apppdf", {
-        responseType: 'blob', // Set the response type to 'blob'
-      });
-
-      // Create a download link
-      const url = window.URL.createObjectURL(new Blob([response.data]));
-      const link = document.createElement('a');
-      link.href = url;
-      link.setAttribute('download', 'apps.pdf');
-      document.body.appendChild(link);
-      link.click();
-    } catch (error) {
-      console.error('Error occurred while generating or downloading the PDF:', error);
-    }
-  };
 
   //delete function
   const handleDeleteApps = (applicationName) => {
@@ -177,7 +146,6 @@ export const ApplicationPage = () => {
                     color="#DC3545"
                     width="25"
                     height="25" /></button></td>
-                    
 
                 {/* edit button  */}
                 {/* <td className="text-center ">
@@ -233,13 +201,6 @@ export const ApplicationPage = () => {
             ))}
           </tbody>
         </table>
-        <button onClick={generateAppPDF}
-                          type="button"
-                          className="btn btn-outline-info"
-                          
-                        >
-                          Download pdf
-                        </button>
       </div>
 
 
@@ -524,38 +485,6 @@ export const ClientForm = () => {
 export const ClientsDetails = () => {
 
   const [clientsData, setClientsData] = useState([]);
-  const [clients, setClients] = useState([]);
-
-  useEffect(() => {
-    loadclients();
-  }, []);
-
-  const loadclients = async () => {
-    try {
-      const response = await axios.get("http://localhost:9090/clients");
-      setClients(response.data);
-    } catch (error) {
-      console.error('Error occurred while loading clients:', error);
-    }
-  };
-  const generateClientPDF = async () => {
-    try {
-      const response = await axios.get("http://localhost:9090/clients/clientpdf", {
-        responseType: 'blob', // Set the response type to 'blob'
-      });
-
-      // Create a download link
-      const url = window.URL.createObjectURL(new Blob([response.data]));
-      const link = document.createElement('a');
-      link.href = url;
-      link.setAttribute('download', 'clients.pdf');
-      document.body.appendChild(link);
-      link.click();
-    } catch (error) {
-      console.error('Error occurred while generating or downloading the PDF:', error);
-    }
-  };
-  
 
   const handleDeleteMetrics = (id) => {
     // Make a DELETE request to the delete endpoint
@@ -677,13 +606,6 @@ export const ClientsDetails = () => {
             ))}
           </tbody>
         </table>
-        <button           onClick={generateClientPDF}
-                          type="button"
-                          className="btn btn-outline-info"
-                          
-                        >
-                          Download pdf
-                        </button>
       </div>
 
 

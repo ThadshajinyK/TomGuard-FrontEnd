@@ -114,8 +114,6 @@ export const MetricsTable = () => {
           </tbody>
         </table>
       </div>
-      
-      
 
 
     </div>
@@ -247,38 +245,6 @@ export const LogsTable = () => {
 
 export const ServerPage = () => {
   const [data, setData] = useState([]);
-  const [servers, setServers] = useState([]);
-
-  useEffect(() => {
-    loadservers();
-  }, []);
-
-  const loadservers = async () => {
-    try {
-      const response = await axios.get("http://localhost:9090/server");
-      setServers(response.data);
-    } catch (error) {
-      console.error('Error occurred while loading servers:', error);
-    }
-  };
-  const generateServerPDF = async () => {
-    try {
-      const response = await axios.get("http://localhost:9090/server/serverpdf", {
-        responseType: 'blob', // Set the response type to 'blob'
-      });
-
-      // Create a download link
-      const url = window.URL.createObjectURL(new Blob([response.data]));
-      const link = document.createElement('a');
-      link.href = url;
-      link.setAttribute('download', 'Servers.pdf');
-      document.body.appendChild(link);
-      link.click();
-    } catch (error) {
-      console.error('Error occurred while generating or downloading the PDF:', error);
-    }
-  };
-  
   const handleDelete = (hostName) => {
     // Make a DELETE request to the delete endpoint
     fetch(`http://localhost:9090/server/${hostName}`, {
@@ -461,14 +427,6 @@ export const ServerPage = () => {
                     ))}
                   </tbody>
                 </table>
-                <button   onClick={generateServerPDF}
-                          type="button"
-                          className="btn btn-outline-info"
-                          
-                          
-                        >
-                          Download pdf
-                        </button>
 
               </div>
             </div>
