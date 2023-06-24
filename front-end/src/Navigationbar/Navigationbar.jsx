@@ -35,6 +35,14 @@ export const Navigationbar = () => {
           </Link>
         </li>
         <li>
+          <Link to="/graphview" className="sidebar-item">
+            <Icon icon="ri:bar-chart-2-line" />
+            <span className="side"></span>
+            <span>Graph view</span>
+          </Link>
+        </li>
+
+        <li>
           <Link to="/settings" className="sidebar-item">
           <Icon icon="material-symbols:settings-applications-outline" />
             <span className="side"></span>
