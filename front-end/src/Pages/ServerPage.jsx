@@ -114,8 +114,6 @@ export const MetricsTable = () => {
           </tbody>
         </table>
       </div>
-
-
     </div>
 
 
