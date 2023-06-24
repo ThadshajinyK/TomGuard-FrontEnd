@@ -1,7 +1,7 @@
 import { Titlebar2 } from "./Titlebar/Titlebar";
 import { Navigationbar } from "./Navigationbar/Navigationbar";
-import { ServerPage, AddServerForm, MetricsTable, LogsTable} from "./Pages/ServerPage";
-import { ApplicationPage, ClientForm,ClientsDetails } from "./Pages/ApplicationPage";
+import { ServerPage, AddServerForm, MetricsTable, LogsTable,} from "./Pages/ServerPage";
+import {  ApplicationPage,  ClientForm,  ClientsDetails,} from "./Pages/ApplicationPage";
 import { InstancePage, AddInstanceForm } from "./Pages/InstancesPage";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { LogPerform } from "./Pages/LogPerform";
@@ -9,20 +9,19 @@ import AlertTable from './Alert_page/AlertTable/AlertTable';
 import Dashboard from './Dashboard/Dashboard';
 import './App.css';
 import Settings from "./Pages/Settings";
-import { Fragment, useContext, useEffect, useState } from "react";
+import { Fragment, useContext, useState } from "react";
 import ChatLogin from "./Alert_page/Chat/chat_pages/ChatLogin";
 import ChatRegister from "./Alert_page/Chat/chat_pages/ChatRegister";
 import { AuthContext } from "./Alert_page/Chat/context/AuthContext";
 import ChatHome from "./Alert_page/Chat/chat_pages/ChatHome";
+import Login from "./Pages/auth/Login";
+import Signup from "./Pages/auth/Signup";
+import ForgotPassword from "./Pages/auth/ForgotPassword";
+import ResetPassword from "./Pages/auth/ResetPassword";
+import Graphview from './Pages/Graphview'
 
 function App() {
-  // const [token, setToken] = useState(null);
-
-  // useEffect(() => {
-  //   const user = JSON.parse(localStorage.getItem("loggedInUser")) || null;
-  //   setToken(user?.accessToken);
-  // }, [token]);
-
+  const [dummyLogin, setDummyLogin] = useState(false);
   //This code for chat
   const { currentUser } = useContext(AuthContext);
   const ProtectedRoute = ({ children }) => {

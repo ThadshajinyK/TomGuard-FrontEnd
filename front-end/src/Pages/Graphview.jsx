@@ -62,7 +62,7 @@ function Graphview() {
         Response Time
         <AreaChartExample data={data2} color="#F7DC6F" />
         Sample
-        <AreaChartExample data={data3} color="#ffc658" />
+        <AreaChartExample data={data3} color="#FF5992" />
         <div class="row justify-content-center">
           <div class="col-md-8">
 
