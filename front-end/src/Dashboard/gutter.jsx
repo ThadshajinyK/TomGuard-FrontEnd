@@ -35,9 +35,9 @@ function Gutters() {
 
   return (
     <div className="container mt-3">
-      <div className="row">
-        <div className="col-md-2">
-          <div className="p-3 border border-dark shadow shadow-lg rounded bg-light m-2" style={{ height: "85%" }}>
+      <div className="row mx-5">
+        <div className="col-md-2 ">
+          <div className="p-3 border rounded bg-light m-2 " style={{ height: "85%" }}>
             Servers<br /><br />
             <b>{servers}</b>
           </div>
@@ -65,7 +65,7 @@ function Gutters() {
         <div className="col-md-4">
           <div className="p-3 border rounded bg-light m-2">
             <div className="row">
-              <div className="col-md-8">Thread Usage:</div>
+              <div className="col-md-8">Request time:</div>
               <div className="col-md-4"><b>{/* Add thread usage value here */}</b></div>
             </div>
           </div>
