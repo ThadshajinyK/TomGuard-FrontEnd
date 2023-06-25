@@ -4,9 +4,11 @@ import axios from 'axios';
 
 function Gutters() {
   const [servers, setServers] = useState([]);
+ 
 
   useEffect(() => {
     loadServerCount();
+    
   }, []);
 
   const loadServerCount = async () => {
@@ -32,6 +34,9 @@ function Gutters() {
       console.error('Error occurred while loading app count:', error);
     }
   };
+ 
+    
+ 
 
   return (
     <div className="container mt-3">
@@ -72,7 +77,7 @@ function Gutters() {
           <div className="p-3 border rounded bg-light m-2">
             <div className="row">
               <div className="col-md-8">Up Time:</div>
-              <div className="col-md-4"><b>{/* Add uptime value here */}s</b></div>
+              <div className="col-md-4"><b>{/* Add thread usage value here */}s</b></div>
             </div>
           </div>
         </div>
