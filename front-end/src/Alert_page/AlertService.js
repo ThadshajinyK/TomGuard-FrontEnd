@@ -10,6 +10,10 @@ class AlertService {
   deleteAlert(id) {
     return axios.delete(ALERT_API_BASE_URL + "/" + id);
   }
+
+  deleteAllAlert(){
+    return axios.delete(ALERT_API_BASE_URL + "/deleteAll");
+  }
 }
 
 export default new AlertService();
