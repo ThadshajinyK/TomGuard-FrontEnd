@@ -71,13 +71,13 @@ function Gutters() {
           <div className="p-3 border rounded bg-light m-2">
             <div className="row">
               <div className="col-md-8">Request time:</div>
-              <div className="col-md-4"><b>{/* Add thread usage value here */}</b></div>
+              <div className="col-md-4"><b>{/* Add Request time value here */}</b></div>
             </div>
           </div>
           <div className="p-3 border rounded bg-light m-2">
             <div className="row">
               <div className="col-md-8">Up Time:</div>
-              <div className="col-md-4"><b>{/* Add thread usage value here */}s</b></div>
+              <div className="col-md-4"><b>{/* Add Up Time value here */}s</b></div>
             </div>
           </div>
         </div>
