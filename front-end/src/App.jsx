@@ -1,13 +1,21 @@
 import { Titlebar2 } from "./Titlebar/Titlebar";
 import { Navigationbar } from "./Navigationbar/Navigationbar";
-import { ServerPage, AddServerForm, MetricsTable, LogsTable,} from "./Pages/ServerPage";
-import {  ApplicationPage,  ClientForm,  ClientsDetails,} from "./Pages/ApplicationPage";
+import {
+  ServerPage,
+  AddServerForm,
+  MetricsTable,
+  LogsTable,
+} from "./Pages/ServerPage";
+import {
+  ApplicationPage,
+  ClientForm,
+  ClientsDetails,
+} from "./Pages/ApplicationPage";
 import { InstancePage, AddInstanceForm } from "./Pages/InstancesPage";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { LogPerform } from "./Pages/LogPerform";
 import AlertTable from './Alert_page/AlertTable/AlertTable';
 import Dashboard from './Dashboard/Dashboard';
-import './App.css';
 import Settings from "./Pages/Settings";
 import { Fragment, useContext, useState } from "react";
 import ChatLogin from "./Alert_page/Chat/chat_pages/ChatLogin";
@@ -33,22 +41,22 @@ function App() {
   //end
 
   return (
-    <div className="AppMain">
-    <BrowserRouter>
-      {/* {!token ? ( */}
-      {/* <Fragment> */}
-      {/* These are public pages   */}
-      {/* <Routes> */}
-      {/* <Route path="*" element={<Navigate to="/login" replace />} /> */}
-      {/* <Route path="/login" element={<Login />} /> */}
-      {/* <Route path="/sign-up" element={<Signup />} /> */}
-      {/* <Route path="/forgot-password" element={<ForgotPassword />} /> */}
-      {/* </Routes> */}
-      {/* </Fragment> */}
-      {/* ) : ( */}
-      {/* <Fragment> */}
-      {/* These are private pages   */}
-          
+    <Fragment>
+      {!dummyLogin ? (
+        <BrowserRouter>
+          <Routes>
+            <Route path="*" element={<Navigate to="/login" replace />} />
+            <Route
+              path="/login"
+              element={<Login handleDummyLogin={() => setDummyLogin(true)} />}
+            />
+            <Route path="/sign-up" element={<Signup />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
+          </Routes>
+        </BrowserRouter>
+      ) : (
+        <BrowserRouter>
           <Titlebar2 />
           <section className="sidebar">
             <Navigationbar />
@@ -88,10 +96,9 @@ function App() {
         
 
       </Routes>
-      {/* </Fragment> */}
-      {/* ) */}
-    </BrowserRouter>
-    </div>
+        </BrowserRouter>
+      )}
+    </Fragment>
   );
 }
 

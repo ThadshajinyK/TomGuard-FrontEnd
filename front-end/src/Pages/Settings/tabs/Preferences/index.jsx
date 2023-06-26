@@ -1,30 +1,30 @@
 import React, { useEffect } from "react";
 import Card from "./Card";
-import Color1 from "../../../../images/color/color-1.png";
-import Color2 from "../../../../images/color/color-2.png";
-import Color3 from "../../../../images/color/color-3.png";
-import Color4 from "../../../../images/color/color-4.png";
+import Color1 from "../../../../images/color/color-1.jpeg";
+import Color2 from "../../../../images/color/color-2.jpeg";
+import Color3 from "../../../../images/color/color-3.jpeg";
+import Color4 from "../../../../images/color/color-4.jpeg";
 
 const colorCollections = [
   {
     name: "Classic",
-    icon: Color2,
-    colors: ["#CF541F", "#1F9ACF"],
+    icon: Color1,
+    colors: ["#ECEC20", "#72A963", "#28A1E4"],
   },
   {
     name: "Bold",
-    icon: Color1,
-    colors: ["#CC1FCF", "#AA5E82"],
+    icon: Color2,
+    colors: ["#AD5FA4", "#CF3D6E", "#6539D3"],
   },
   {
     name: "FreshMint",
     icon: Color3,
-    colors: ["#8265D3", "#CF541F"],
+    colors: ["#D0513C", "#FFC000", "#591EEE"],
   },
   {
     name: "Beach",
     icon: Color4,
-    colors: ["#CF1F1F", "#CCCF1F"],
+    colors: ["#9B7192", "#39CCD3", "#1CF08B"],
   },
 ];
 
