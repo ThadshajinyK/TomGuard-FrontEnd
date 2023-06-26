@@ -1,6 +1,102 @@
-.tableContainer{
-    width:80%;
-    position: relative;
-    left: 250px;
-    top:150px;
+.tableContainer {
+  width: 80%;
+  position: relative;
+  left: 250px;
+  top: 150px;
+}
+
+.deleteButton {
+  color: red;
+  position: relative;
+  left: 30px;
+  font-weight: bolder;
+  cursor: pointer;
+}
+
+.deleteButton:hover {
+  color: darkred;
+}
+.deleteButton:active {
+  color: red;
+}
+
+.confirmation-dialog {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.confirmation-message {
+  font-size: 18px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 7px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  max-width: 400px;
+  margin-bottom: 10px; /* Add margin bottom for gap */
+}
+
+.confirmation-actions {
+  margin-top: 10px; /* Adjust margin top for gap */
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+}
+
+.confirmation-actions button {
+  padding: 10px 20px;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.confirmation-actions button.btn-confirm {
+  background-color: white;
+  color: red;
+  border: none;
+  margin-right: 5px; /* Adjust margin right for small gap between buttons */
+}
+
+.confirmation-actions button.btn-confirm:hover {
+  background-color: #dc3545;
+  color: #fff;
+}
+.confirmation-actions button.btn-confirm:active {
+  background-color: darkred;
+  color: #fff;
+}
+
+.confirmation-actions button.btn-cancel {
+  background-color: white;
+  color: green;
+  border: none;
+  margin-left: 5px; /* Adjust margin left for small gap between buttons */
+}
+
+.confirmation-actions button.btn-cancel:hover {
+  background-color: green; /* Change color to dark green */
+  color: #fff;
+}
+.confirmation-actions button.btn-cancel:active {
+  background-color: darkgreen; /* Change color to dark green */
+  color: #fff;
+}
+
+.confirmation-actions button.btn-confirm:focus,
+.confirmation-actions button.btn-cancel:focus {
+  outline: none;
+}
+
+.confirmation-actions button.btn-confirm,
+.confirmation-actions button.btn-cancel {
+  opacity: 1; /* Increase opacity for better visibility */
 }

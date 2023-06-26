@@ -15,13 +15,13 @@ export const Navigationbar = () => {
         </li>
 
         <li>
-          <Link to ="/servers" className="sidebar-item ">
+          <Link to="/servers" className="sidebar-item ">
             <Icon icon="ion:server-outline" />
             <span>Server</span>
           </Link>
         </li>
         <li>
-          <Link to ="/apps" className="sidebar-item">
+          <Link to="/apps" className="sidebar-item">
             <Icon icon="ion:apps-sharp" />
             <span>Apps</span>
           </Link>
@@ -34,22 +34,19 @@ export const Navigationbar = () => {
             <span>Alerts</span>
           </Link>
         </li>
-        
 
         <li>
           <Link to="/settings" className="sidebar-item">
-          <Icon icon="material-symbols:settings-applications-outline" />
+            <Icon icon="material-symbols:settings-applications-outline" />
             <span className="side"></span>
             <span>Settings</span>
           </Link>
         </li>
         <li>
           <Link to="/chat" className="chatLink">
-          <Icon icon="fluent:chat-12-filled" className="chatIcon" />
+            <Icon icon="fluent:chat-12-filled" className="chatIcon" />
           </Link>
         </li>
-
-       
       </ul>
     </div>
   );

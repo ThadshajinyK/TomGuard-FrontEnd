@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300&family=Itim&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300&family=Itim&display=swap");
 
 :root {
   --primary: #520052;
@@ -12,60 +12,49 @@
   --light: #f6f5f6;
   /* --sidebar:rgb(253, 254, 254);
   --active-item:rgb(241, 246, 247); */
-  --lightpurple:rgb(122,137,254);
-  --sidebar:rgb(18, 41, 68);
+  --lightpurple: rgb(122, 137, 254);
+  --sidebar: rgb(18, 41, 68);
   /* --active-item:rgba(36, 166, 175, 0.99); */
-  --active-item:rgba(40, 176, 137, 0.853);
-  
-} 
+  --active-item: rgba(40, 176, 137, 0.853);
+}
 
-.serverContent{
-    margin:110px 30px 10px 230px;
-  }
+.serverContent {
+  margin: 110px 30px 10px 230px;
+}
 
-
-
-.nav{
-  height:100%;
-  width:25%;
-  background-color:var(--sidebar);
+.nav {
+  height: 100%;
+  width: 25%;
+  background-color: var(--sidebar);
   position: fixed;
   overflow-x: hidden; /* Disable horizontal scroll */
   padding-top: 60px; /* Place content 60px from the top */
   transition: 0.5s;
 }
 
-.cont{
+.cont {
   height: calc(100% - 70px);
   display: grid;
-  
 }
 
-.content-box{
+.content-box {
   display: fixed;
-  
 }
 
-
-.title-logo{
+.title-logo {
   display: flex;
   margin-left: 30px;
 }
 
-
-
-.profilepic{
+.profilepic {
   width: 70px;
   height: 70px;
-
 }
 
-.dis{
-display: flex;
-position: relative;
-
+.dis {
+  display: flex;
+  position: relative;
 }
-
 
 .container {
   display: grid;
@@ -86,20 +75,18 @@ position: relative;
   z-index: 1;
 }
 
-.btn-aqua{
+.btn-aqua {
   background-color: rgb(242, 102, 51);
-  color:#ffffff;
+  color: #ffffff;
   border: 1px solid rgb(95, 97, 108);
   border-radius: 5px;
   width: 60px;
-  
 }
 
-.btn-aqua:hover{
+.btn-aqua:hover {
   background-color: aliceblue;
   border: 1px solid black;
-  color:black;
-
+  color: black;
 }
 
 li {
@@ -110,17 +97,14 @@ a {
   text-decoration: none !important;
 }
 
-
-.server-table th,td{
+.server-table th,
+td {
   padding: 8px 10px;
 }
 
 tr:hover {
   border-bottom: 1.2px solid var(--primary) !important;
 }
-
-
-
 
 .sidebar-lists {
   padding: 1px 10px 1px 10px;
@@ -131,28 +115,26 @@ tr:hover {
   font-weight: 400;
   color: #000000;
   padding: 10px 5px;
-  margin-top:10px;
+  margin-top: 10px;
   width: 100%;
   border-radius: 15px 15px 15px 15px;
- display: flex;
- font-family:'Inter', sans-serif;
- background-color: #fff;
- font-weight: 600;
-  
+  display: flex;
+  font-family: "Inter", sans-serif;
+  background-color: #fff;
+  font-weight: 600;
 }
-.chatLink{
+.chatLink {
   display: flex;
   justify-content: flex-end;
   align-items: flex-end;
   position: fixed;
   bottom: 10px;
-  left:130px;
-
+  left: 130px;
 }
 
-.chatIcon{
+.chatIcon {
   font-size: 50px;
-  color:white;
+  color: white;
 }
 
 .sidebar-item:hover {
@@ -167,7 +149,7 @@ tr:hover {
   color: var(--light);
 }
 
-.iconify{
+.iconify {
   margin-right: 10px;
   margin-top: 3px;
   margin-left: 10px;
@@ -177,8 +159,8 @@ tr:hover {
   height: 100%;
   margin: 110px 2px 2px 150px;
   display: flex;
-  position:inherit;
-  flex-direction:column;
+  position: inherit;
+  flex-direction: column;
 }
 
 .pagination {
@@ -213,10 +195,10 @@ tr:hover {
   color: var(--dark2);
 }
 
-.pn-btn{
+.pn-btn {
   width: 50px;
 }
 
-.side{
+.side {
   background-attachment: fixed;
 }
