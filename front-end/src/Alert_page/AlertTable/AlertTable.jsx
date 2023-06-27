@@ -165,22 +165,20 @@ const AlertTable = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [alertToDelete, setAlertToDelete] = useState(null);
-  const itemsPerPage = 10;
 
   useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const response = await AlertService.getAlerts();
+        setAlerts(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+      setLoading(false);
+    };
     fetchData();
   }, []);
-
-  const fetchData = async () => {
-    setLoading(true);
-    try {
-      const response = await AlertService.getAlerts();
-      setAlerts(response.data);
-    } catch (error) {
-      console.log(error);
-    }
-    setLoading(false);
-  };
 
   const deleteAlert = (id) => {
     AlertService.deleteAlert(id).then(() => {
@@ -225,12 +223,9 @@ const AlertTable = () => {
     }
   };
 
-  const offset = currentPage * itemsPerPage;
-  const currentAlerts = alerts.slice(offset, offset + itemsPerPage);
-  const pageCount = Math.ceil(alerts.length / itemsPerPage);
-
   return (
     <div>
+      <div className="alertCount">Total Alerts: {alertCount}</div>
       <div className="tableContainer">
         <div className="container">
           <div className="table-responsive">
@@ -259,7 +254,9 @@ const AlertTable = () => {
                       <td>{alert.alertType}</td>
                       <td>
                         <span
-                          style={{ color: getSeverityColor(alert.severityLevel) }}
+                          style={{
+                            color: getSeverityColor(alert.severityLevel),
+                          }}
                         >
                           {alert.severityLevel}
                         </span>

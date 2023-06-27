@@ -6,6 +6,7 @@ import { ReactComponent as RightIcon } from "../../../../icons/chevron-right.svg
 
 const Report = () => {
   return (
+    
     <div className="report-container">
       <div className="flex-item">
         <h5>Report schedule</h5>

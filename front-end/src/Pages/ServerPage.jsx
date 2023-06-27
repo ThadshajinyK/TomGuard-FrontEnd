@@ -19,7 +19,7 @@ export const MetricsTable = () => {
       // Update the state to reflect the deletion
       setMetricsData([]);
       console.log('all Records deleted successfully');
-     
+
     }).catch((error) => {
       console.error('Error deleting all records:', error);
     });
@@ -52,21 +52,51 @@ export const MetricsTable = () => {
   const currentMetrics = metricsData.slice(offset, offset + itemsPerPage);
   const pageCount = Math.ceil(metricsData.length / itemsPerPage);
 
+  //to change availabilty color as per its value
+  const getAvailabiltyColor = (availability) => {
+    switch (availability) {
+      case 'online': return 'rgb(54, 139, 84)';
+      case 'offline': return 'rgb(190, 25, 25)';
+      default: return 'orange';
+    }
+  }
+
+  const confirmDeleteAllMetrics = () => {
+    setShowConfirmation(true);
+  };
+
+  const confirmDeleteMetric = (id) => {
+    setAlertToDelete(id);
+    setShowConfirmation(true);
+  };
+
+  const cancelDeleteMetric = () => {
+    setShowConfirmation(false);
+    setAlertToDelete(null);
+  };
+
+  const fetchMetrics = async () => {
+
+    try {
+      const metricsResponse = await axios.get('http://localhost:9090/metrics/all');
+      setMetricsData(metricsResponse.data);
+    } catch (error) {
+      console.error('Error fetching metrics data:', error);
+    }
+
+  };
 
   useEffect(() => {
-    const fetchData = async () => {
+    fetchMetrics(); // Initial fetch
 
-      try {
-        const metricsResponse = await axios.get('http://localhost:9090/metrics/all');
-        setMetricsData(metricsResponse.data);
-      } catch (error) {
-        console.error('Error fetching metrics data:', error);
-      }
+    // Polling every 5 seconds (adjust the interval as per your requirements)
+    const interval = setInterval(fetchMetrics, 12000);
 
+    return () => {
+      clearInterval(interval); // Cleanup interval on component unmount
     };
-
-    fetchData();
   }, []);
+
 
   return (
     <div className="metricsContent">
@@ -99,19 +129,19 @@ export const MetricsTable = () => {
               <th className="text-center">Request time</th>
               <th className="text-center">Response Time</th>
               <th><button
-                  className="btn btn-outline-danger"
-                  type="button"
-                  data-toggle="tooltip"
-                  data-placement="top"
-                  title="Delete"
-                  onClick={() => deleteAllRecords()}>
-                  {/* <Icon 
+                className="btn btn-outline-danger"
+                type="button"
+                data-toggle="tooltip"
+                data-placement="top"
+                title="Delete"
+                onClick={confirmDeleteAllMetrics}>
+                {/* <Icon 
                   icon="material-symbols:delete-outline" 
                   color="#dc3545" 
                   width="25"
                   height="25"
                   /> */}
-                  Delete All</button></th>
+                Delete All</button></th>
             </tr>
           </thead>
           {/*2nd row*/}
@@ -119,12 +149,8 @@ export const MetricsTable = () => {
             {currentMetrics.map(metric => (
               <tr key={metric.id}>
                 <td className="text-center">{metric.timestamp}</td>
-                <td className="text-center"><span className="badge rounded-pill" style={{
-                  backgroundColor
-                    : metric.availability === "online" ? 'rgb(54, 139, 84)'
-                      : metric.availability === "offline" ? 'rgb(190, 25, 25)'
-                        : 'orange'
-                }}>{metric.availability} </span>
+                <td className="text-center"><span className="badge rounded-pill"
+                  style={{ backgroundColor: getAvailabiltyColor(metric.availability) }}>{metric.availability} </span>
                 </td>
                 <td className="text-center">{metric.uptimeInMillis}</td>
                 <td className="text-center">{metric.requestTimeInMillis}</td>
@@ -135,12 +161,12 @@ export const MetricsTable = () => {
                   data-toggle="tooltip"
                   data-placement="top"
                   title="Delete"
-                  onClick={() => handleDeleteMetrics(metric.id)}>
-                  <Icon 
-                  icon="material-symbols:delete-outline" 
-                  color="#dc3545" 
-                  width="25"
-                  height="25"
+                  onClick={() => confirmDeleteMetric(metric.id)}>
+                  <Icon
+                    icon="material-symbols:delete-outline"
+                    color="#dc3545"
+                    width="25"
+                    height="25"
                   /></button></td>
                 {/* ...other table cells... */}
               </tr>
@@ -165,8 +191,39 @@ export const MetricsTable = () => {
             />
           )}
       </div>
-      
-      
+
+      {showConfirmation && (
+        <div className="confirmation-dialog">
+          <div className="confirmation-message">
+            Are you sure you want to delete{" "}
+            {alertToDelete ? "this metric record?" : "all metrics Records?"}
+          </div>
+          <div className="confirmation-actions">
+            <button
+              type="button"
+              className="btn btn-confirm"
+              onClick={() => {
+                if (alertToDelete) {
+                  handleDeleteMetrics(alertToDelete);
+                } else {
+                  deleteAllRecords();
+                }
+                setShowConfirmation(false);
+              }}
+            >
+              Yes
+            </button>
+            <button
+              type="button"
+              className="btn btn-cancel"
+              onClick={cancelDeleteMetric}
+            >
+              No
+            </button>
+          </div>
+        </div>
+      )}
+
 
 
     </div>
@@ -179,8 +236,6 @@ export const MetricsTable = () => {
 
 export const LogsTable = () => {
   const [logsData, setLogsData] = useState([]);
-  const [currentPage, setCurrentPage] = useState(0);
-  const itemsPerPage = 10;
 
   const deleteAllRecords = () => {
     // Make an API request to your backend to delete all records
@@ -188,7 +243,7 @@ export const LogsTable = () => {
       // Update the state to reflect the deletion
       setLogsData([]);
       console.log('all Records deleted successfully');
-     
+
     }).catch((error) => {
       console.error('Error deleting all records:', error);
     });
@@ -214,28 +269,29 @@ export const LogsTable = () => {
         console.error('Error occurred while deleting record:', error);
       });
   };
-  const handlePageClick = (data) => {
-    setCurrentPage(data.selected);
-  };
+
   useEffect(() => {
     const fetchData = async () => {
 
-      try {
-        const logsResponse = await axios.get('http://localhost:9090/logs/all');
-        setLogsData(logsResponse.data);
-      } catch (error) {
-        console.error('Error fetching logs data:', error);
-      }
+    try {
+      const logsResponse = await axios.get('http://localhost:9090/logs/all');
+      setLogsData(logsResponse.data);
+    } catch (error) {
+      console.error('Error fetching logs data:', error);
+    }
 
+  };
+
+  useEffect(() => {
+    fetchLogs();
+    // Polling every 12 seconds (adjust the interval as per your requirements)
+    const interval = setInterval(fetchLogs, 2000);
+
+    return () => {
+      clearInterval(interval); // Cleanup interval on component unmount
     };
-
-    fetchData();
   }, []);
 
-
-const offset = currentPage * itemsPerPage;
-  const currentLogs = logsData.slice(offset, offset + itemsPerPage);
-  const pageCount = Math.ceil(logsData.length / itemsPerPage);
   return (
     <div className="logsContent">
       <nav className="navbar navbar-expand-lg bg-body-tertiary overView-nav">
@@ -265,19 +321,19 @@ const offset = currentPage * itemsPerPage;
               <th className="text-center">Thread Name</th>
               <th className="text-center">Message</th>
               <th><button
-                  className="btn btn-outline-danger"
-                  type="button"
-                  data-toggle="tooltip"
-                  data-placement="top"
-                  title="Delete"
-                  onClick={() => deleteAllRecords()}>
-                  {/* <Icon 
+                className="btn btn-outline-danger"
+                type="button"
+                data-toggle="tooltip"
+                data-placement="top"
+                title="Delete"
+                onClick={confirmDeleteAllLogs}>
+                {/* <Icon 
                   icon="material-symbols:delete-outline" 
                   color="#dc3545" 
                   width="25"
                   height="25"
                   /> */}
-                  Delete All</button></th> {/*Delete button space */}
+                Delete All</button></th> {/*Delete button space */}
             </tr>
           </thead>
           {/*2nd row*/}
@@ -288,18 +344,7 @@ const offset = currentPage * itemsPerPage;
                 <td className="text-center">
                   <span className="badge rounded-pill"
                     style={{
-                      backgroundColor:
-                        item.logLevel === "INFO"
-                          ? 'rgb(54, 139, 84)' // Green color 
-                          : item.logLevel === "DEBUG"
-                            ? 'rgb(0, 171, 193)' // cyan color 
-                            : item.logLevel === "WARNING"
-                              ? 'rgb(247, 165, 49)' // yellow color 
-                              : item.logLevel === "FATAL"
-                                ? 'rgb(62, 9, 7)' // bold red color 
-                                : item.logLevel === "SEVERE"
-                                  ? 'rgb(190, 25, 25)' // Red color 
-                                  : 'orange' // Orange color for 'NotFound'
+                      backgroundColor:getLogLevel(item.logLevel)
                     }}
                   >
                     {item.logLevel}
@@ -314,7 +359,7 @@ const offset = currentPage * itemsPerPage;
                   data-toggle="tooltip"
                   data-placement="top"
                   title="Delete"
-                  onClick={() => handleDeleteLogs(item.timestamp)}>
+                  onClick={() => confirmDeleteLogs(item.timestamp)}>
                   <Icon
                     icon="mdi:delete-outline"
                     color="#DC3545"
@@ -342,6 +387,38 @@ const offset = currentPage * itemsPerPage;
             />
           )}
       </div>
+
+      {showConfirmation && (
+        <div className="confirmation-dialog">
+          <div className="confirmation-message">
+            Are you sure you want to delete{" "}
+            {alertToDelete ? "this log record?" : "all logs records?"}
+          </div>
+          <div className="confirmation-actions">
+            <button
+              type="button"
+              className="btn btn-confirm"
+              onClick={() => {
+                if (alertToDelete) {
+                  handleDeleteLogs(alertToDelete);
+                } else {
+                  deleteAllRecords();
+                }
+                setShowConfirmation(false);
+              }}
+            >
+              Yes
+            </button>
+            <button
+              type="button"
+              className="btn btn-cancel"
+              onClick={cancelDeletelog}
+            >
+              No
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -380,19 +457,18 @@ export const ServerPage = () => {
       console.error('Error occurred while generating or downloading the PDF:', error);
     }
   };
-  
+
   const handleDelete = (hostName) => {
-    // Make a DELETE request to the delete endpoint
     fetch(`http://localhost:9090/server/${hostName}`, {
       method: 'DELETE'
     })
       .then(response => {
         if (response.ok) {
-          // Delete successful, perform any necessary actions (e.g., update UI)
+          // Delete successful
           setData(prevData => prevData.filter(item => item.hostName !== hostName));
           console.log('Record deleted successfully');
         } else {
-          // Delete failed, handle the error (e.g., show error message)
+          // Delete failed
           console.error('Failed to delete record');
         }
       })
@@ -401,6 +477,15 @@ export const ServerPage = () => {
         console.error('Error occurred while deleting record:', error);
       });
   };
+
+  //to change availabilty color as per its value
+  const getAvailabiltyColor = (availability) => {
+    switch (availability) {
+      case 'online': return 'rgb(54, 139, 84)';
+      case 'offline': return 'rgb(190, 25, 25)';
+      default: return 'orange';
+    }
+  }
 
   useEffect(() => {
     const fetchData = async () => {
@@ -461,32 +546,10 @@ export const ServerPage = () => {
             <tr>
               <td className="text-end"><h5>Availabailty:</h5></td>
               <td><h5 className="serverDetail"
-                style={{
-                  color:
-                    item.availability === "online"
-                      ? 'rgb(54, 139, 84)' // Green color for 'online'
-                      : item.availability === "offline"
-                        ? 'rgb(190, 25, 25)' // Red color for 'offline'
-                        : 'orange' // Orange color for 'NotFound'
-                }}
-              >
+                style={{ color: getAvailabiltyColor(item.availability) }}>
                 {item.availability}
               </h5></td>
             </tr>
-            {/* <tr>
-              <td className="text-end"><h5>OS Name:</h5></td>
-              <td><p className="serverDetail"> {item.osName}</p></td>
-            </tr>
-
-            <tr>
-              <td className="text-end"><h5>OS Version:</h5></td>
-              <td><p className="serverDetail"> {item.osVersion}</p></td>
-            </tr>
-
-            <tr>
-              <td className="text-end"><h5>JVM version:</h5></td>
-              <td><p className="serverDetail"> {item.jvmVersion}</p></td>
-            </tr> */}
           </table>
 
         </div>
@@ -517,7 +580,7 @@ export const ServerPage = () => {
                       <th className="text-center">OS Version</th>
                       <th className="text-center">OS Architecture</th>
                       <th className="text-center">JVM version</th>
-                      <th></th>
+                      {/* <th></th> */}
                     </tr>
                   </thead>
                   {/*2nd row*/}
@@ -545,7 +608,7 @@ export const ServerPage = () => {
                         <td className="text-center">{item.osVersion}</td>
                         <td className="text-center">{item.osArchitecture}</td>
                         <td className="text-center">{item.jvmVersion}</td>
-                        <td><button
+                        {/* <td><button
                           class="btn btn-link"
                           type="button"
                           data-toggle="tooltip"
@@ -556,21 +619,21 @@ export const ServerPage = () => {
                             icon="mdi:delete-outline"
                             color="#DC3545"
                             width="25"
-                            height="25" /></button></td>
+                            height="25" /></button></td> */}
 
                         {/* ...other table cells... */}
                       </tr>
                     ))}
                   </tbody>
                 </table>
-                <button   onClick={generateServerPDF}
-                          type="button"
-                          className="btn btn-outline-info"
-                          
-                          
-                        >
-                          Download pdf
-                        </button>
+                <button onClick={generateServerPDF}
+                  type="button"
+                  className="btn btn-outline-info"
+
+
+                >
+                  Download pdf
+                </button>
 
               </div>
             </div>

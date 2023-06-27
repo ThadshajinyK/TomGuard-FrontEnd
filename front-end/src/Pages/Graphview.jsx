@@ -89,6 +89,8 @@ import AreaChartExample from "../Areachart";
 function Graphview() {
   const [metricsData, setMetricsData] = useState([]);
 
+  const colors = JSON.parse(localStorage.getItem("colorCollections"));
+
   const fetchMetricsData = async () => {
     try {
       const response = await fetch('http://localhost:9090/metrics/all');
@@ -135,11 +137,11 @@ function Graphview() {
     <div>
       <section>
         Up Time
-        <AreaChartExample data={uptimeData} color="#48C9B0" />
+        <AreaChartExample data={uptimeData} color={colors?.colors[0]} />
         Response Time
-        <AreaChartExample data={responseTimeData} color="#F7DC6F" />
+        <AreaChartExample data={responseTimeData} color={colors?.colors[1]} />
         Request Time
-        <AreaChartExample data={requestTimeData} color="#FF5992" />
+        <AreaChartExample data={requestTimeData} color={colors?.colors[2]} />
         <div className="row justify-content-center">
           <div className="col-md-8"></div>
           <div className="col-md-2"></div>

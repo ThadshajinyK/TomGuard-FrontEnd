@@ -68,6 +68,10 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tool
 export function Linechart() {
   const [data, setData] = useState([]);
 
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   const fetchData = async () => {
     try {
       const response = await axios.get('http://localhost:9090/metrics/all');
@@ -100,9 +104,9 @@ export function Linechart() {
           <YAxis />
           <Tooltip />
           <Legend />
-          <Line type="monotone" dataKey="uptimeInMillis" stroke="#8884d8" name="Uptime" />
-          <Line type="monotone" dataKey="responseTimeInMillis" stroke="#82ca9d" name="Response Time" />
-          <Line type="monotone" dataKey="requestTimeInMillis" stroke="#ff0000" name="Request Time" />
+          <Line type="monotone" dataKey="uptimeInMillis" stroke={colors?.colors[0]} name="Uptime" />
+          <Line type="monotone" dataKey="responseTimeInMillis" stroke={colors?.colors[1]} name="Response Time" />
+          <Line type="monotone" dataKey="requestTimeInMillis" stroke={colors?.colors[2]} name="Request Time" />
         </LineChart>
       </ResponsiveContainer>
     </div>
