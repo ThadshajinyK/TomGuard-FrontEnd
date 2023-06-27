@@ -16,7 +16,7 @@ const Card = ({ color, name, isSelected, handleClick }) => {
       onClick={handleClick}
     >
       <p>{name}</p>
-      <img src={color} alt="color" width="50px" height="38px" />
+      <img src={color} alt="color" width="80px" height="38px" />
     </div>
   );
 };

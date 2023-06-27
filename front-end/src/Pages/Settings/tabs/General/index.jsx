@@ -181,7 +181,7 @@ const General = () => {
                 />
               </Form.Group>
               <Form.Group className="" controlId="exampleForm.ControlInput1">
-                <p className="field-label">Location</p>
+                <p className="field-label">Address</p>
                 <Form.Control
                   disabled={!isEdit}
                   type="text"
