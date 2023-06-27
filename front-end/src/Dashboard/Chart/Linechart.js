@@ -80,7 +80,7 @@ export function Linechart() {
       console.log(error);
     }
   };
-
+  const colors = JSON.parse(localStorage.getItem("colorCollections"));
   useEffect(() => {
     // Fetch metrics data initially
     fetchData();

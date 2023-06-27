@@ -165,6 +165,8 @@ const AlertTable = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [alertToDelete, setAlertToDelete] = useState(null);
+  const [alertCount, setAlertCount] = useState(0);
+  const itemsPerPage = 10
 
   useEffect(() => {
     const fetchData = async () => {
@@ -222,7 +224,9 @@ const AlertTable = () => {
         return "black";
     }
   };
-
+  const offset = currentPage * itemsPerPage;
+  const currentAlerts = alerts.slice(offset, offset + itemsPerPage);
+  const pageCount = Math.ceil(alerts.length / itemsPerPage);
   return (
     <div>
       <div className="alertCount">Total Alerts: {alertCount}</div>

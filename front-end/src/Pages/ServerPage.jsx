@@ -10,9 +10,17 @@ import "../Styles/pagination.css"
 
 export const MetricsTable = () => {
   const [metricsData, setMetricsData] = useState([]);
+
   const [currentPage, setCurrentPage] = useState(0);
   const itemsPerPage = 6
   
+
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [alertToDelete, setAlertToDelete] = useState(null);
+  const [alertCount, setAlertCount] = useState(0);
+
+
+
   const deleteAllRecords = () => {
     // Make an API request to your backend to delete all records
     axios.delete(`http://localhost:9090/metrics/dltAll`).then(() => {
@@ -236,6 +244,11 @@ export const MetricsTable = () => {
 
 export const LogsTable = () => {
   const [logsData, setLogsData] = useState([]);
+  const [currentPage, setCurrentPage] = useState(0);
+  const itemsPerPage = 10;
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [alertToDelete, setAlertToDelete] = useState(null);
+
 
   const deleteAllRecords = () => {
     // Make an API request to your backend to delete all records
@@ -270,8 +283,38 @@ export const LogsTable = () => {
       });
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
+  const handlePageClick = (data) => {
+    setCurrentPage(data.selected);
+  };
+
+
+  const confirmDeleteLogs = (id) => {
+    setAlertToDelete(id);
+    setShowConfirmation(true);
+  };
+
+  const cancelDeletelog = () => {
+    setShowConfirmation(false);
+    setAlertToDelete(null);
+  };
+
+  const confirmDeleteAllLogs = () => {
+    setShowConfirmation(true);
+  };
+
+  const getLogLevel = (logLevel) => {
+    switch (logLevel) {
+      case "INFO": return 'rgb(54, 139, 84)';// Green color 
+      case "DEBUG": return 'rgb(0, 171, 193)';//cyan color
+      case "WARNING": return 'rgb(247, 165, 49)';//yellow color
+      case "FATAL": return 'rgb(62, 9, 7)';//bold red color
+      case "SEVERE": return 'rgb(190, 25, 25)';//red  color
+      default: return 'orange';//orange color
+    }
+  };
+
+
+  const fetchLogs = async () => {
 
     try {
       const logsResponse = await axios.get('http://localhost:9090/logs/all');
@@ -282,6 +325,7 @@ export const LogsTable = () => {
 
   };
 
+
   useEffect(() => {
     fetchLogs();
     // Polling every 12 seconds (adjust the interval as per your requirements)
@@ -291,6 +335,12 @@ export const LogsTable = () => {
       clearInterval(interval); // Cleanup interval on component unmount
     };
   }, []);
+
+
+
+const offset = currentPage * itemsPerPage;
+  const currentLogs = logsData.slice(offset, offset + itemsPerPage);
+  const pageCount = Math.ceil(logsData.length / itemsPerPage);
 
   return (
     <div className="logsContent">
