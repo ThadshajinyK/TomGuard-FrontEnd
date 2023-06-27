@@ -74,6 +74,7 @@ const AlertTable = () => {
   useEffect(() => {
     setAlertCount(alerts.length);
   }, [alerts]);
+  
   console.log(alertCount);
   return (
     <div>

@@ -11,7 +11,6 @@ import {
   ClientForm,
   ClientsDetails,
 } from "./Pages/ApplicationPage";
-import { InstancePage, AddInstanceForm } from "./Pages/InstancesPage";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { LogPerform } from "./Pages/LogPerform";
 import AlertTable from './Alert_page/AlertTable/AlertTable';
@@ -76,8 +75,6 @@ function App() {
             <Route path="/addServer" element={<AddServerForm />}></Route>
             <Route path="/performance" element={<MetricsTable/>}></Route>
             <Route path="/logs" element={<LogsTable/>}></Route>
-            <Route path="/Servers/Instance" element={<InstancePage />}></Route>
-            <Route path="/addInstance" element={<AddInstanceForm />}></Route>
             <Route path="/logPerform" element={<LogPerform />}></Route>
             
             <Route
