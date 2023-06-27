@@ -45,7 +45,9 @@ function App() {
   return (
     <Fragment>
       {!dummyLogin ? (
+        
         <BrowserRouter>
+
           <Routes>
             <Route path="*" element={<Navigate to="/login" replace />} />
             <Route
@@ -58,7 +60,10 @@ function App() {
           </Routes>
         </BrowserRouter>
       ) : (
-        <BrowserRouter>
+
+        <div className="AppMain">
+
+<BrowserRouter>
           <Titlebar2 />
           <section className="sidebar">
             <Navigationbar />
@@ -99,6 +104,8 @@ function App() {
 
       </Routes>
         </BrowserRouter>
+
+       </div>
       )}
     </Fragment>
   );
