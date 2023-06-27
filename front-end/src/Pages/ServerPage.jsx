@@ -5,9 +5,13 @@ import speed from "../images/speed.png";
 import logs from "../images/logs.png";
 import axios from 'axios';
 import { Icon } from '@iconify/react';
+import ReactPaginate from "react-paginate";
+import "../Styles/pagination.css"
 
 export const MetricsTable = () => {
   const [metricsData, setMetricsData] = useState([]);
+  const [currentPage, setCurrentPage] = useState(0);
+  const itemsPerPage = 6
   
   const deleteAllRecords = () => {
     // Make an API request to your backend to delete all records
@@ -41,6 +45,12 @@ export const MetricsTable = () => {
         console.error('Error occurred while deleting record:', error);
       });
   };
+  const handlePageClick = (data) => {
+    setCurrentPage(data.selected);
+  };
+  const offset = currentPage * itemsPerPage;
+  const currentMetrics = metricsData.slice(offset, offset + itemsPerPage);
+  const pageCount = Math.ceil(metricsData.length / itemsPerPage);
 
 
   useEffect(() => {
@@ -106,7 +116,7 @@ export const MetricsTable = () => {
           </thead>
           {/*2nd row*/}
           <tbody>
-            {metricsData.map(metric => (
+            {currentMetrics.map(metric => (
               <tr key={metric.id}>
                 <td className="text-center">{metric.timestamp}</td>
                 <td className="text-center"><span className="badge rounded-pill" style={{
@@ -137,6 +147,23 @@ export const MetricsTable = () => {
             ))}
           </tbody>
         </table>
+
+        {metricsData.length > itemsPerPage && (
+            <ReactPaginate
+              previousLabel={"Previous"}
+              nextLabel={"Next"}
+              breakLabel={"..."}
+              breakClassName={"break-me"}
+              pageCount={pageCount}
+              marginPagesDisplayed={2}
+              pageRangeDisplayed={5}
+              onPageChange={handlePageClick}
+              containerClassName={"pagination"}
+              subContainerClassName={"pages pagination"}
+              activeClassName={"active"}
+              pageClassName={"border-box"}
+            />
+          )}
       </div>
       
       
@@ -152,6 +179,8 @@ export const MetricsTable = () => {
 
 export const LogsTable = () => {
   const [logsData, setLogsData] = useState([]);
+  const [currentPage, setCurrentPage] = useState(0);
+  const itemsPerPage = 10;
 
   const deleteAllRecords = () => {
     // Make an API request to your backend to delete all records
@@ -185,7 +214,9 @@ export const LogsTable = () => {
         console.error('Error occurred while deleting record:', error);
       });
   };
-
+  const handlePageClick = (data) => {
+    setCurrentPage(data.selected);
+  };
   useEffect(() => {
     const fetchData = async () => {
 
@@ -201,6 +232,10 @@ export const LogsTable = () => {
     fetchData();
   }, []);
 
+
+const offset = currentPage * itemsPerPage;
+  const currentLogs = logsData.slice(offset, offset + itemsPerPage);
+  const pageCount = Math.ceil(logsData.length / itemsPerPage);
   return (
     <div className="logsContent">
       <nav className="navbar navbar-expand-lg bg-body-tertiary overView-nav">
@@ -247,7 +282,7 @@ export const LogsTable = () => {
           </thead>
           {/*2nd row*/}
           <tbody>
-            {logsData.map(item => (
+            {currentLogs.map(item => (
               <tr key={item.timestamp}>
                 <td className="text-center">{item.timestamp}</td>
                 <td className="text-center">
@@ -289,6 +324,23 @@ export const LogsTable = () => {
             ))}
           </tbody>
         </table>
+
+        {logsData.length > itemsPerPage && (
+            <ReactPaginate
+              previousLabel={"Previous"}
+              nextLabel={"Next"}
+              breakLabel={"..."}
+              breakClassName={"break-me"}
+              pageCount={pageCount}
+              marginPagesDisplayed={2}
+              pageRangeDisplayed={5}
+              onPageChange={handlePageClick}
+              containerClassName={"pagination"}
+              subContainerClassName={"pages pagination"}
+              activeClassName={"active"}
+              pageClassName={"border-box"}
+            />
+          )}
       </div>
     </div>
   );
