@@ -10,7 +10,7 @@ export const MetricsTable = () => {
   const [metricsData, setMetricsData] = useState([]);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [alertToDelete, setAlertToDelete] = useState(null);
-  const [alertCount, setAlertCount] = useState(0);
+ 
 
 
   const deleteAllRecords = () => {
