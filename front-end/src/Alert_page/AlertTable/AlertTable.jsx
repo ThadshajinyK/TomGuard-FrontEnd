@@ -5,23 +5,21 @@ import { Icon } from "@iconify/react";
 
 const AlertTable = () => {
   const [loading, setLoading] = useState(true);
-  const [alerts, setAlerts] = useState(null);
+  const [alerts, setAlerts] = useState([]);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [alertToDelete, setAlertToDelete] = useState(null);
+  const [alertCount, setAlertCount] = useState(0);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        const response = await AlertService.getAlerts();
-        setAlerts(response.data);
-      } catch (error) {
-        console.log(error);
-      }
-      setLoading(false);
-    };
-    fetchData();
-  }, []);
+  const fetchAlerts = async () => {
+    setLoading(true);
+    try {
+      const response = await AlertService.getAlerts();
+      setAlerts(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+    setLoading(false);
+  };
 
   const deleteAlert = (id) => {
     AlertService.deleteAlert(id).then(() => {
@@ -62,8 +60,24 @@ const AlertTable = () => {
     }
   };
 
+  useEffect(() => {
+    fetchAlerts(); // Initial fetch
+
+    // Polling every 12 seconds (adjust the interval as per your requirements)
+    const interval = setInterval(fetchAlerts, 12000);
+
+    return () => {
+      clearInterval(interval); // Cleanup interval on component unmount
+    };
+  }, []);
+
+  useEffect(() => {
+    setAlertCount(alerts.length);
+  }, [alerts]);
+  console.log(alertCount);
   return (
     <div>
+      <div className="alertCount">Total Alerts: {alertCount}</div>
       <div className="tableContainer">
         <div className="container">
           <div className="table-responsive">
@@ -92,7 +106,9 @@ const AlertTable = () => {
                       <td>{alert.alertType}</td>
                       <td>
                         <span
-                          style={{ color: getSeverityColor(alert.severityLevel) }}
+                          style={{
+                            color: getSeverityColor(alert.severityLevel),
+                          }}
                         >
                           {alert.severityLevel}
                         </span>
