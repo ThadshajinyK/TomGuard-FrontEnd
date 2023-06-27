@@ -5,12 +5,20 @@ import speed from "../images/speed.png";
 import logs from "../images/logs.png";
 import axios from 'axios';
 import { Icon } from '@iconify/react';
+import ReactPaginate from "react-paginate";
+import "../Styles/pagination.css"
 
 export const MetricsTable = () => {
   const [metricsData, setMetricsData] = useState([]);
+
+  const [currentPage, setCurrentPage] = useState(0);
+  const itemsPerPage = 6
+  
+
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [alertToDelete, setAlertToDelete] = useState(null);
  
+
 
 
   const deleteAllRecords = () => {
@@ -45,6 +53,12 @@ export const MetricsTable = () => {
         console.error('Error occurred while deleting record:', error);
       });
   };
+  const handlePageClick = (data) => {
+    setCurrentPage(data.selected);
+  };
+  const offset = currentPage * itemsPerPage;
+  const currentMetrics = metricsData.slice(offset, offset + itemsPerPage);
+  const pageCount = Math.ceil(metricsData.length / itemsPerPage);
 
   //to change availabilty color as per its value
   const getAvailabiltyColor = (availability) => {
@@ -140,7 +154,7 @@ export const MetricsTable = () => {
           </thead>
           {/*2nd row*/}
           <tbody>
-            {metricsData.map(metric => (
+            {currentMetrics.map(metric => (
               <tr key={metric.id}>
                 <td className="text-center">{metric.timestamp}</td>
                 <td className="text-center"><span className="badge rounded-pill"
@@ -167,6 +181,23 @@ export const MetricsTable = () => {
             ))}
           </tbody>
         </table>
+
+        {metricsData.length > itemsPerPage && (
+            <ReactPaginate
+              previousLabel={"Previous"}
+              nextLabel={"Next"}
+              breakLabel={"..."}
+              breakClassName={"break-me"}
+              pageCount={pageCount}
+              marginPagesDisplayed={2}
+              pageRangeDisplayed={5}
+              onPageChange={handlePageClick}
+              containerClassName={"pagination"}
+              subContainerClassName={"pages pagination"}
+              activeClassName={"active"}
+              pageClassName={"border-box"}
+            />
+          )}
       </div>
 
       {showConfirmation && (
@@ -213,8 +244,11 @@ export const MetricsTable = () => {
 
 export const LogsTable = () => {
   const [logsData, setLogsData] = useState([]);
+  const [currentPage, setCurrentPage] = useState(0);
+  const itemsPerPage = 10;
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [alertToDelete, setAlertToDelete] = useState(null);
+
 
   const deleteAllRecords = () => {
     // Make an API request to your backend to delete all records
@@ -248,6 +282,11 @@ export const LogsTable = () => {
         console.error('Error occurred while deleting record:', error);
       });
   };
+
+  const handlePageClick = (data) => {
+    setCurrentPage(data.selected);
+  };
+
 
   const confirmDeleteLogs = (id) => {
     setAlertToDelete(id);
@@ -286,6 +325,7 @@ export const LogsTable = () => {
 
   };
 
+
   useEffect(() => {
     fetchLogs();
     // Polling every 12 seconds (adjust the interval as per your requirements)
@@ -296,6 +336,11 @@ export const LogsTable = () => {
     };
   }, []);
 
+
+
+const offset = currentPage * itemsPerPage;
+  const currentLogs = logsData.slice(offset, offset + itemsPerPage);
+  const pageCount = Math.ceil(logsData.length / itemsPerPage);
 
   return (
     <div className="logsContent">
@@ -343,7 +388,7 @@ export const LogsTable = () => {
           </thead>
           {/*2nd row*/}
           <tbody>
-            {logsData.map(item => (
+            {currentLogs.map(item => (
               <tr key={item.timestamp}>
                 <td className="text-center">{item.timestamp}</td>
                 <td className="text-center">
@@ -374,6 +419,23 @@ export const LogsTable = () => {
             ))}
           </tbody>
         </table>
+
+        {logsData.length > itemsPerPage && (
+            <ReactPaginate
+              previousLabel={"Previous"}
+              nextLabel={"Next"}
+              breakLabel={"..."}
+              breakClassName={"break-me"}
+              pageCount={pageCount}
+              marginPagesDisplayed={2}
+              pageRangeDisplayed={5}
+              onPageChange={handlePageClick}
+              containerClassName={"pagination"}
+              subContainerClassName={"pages pagination"}
+              activeClassName={"active"}
+              pageClassName={"border-box"}
+            />
+          )}
       </div>
 
       {showConfirmation && (

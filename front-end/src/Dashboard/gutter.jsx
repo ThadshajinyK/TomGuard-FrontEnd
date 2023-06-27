@@ -48,18 +48,22 @@ function Gutters({ hostName }) {
   //   fetchData();
   // }, []);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const serverResponse = await axios.get('http://localhost:9090/metrics/all');
-        setData(serverResponse.data);
-      } catch (error) {
-        console.error('Error fetching server data:', error);
-      }
-    };
+ useEffect(() => {
+  const fetchData = async () => {
+    try {
+      const serverResponse = await axios.get('http://localhost:9090/metrics/all');
+      setData(serverResponse.data);
+    } catch (error) {
+      console.error('Error fetching server data:', error);
+    }
+  };
 
-    fetchData();
-  }, []);
+  const interval = setInterval(fetchData, 1000); // Fetch data every 5 seconds
+
+  return () => {
+    clearInterval(interval); // Cleanup interval on component unmount
+  };
+}, []);
 
   
 
