@@ -3,7 +3,7 @@ import "./NavBarStyles.css";
 import { Icon } from "@iconify/react";
 import { Link } from "react-router-dom";
 
-export const Navigationbar = () => {
+export const Navigationbar = ({ alertCount }) => {
   return (
     <div>
       <ul className="sidebar-lists">
@@ -32,6 +32,9 @@ export const Navigationbar = () => {
             <Icon icon="ri:notification-4-line" />
             <span className="side"></span>
             <span>Alerts</span>
+            {alertCount > 0 && (
+              <span className="alert-badge">{alertCount}</span>
+            )}
           </Link>
         </li>
 

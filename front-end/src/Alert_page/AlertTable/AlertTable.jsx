@@ -3,7 +3,7 @@ import "./alertTable.css";
 import AlertService from "../AlertService";
 import { Icon } from "@iconify/react";
 
-const AlertTable = () => {
+const AlertTable = ({ onAlertCountChange }) => {
   const [loading, setLoading] = useState(true);
   const [alerts, setAlerts] = useState([]);
   const [showConfirmation, setShowConfirmation] = useState(false);
@@ -73,11 +73,11 @@ const AlertTable = () => {
 
   useEffect(() => {
     setAlertCount(alerts.length);
-  }, [alerts]);
-  console.log(alertCount);
+    onAlertCountChange(alerts.length);
+  }, [alerts, onAlertCountChange]);
+
   return (
     <div>
-      <div className="alertCount">Total Alerts: {alertCount}</div>
       <div className="tableContainer">
         <div className="container">
           <div className="table-responsive">
