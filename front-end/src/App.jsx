@@ -25,7 +25,6 @@ import Login from "./Pages/auth/Login";
 import Signup from "./Pages/auth/Signup";
 import ForgotPassword from "./Pages/auth/ForgotPassword";
 import ResetPassword from "./Pages/auth/ResetPassword";
-import Graphview from './Pages/Graphview'
 import './App.css';
 
 
