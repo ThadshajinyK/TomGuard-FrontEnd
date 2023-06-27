@@ -27,6 +27,8 @@ import Signup from "./Pages/auth/Signup";
 import ForgotPassword from "./Pages/auth/ForgotPassword";
 import ResetPassword from "./Pages/auth/ResetPassword";
 import Graphview from './Pages/Graphview'
+import './App.css';
+
 
 function App() {
   const [dummyLogin, setDummyLogin] = useState(false);
