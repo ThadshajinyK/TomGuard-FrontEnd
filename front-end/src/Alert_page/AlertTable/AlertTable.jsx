@@ -73,8 +73,10 @@ const AlertTable = ({ onAlertCountChange }) => {
 
   useEffect(() => {
     setAlertCount(alerts.length);
+
     onAlertCountChange(alerts.length);
   }, [alerts, onAlertCountChange]);
+
 
   return (
     <div>

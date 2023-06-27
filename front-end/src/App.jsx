@@ -4,14 +4,13 @@ import {
   ServerPage,
   AddServerForm,
   MetricsTable,
-  LogsTable,
+  LogsTable,InstancePage,AddInstanceForm
 } from "./Pages/ServerPage";
 import {
   ApplicationPage,
   ClientForm,
   ClientsDetails,
 } from "./Pages/ApplicationPage";
-import { InstancePage, AddInstanceForm } from "./Pages/InstancesPage";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { LogPerform } from "./Pages/LogPerform";
 import AlertTable from "./Alert_page/AlertTable/AlertTable";
@@ -26,7 +25,6 @@ import Login from "./Pages/auth/Login";
 import Signup from "./Pages/auth/Signup";
 import ForgotPassword from "./Pages/auth/ForgotPassword";
 import ResetPassword from "./Pages/auth/ResetPassword";
-import Graphview from "./Pages/Graphview";
 import "./App.css";
 
 function App() {
@@ -86,7 +84,6 @@ function App() {
               ></Route>
               <Route path="/addInstance" element={<AddInstanceForm />}></Route>
               <Route path="/logPerform" element={<LogPerform />}></Route>
-
               <Route
                 path="/alert"
                 element={
@@ -104,7 +101,16 @@ function App() {
               />
               <Route path="/chatLogin" element={<ChatLogin />}></Route>
               <Route path="/chatRegister" element={<ChatRegister />}></Route>
-
+              <Route
+                path="/chat"
+                element={
+                  <ProtectedRoute>
+                    <ChatHome />
+                  </ProtectedRoute>
+                }
+              />
+              <Route path="/chatLogin" element={<ChatLogin />}></Route>
+              <Route path="/chatRegister" element={<ChatRegister />}></Route>
               <Route path="/dashboard" element={<Dashboard />}></Route>
               <Route path="/settings" element={<Settings />}></Route>
               <Route path="*" element={<Navigate to="/dashboard" replace />} />

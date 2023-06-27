@@ -9,11 +9,11 @@ export const ApplicationPage = () => {
   const [appsData, setAppsData] = useState([]);
   const [clientsData, setClientsData] = useState([]);
   const [selectedClient, setSelectedClient] = useState('');
+  const [apps, setApps] = useState([]);
 
   const handleSelectClient = (event) => {
     setSelectedClient(event.target.value);
   };
-  const [apps, setApps] = useState([]);
 
   useEffect(() => {
     loadapps();
@@ -27,6 +27,8 @@ export const ApplicationPage = () => {
       console.error('Error occurred while loading apps:', error);
     }
   };
+
+
   const generateAppPDF = async () => {
     try {
       const response = await axios.get("http://localhost:9090/apps/apppdf", {
@@ -45,50 +47,35 @@ export const ApplicationPage = () => {
     }
   };
 
-  //delete function
-  const handleDeleteApps = (applicationName) => {
-    // Make a DELETE request to the delete endpoint
-    fetch(`http://localhost:9090/apps/${applicationName}`, {
-      method: 'DELETE'
-    })
-      .then(response => {
-        if (response.ok) {
-          // Delete successful, perform any necessary actions (e.g., update UI)
-          setAppsData(prevData => prevData.filter(item => item.applicationName !== applicationName));
-          console.log('Record deleted successfully');
-        } else {
-          // Delete failed, handle the error (e.g., show error message)
-          console.error('Failed to delete record');
-        }
-      })
-      .catch(error => {
-        // Handle network or other errors
-        console.error('Error occurred while deleting record:', error);
-      });
-  };
 
   //update apps details
   const updateApps = (applicationName) => {
     
   };
-
-  useEffect(() => {
-    const fetchData = async () => {
-
+//fetching Apps details from backend with the time interval
+    const fetchApps = async () => {
+     
       try {
         const appsResponse = await axios.get('http://localhost:9090/apps/all');
         setAppsData(appsResponse.data);
       } catch (error) {
         console.error('Error fetching metrics data:', error);
       }
-
+      
     };
 
-    fetchData();
-  }, []);
+    useEffect(() => {
+      fetchApps(); // Initial fetch
+  
+      // Polling every 12 seconds (adjust the interval as per your requirements)
+      const interval = setInterval(fetchApps, 2000);
+        return () => {
+        clearInterval(interval); // Cleanup interval on component unmount
+      };
+    }, []);
 
-  useEffect(() => {
-    const fetchData = async () => {
+//fetching Clients Details from backend with the time intervl
+    const fetchclients = async () => {
 
       try {
         const appsResponse = await axios.get('http://localhost:9090/clients/all');
@@ -98,9 +85,17 @@ export const ApplicationPage = () => {
       }
 
     };
+    useEffect(() => {
+      fetchclients(); // Initial fetch
+  
+      // Polling every 12 seconds (adjust the interval as per your requirements)
+      const interval = setInterval(fetchclients, 2000);
+        return () => {
+        clearInterval(interval); // Cleanup interval on component unmount
+      };
+    }, []);
 
-    fetchData();
-  }, []);
+    
 
 
   return (
@@ -530,6 +525,7 @@ export const ClientForm = () => {
     </div>
   );
 }
+
 
 export const ClientsDetails = () => {
 
