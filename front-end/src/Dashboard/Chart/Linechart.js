@@ -68,10 +68,6 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tool
 export function Linechart() {
   const [data, setData] = useState([]);
 
-  useEffect(() => {
-    fetchData();
-  }, []);
-
   const fetchData = async () => {
     try {
       const response = await axios.get('http://localhost:9090/metrics/all');
@@ -80,6 +76,19 @@ export function Linechart() {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    // Fetch metrics data initially
+    fetchData();
+
+    // Fetch metrics data every 5 seconds (adjust the interval as per your requirements)
+    const interval = setInterval(fetchData, 1000);
+
+    // Cleanup interval on component unmount
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
 
   return (
     <div>
@@ -99,3 +108,4 @@ export function Linechart() {
     </div>
   );
 }
+

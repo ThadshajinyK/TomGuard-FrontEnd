@@ -86,18 +86,15 @@
 import React, { useState, useEffect } from "react";
 import AreaChartExample from "../Areachart";
 
-
-
-
 function Graphview() {
   const [metricsData, setMetricsData] = useState([]);
 
   const fetchMetricsData = async () => {
     try {
-      const response = await fetch('http://localhost:9090/metrics/all'); // Replace with your backend API endpoint for fetching metrics data
+      const response = await fetch('http://localhost:9090/metrics/all');
       if (response.ok) {
         const data = await response.json();
-        setMetricsData(data); // Set the fetched metrics data in state
+        setMetricsData(data);
       } else {
         console.error('Failed to fetch metrics data');
       }
@@ -107,11 +104,20 @@ function Graphview() {
   };
 
   useEffect(() => {
+    // Fetch metrics data initially
     fetchMetricsData();
+
+    // Fetch metrics data every 5 seconds (adjust the interval as per your requirements)
+    const interval = setInterval(fetchMetricsData, 1000);
+
+    // Cleanup interval on component unmount
+    return () => {
+      clearInterval(interval);
+    };
   }, []);
 
   const uptimeData = metricsData.map(metric => ({
-    month: metric.timestamp, // Assuming you want to use the timestamp as the month value
+    month: metric.timestamp,
     value: metric.uptimeInMillis,
   }));
 
