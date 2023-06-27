@@ -266,7 +266,8 @@ const AlertTable = () => {
                         </span>
                       </td>
                       <td>{alert.description}</td>
-                      <td>{alert.timeOfOccurrence}</td>
+                      
+                      <td>{alert.timeOfOccurance}</td>
                       <td>
                         <Icon
                           icon="uiw:delete"
