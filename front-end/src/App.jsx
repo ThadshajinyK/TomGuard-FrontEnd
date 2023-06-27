@@ -4,7 +4,7 @@ import {
   ServerPage,
   AddServerForm,
   MetricsTable,
-  LogsTable,InstancePage,AddInstanceForm
+  LogsTable,
 } from "./Pages/ServerPage";
 import {
   ApplicationPage,
@@ -25,7 +25,8 @@ import Login from "./Pages/auth/Login";
 import Signup from "./Pages/auth/Signup";
 import ForgotPassword from "./Pages/auth/ForgotPassword";
 import ResetPassword from "./Pages/auth/ResetPassword";
-import "./App.css";
+import './App.css';
+
 
 function App() {
   const [dummyLogin, setDummyLogin] = useState(false);
@@ -78,18 +79,22 @@ function App() {
               <Route path="/addServer" element={<AddServerForm />}></Route>
               <Route path="/performance" element={<MetricsTable />}></Route>
               <Route path="/logs" element={<LogsTable />}></Route>
-              <Route
-                path="/Servers/Instance"
-                element={<InstancePage />}
-              ></Route>
-              <Route path="/addInstance" element={<AddInstanceForm />}></Route>
               <Route path="/logPerform" element={<LogPerform />}></Route>
-              <Route
-                path="/alert"
-                element={
-                  <AlertTable onAlertCountChange={handleAlertCountChange} />
-                }
-              ></Route>
+            <Route
+          path="/alert"
+          element={<AlertTable onAlertCountChange={handleAlertCountChange} />}
+        ></Route>
+        
+        <Route
+          path="/chat"
+          element={
+            <ProtectedRoute>
+              <ChatHome />
+            </ProtectedRoute>
+          }
+        />
+        <Route path="/chatLogin" element={<ChatLogin />}></Route>
+        <Route path="/chatRegister" element={<ChatRegister />}></Route>
 
               <Route
                 path="/chat"
@@ -101,16 +106,7 @@ function App() {
               />
               <Route path="/chatLogin" element={<ChatLogin />}></Route>
               <Route path="/chatRegister" element={<ChatRegister />}></Route>
-              <Route
-                path="/chat"
-                element={
-                  <ProtectedRoute>
-                    <ChatHome />
-                  </ProtectedRoute>
-                }
-              />
-              <Route path="/chatLogin" element={<ChatLogin />}></Route>
-              <Route path="/chatRegister" element={<ChatRegister />}></Route>
+
               <Route path="/dashboard" element={<Dashboard />}></Route>
               <Route path="/settings" element={<Settings />}></Route>
               <Route path="*" element={<Navigate to="/dashboard" replace />} />
