@@ -1,7 +1,7 @@
 import AuthLayout from "../../layout/AuthLayout";
 import { useNavigate } from "react-router-dom";
 import Icon from "../../images/logo.png";
-import axios from "../../axios";
+import axios from "axios";
 import { useState } from "react";
 import "../../Styles/AuthLayoutStyles.css";
 
@@ -18,7 +18,7 @@ const ForgotPassword = () => {
 
     setLoading(true);
     axios
-      .post(`/auth/forgot-password/${email}`)
+      .post(`api/auth/forgot-password/${email}`)
       .then((res) => {
         setLoading(false);
         setEmail("");

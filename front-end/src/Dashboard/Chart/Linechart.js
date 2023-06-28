@@ -62,11 +62,13 @@
 // }
 
 import React, { useEffect, useState } from 'react';
-import axios from '../../axios';
+import axios from 'axios';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tooltip, Legend } from 'recharts';
 
 export function Linechart() {
   const [data, setData] = useState([]);
+
+  const colors = JSON.parse(localStorage.getItem("colorCollections"));
 
   useEffect(() => {
     fetchData();
@@ -74,25 +76,12 @@ export function Linechart() {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get('/metrics/all');
+      const response = await axios.get('http://localhost:9090/metrics/all');
       setData(response.data);
     } catch (error) {
       console.log(error);
     }
   };
-  const colors = JSON.parse(localStorage.getItem("colorCollections"));
-  useEffect(() => {
-    // Fetch metrics data initially
-    fetchData();
-
-    // Fetch metrics data every 5 seconds (adjust the interval as per your requirements)
-    const interval = setInterval(fetchData, 1000);
-
-    // Cleanup interval on component unmount
-    return () => {
-      clearInterval(interval);
-    };
-  }, []);
 
   return (
     <div>
@@ -112,4 +101,3 @@ export function Linechart() {
     </div>
   );
 }
-

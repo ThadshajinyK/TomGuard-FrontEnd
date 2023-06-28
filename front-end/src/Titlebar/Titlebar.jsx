@@ -1,14 +1,18 @@
 import React from "react";
 import Logo from "../images/logo.png";
 import "../Styles/TitlePageStyles.css";
-import Girl from "../images/girl.png";
+import Girl from '../images/girl.png'
+import { useNavigate } from "react-router-dom";
 
 export const Titlebar2 = () => {
+
+
+
   const user = JSON.parse(localStorage.getItem("loggedInUser"));
 
   const handleLogout = () => {
     localStorage.removeItem("loggedInUser");
-
+    // localStorage.removeItem("dummyToken");
     window.location.reload();
   };
 
@@ -36,12 +40,7 @@ export const Titlebar2 = () => {
           </div>
 
           {/* <div className="avatar"> */}
-          <img
-            src={user?.data?.image || Girl}
-            alt="avatar"
-            className="avatar-img"
-            style={{ borderRadius: "50%" }}
-          />
+          <img src={user?.data?.image || Girl} alt="avatar" className="avatar-img" />
           {/* </div> */}
 
           <div className="mt-2">

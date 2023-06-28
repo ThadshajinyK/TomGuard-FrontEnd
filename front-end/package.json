@@ -1,7 +1,6 @@
 {
   "name": "server-moni-sys",
   "version": "0.1.0",
-  "proxy": "http://localhost:9090/",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.10.5",
@@ -25,7 +24,6 @@
     "react-circular-progressbar": "^2.1.0",
     "react-data-table-component": "^7.5.3",
     "react-dom": "^18.2.0",
-    "react-paginate": "^8.2.0",
     "react-quill": "^2.0.0",
     "react-router-dom": "^6.9.0",
     "react-scripts": "5.0.1",

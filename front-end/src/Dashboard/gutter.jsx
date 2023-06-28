@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import axios from '../axios';
+import axios from 'axios';
 
 function Gutters({ hostName }) {
   const [servers, setServers] = useState([]);
@@ -15,7 +15,7 @@ function Gutters({ hostName }) {
 
   const loadServerCount = async () => {
     try {
-      const response = await axios.get("/server/servercount");
+      const response = await axios.get("http://localhost:9090/server/servercount");
       setServers(response.data);
     } catch (error) {
       console.error('Error occurred while loading server count:', error);
@@ -28,7 +28,7 @@ function Gutters({ hostName }) {
 
   const loadappCount = async () => {
     try {
-      const response = await axios.get("/apps/appcount");
+      const response = await axios.get("http://localhost:9090/apps/appcount");
       setApps(response.data);
     } catch (error) {
       console.error('Error occurred while loading app count:', error);
@@ -48,11 +48,10 @@ function Gutters({ hostName }) {
   //   fetchData();
   // }, []);
 
-
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const serverResponse = await axios.get('/metrics/all');
+        const serverResponse = await axios.get('http://localhost:9090/metrics/all');
         setData(serverResponse.data);
       } catch (error) {
         console.error('Error fetching server data:', error);
@@ -61,7 +60,6 @@ function Gutters({ hostName }) {
 
     fetchData();
   }, []);
-
 
   
 

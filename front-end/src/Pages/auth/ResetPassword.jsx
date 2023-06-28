@@ -1,7 +1,7 @@
 import AuthLayout from "../../layout/AuthLayout";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import Icon from "../../images/logo.png";
-import axios from "../../axios";
+import axios from "axios";
 import { useState } from "react";
 import "../../Styles/AuthLayoutStyles.css";
 
@@ -29,7 +29,7 @@ const ResetPassword = () => {
     }
     setLoading(true);
     axios
-      .post("/auth/reset-password", { token, new_password: newPassword })
+      .post("/api/auth/reset-password", { token, new_password: newPassword })
       .then((res) => {
         setNewPassword("");
         setRetypePassword("");
