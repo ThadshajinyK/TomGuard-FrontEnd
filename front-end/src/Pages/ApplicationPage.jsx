@@ -24,7 +24,7 @@ export const ApplicationPage = () => {
 
   const loadapps = async () => {
     try {
-      const response = await axios.get("http://localhost:9090/apps");
+      const response = await axios.get("http://localhost:9090/api/apps");
       setApps(response.data);
     } catch (error) {
       console.error('Error occurred while loading apps:', error);
@@ -59,7 +59,7 @@ export const ApplicationPage = () => {
     const fetchApps = async () => {
      
       try {
-        const appsResponse = await axios.get('http://localhost:9090/apps/all');
+        const appsResponse = await axios.get('http://localhost:9090/api/apps/all');
         setAppsData(appsResponse.data);
       } catch (error) {
         console.error('Error fetching metrics data:', error);
@@ -81,7 +81,7 @@ export const ApplicationPage = () => {
     const fetchclients = async () => {
 
       try {
-        const appsResponse = await axios.get('http://localhost:9090/clients/all');
+        const appsResponse = await axios.get('http://localhost:9090/api/clients/all');
         setClientsData(appsResponse.data);
       } catch (error) {
         console.error('Error fetching metrics data:', error);
