@@ -2,10 +2,11 @@ import AuthLayout from "../../layout/AuthLayout";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import Icon from "../../images/logo.png";
-import axios from "axios";
+// import axios from "axios";
+import axios from "../../axios";
 import "../../Styles/AuthLayoutStyles.css";
 
-const Login = ({ handleDummyLogin }) => {
+const Login = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -16,7 +17,7 @@ const Login = ({ handleDummyLogin }) => {
     event.preventDefault();
     setLoading(true);
     axios
-      .post("/api/auth/login", { email, password })
+      .post("/auth/login", { email, password })
       .then((response) => {
         localStorage.setItem("loggedInUser", JSON.stringify(response.data));
         setLoading(false);
@@ -27,11 +28,6 @@ const Login = ({ handleDummyLogin }) => {
         setLoading(false);
       });
   };
-
-  const handleSetDummyToken = () =>
-    localStorage.setItem("dummyToken", "dummyToken");
-
-  // navigate("/dashboard");
 
   return (
     <AuthLayout>
@@ -85,7 +81,7 @@ const Login = ({ handleDummyLogin }) => {
 
         {/* Login button */}
 
-        <button className="btn btn-secondary w-100" onClick={handleDummyLogin}>
+        <button className="btn btn-secondary w-100">
           {loading ? "loading..." : "Login"}
         </button>
         <div className="mt-3">

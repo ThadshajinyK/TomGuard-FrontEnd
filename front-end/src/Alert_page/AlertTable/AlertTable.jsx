@@ -266,6 +266,10 @@ const AlertTable = () => {
                         </span>
                       </td>
                       <td>{alert.description}</td>
+<<<<<<< HEAD
+=======
+                      
+>>>>>>> main
                       <td>{alert.timeOfOccurance}</td>
                       <td>
                         <Icon

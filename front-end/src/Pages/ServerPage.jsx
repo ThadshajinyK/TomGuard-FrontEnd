@@ -3,7 +3,7 @@ import "../Styles/ServerStyles.css";
 import { Link } from 'react-router-dom';
 import speed from "../images/speed.png";
 import logs from "../images/logs.png";
-import axios from 'axios';
+import axios from '../axios';
 import { Icon } from '@iconify/react';
 import ReactPaginate from "react-paginate";
 import "../Styles/pagination.css"
@@ -17,13 +17,13 @@ export const MetricsTable = () => {
 
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [alertToDelete, setAlertToDelete] = useState(null);
-  const [alertCount, setAlertCount] = useState(0);
+ 
 
 
 
   const deleteAllRecords = () => {
     // Make an API request to your backend to delete all records
-    axios.delete(`http://localhost:9090/metrics/dltAll`).then(() => {
+    axios.delete(`/metrics/dltAll`).then(() => {
       // Update the state to reflect the deletion
       setMetricsData([]);
       console.log('all Records deleted successfully');
@@ -35,7 +35,7 @@ export const MetricsTable = () => {
 
   const handleDeleteMetrics = (id) => {
     // Make a DELETE request to the delete endpoint
-    fetch(`http://localhost:9090/metrics/${id}`, {
+    fetch(`/metrics/${id}`, {
       method: 'DELETE'
     })
       .then(response => {
@@ -86,7 +86,7 @@ export const MetricsTable = () => {
   const fetchMetrics = async () => {
 
     try {
-      const metricsResponse = await axios.get('http://localhost:9090/metrics/all');
+      const metricsResponse = await axios.get('/metrics/all');
       setMetricsData(metricsResponse.data);
     } catch (error) {
       console.error('Error fetching metrics data:', error);
@@ -252,7 +252,7 @@ export const LogsTable = () => {
 
   const deleteAllRecords = () => {
     // Make an API request to your backend to delete all records
-    axios.delete(`http://localhost:9090/logs/dltAll`).then(() => {
+    axios.delete(`/logs/dltAll`).then(() => {
       // Update the state to reflect the deletion
       setLogsData([]);
       console.log('all Records deleted successfully');
@@ -264,7 +264,7 @@ export const LogsTable = () => {
 
   const handleDeleteLogs = (timestamp) => {
     // Make a DELETE request to the delete endpoint
-    fetch(`http://localhost:9090/logs/${timestamp}`, {
+    fetch(`/logs/${timestamp}`, {
       method: 'DELETE'
     })
       .then(response => {
@@ -317,7 +317,7 @@ export const LogsTable = () => {
   const fetchLogs = async () => {
 
     try {
-      const logsResponse = await axios.get('http://localhost:9090/logs/all');
+      const logsResponse = await axios.get('/logs/all');
       setLogsData(logsResponse.data);
     } catch (error) {
       console.error('Error fetching logs data:', error);
@@ -484,7 +484,7 @@ export const ServerPage = () => {
 
   const loadservers = async () => {
     try {
-      const response = await axios.get("http://localhost:9090/server");
+      const response = await axios.get("/server");
       setServers(response.data);
     } catch (error) {
       console.error('Error occurred while loading servers:', error);
@@ -492,7 +492,7 @@ export const ServerPage = () => {
   };
   const generateServerPDF = async () => {
     try {
-      const response = await axios.get("http://localhost:9090/server/serverpdf", {
+      const response = await axios.get("/serverpdf", {
         responseType: 'blob', // Set the response type to 'blob'
       });
 
@@ -509,7 +509,7 @@ export const ServerPage = () => {
   };
 
   const handleDelete = (hostName) => {
-    fetch(`http://localhost:9090/server/${hostName}`, {
+    fetch(`/server/${hostName}`, {
       method: 'DELETE'
     })
       .then(response => {
@@ -540,7 +540,7 @@ export const ServerPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const serverResponse = await axios.get('http://localhost:9090/server/all');
+        const serverResponse = await axios.get('/server/all');
         setData(serverResponse.data);
       } catch (error) {
         console.error('Error fetching server data:', error);
