@@ -34,7 +34,7 @@ export const ApplicationPage = () => {
 
   const generateAppPDF = async () => {
     try {
-      const response = await axios.get("http://localhost:9090/apps/apppdf", {
+      const response = await axios.get("http://localhost:9090/api/apps/apppdf", {
         responseType: 'blob', // Set the response type to 'blob'
       });
 

@@ -492,7 +492,7 @@ export const ServerPage = () => {
   };
   const generateServerPDF = async () => {
     try {
-      const response = await axios.get("/serverpdf", {
+      const response = await axios.get("/server/serverpdf", {
         responseType: 'blob', // Set the response type to 'blob'
       });
 
