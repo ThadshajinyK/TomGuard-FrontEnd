@@ -25,12 +25,10 @@ import Login from "./Pages/auth/Login";
 import Signup from "./Pages/auth/Signup";
 import ForgotPassword from "./Pages/auth/ForgotPassword";
 import ResetPassword from "./Pages/auth/ResetPassword";
-import './App.css';
-
+import "./App.css";
 
 function App() {
-  const [dummyLogin, setDummyLogin] = useState(false);
-  //This code for chat an alert
+  //This code for chat
   const { currentUser } = useContext(AuthContext);
   const ProtectedRoute = ({ children }) => {
     if (!currentUser) {
@@ -46,16 +44,15 @@ function App() {
   };
   //end
 
+  const user = JSON.parse(localStorage.getItem("loggedInUser"));
+
   return (
     <Fragment>
-      {!dummyLogin ? (
+      {!user?.token ? (
         <BrowserRouter>
           <Routes>
             <Route path="*" element={<Navigate to="/login" replace />} />
-            <Route
-              path="/login"
-              element={<Login handleDummyLogin={() => setDummyLogin(true)} />}
-            />
+            <Route path="/login" element={<Login />} />
             <Route path="/sign-up" element={<Signup />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/reset-password" element={<ResetPassword />} />
@@ -66,7 +63,7 @@ function App() {
           <BrowserRouter>
             <Titlebar2 />
             <section className="sidebar">
-              <Navigationbar alertCount={alertCount} />
+              <Navigationbar />
             </section>
             <Routes>
               <Route path="/servers" element={<ServerPage />}></Route>
@@ -80,21 +77,8 @@ function App() {
               <Route path="/performance" element={<MetricsTable />}></Route>
               <Route path="/logs" element={<LogsTable />}></Route>
               <Route path="/logPerform" element={<LogPerform />}></Route>
-            <Route
-          path="/alert"
-          element={<AlertTable onAlertCountChange={handleAlertCountChange} />}
-        ></Route>
-        
-        <Route
-          path="/chat"
-          element={
-            <ProtectedRoute>
-              <ChatHome />
-            </ProtectedRoute>
-          }
-        />
-        <Route path="/chatLogin" element={<ChatLogin />}></Route>
-        <Route path="/chatRegister" element={<ChatRegister />}></Route>
+
+              <Route path="/alert" element={<AlertTable />}></Route>
 
               <Route
                 path="/chat"
