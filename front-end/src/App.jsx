@@ -23,6 +23,7 @@ import Login from "./Pages/auth/Login";
 import Signup from "./Pages/auth/Signup";
 import ForgotPassword from "./Pages/auth/ForgotPassword";
 import ResetPassword from "./Pages/auth/ResetPassword";
+import "./App.css";
 
 function App() {
   //This code for chat
@@ -35,11 +36,15 @@ function App() {
   };
   //end
 
+  const user = JSON.parse(localStorage.getItem("loggedInUser"));
+
   return (
     <Fragment>
+      {!user?.token ? (
         <BrowserRouter>
           <Routes>
             <Route path="*" element={<Navigate to="/login" replace />} />
+            <Route path="/login" element={<Login />} />
             <Route path="/sign-up" element={<Signup />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/reset-password" element={<ResetPassword />} />
@@ -47,10 +52,43 @@ function App() {
         </BrowserRouter>
       ) : (
         <div className="AppMain">
+          <BrowserRouter>
+            <Titlebar2 />
+            <section className="sidebar">
+              <Navigationbar />
+            </section>
+            <Routes>
+              <Route path="/servers" element={<ServerPage />}></Route>
+              <Route path="/apps" element={<ApplicationPage />}></Route>
+              <Route path="/addClient" element={<ClientForm />}></Route>
+              <Route
+                path="/ClientsDetails"
+                element={<ClientsDetails />}
+              ></Route>
+              <Route path="/addServer" element={<AddServerForm />}></Route>
+              <Route path="/performance" element={<MetricsTable />}></Route>
+              <Route path="/logs" element={<LogsTable />}></Route>
+              <Route path="/logPerform" element={<LogPerform />}></Route>
 
               <Route path="/alert" element={<AlertTable />}></Route>
 
+              <Route
+                path="/chat"
+                element={
+                  <ProtectedRoute>
+                    <ChatHome />
+                  </ProtectedRoute>
+                }
+              />
+              <Route path="/chatLogin" element={<ChatLogin />}></Route>
+              <Route path="/chatRegister" element={<ChatRegister />}></Route>
 
+              <Route path="/dashboard" element={<Dashboard />}></Route>
+              <Route path="/settings" element={<Settings />}></Route>
+              <Route path="*" element={<Navigate to="/dashboard" replace />} />
+            </Routes>
+          </BrowserRouter>
+        </div>
       )}
     </Fragment>
   );
