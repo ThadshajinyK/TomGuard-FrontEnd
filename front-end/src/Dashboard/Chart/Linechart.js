@@ -62,6 +62,7 @@
 // }
 
 import React, { useEffect, useState } from 'react';
+import axios from '../../axios';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tooltip, Legend } from 'recharts';
 
 export function Linechart() {
@@ -73,6 +74,7 @@ export function Linechart() {
 
   const fetchData = async () => {
     try {
+      const response = await axios.get('/metrics/all');
       setData(response.data);
     } catch (error) {
       console.log(error);
