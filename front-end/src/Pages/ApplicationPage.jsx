@@ -269,14 +269,53 @@ export const ClientForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
+    //company name must not be empty
+    if(companyName.length==0){
+      alert('Invlaid Form, Company name can notbe empty')
+      return;
+    }
 
-
+    if(contactPerson.length==0){
+      alert('Invalid form, Email address can not be empty')
+      return;
+    }
     //email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(emailAddress)) {
-      setPopupMessage("Please provide a valid email address");
+      alert("Please provide a valid email address");
       return;
     }
+
+    if(phoneNumber.length==0 || phoneNumber.includes(String)){
+      alert("Please provide a valid phone number and cannot be empty");
+    }
+
+    if(businessType.length==0){
+      alert("Business type cannot be empty");
+      return;
+    }
+
+    if(projectType.valueOf("choose")){
+      alert("Please select a suitable project type");
+      return
+    }
+
+    if(projectScope.length==0){
+      alert("project scope cannot be empty");
+      return
+    }
+
+    if(targetAudience.length==0){
+      alert("target Audience cannot be empty");
+      return
+    }
+
+    if(expectedFeatures.length==0){
+      alert("Features cannot be empty")
+      return
+    }
+
+
     //If all validations pass, proceed with form submission
     const clients = { companyName, contactPerson, phoneNumber, emailAddress, businessType, projectType, projectName, projectScope, targetAudience, expectedFeatures }
     console.log(clients)
@@ -316,7 +355,7 @@ export const ClientForm = () => {
     <div className="ClientFormContent">
       <h1>Client Details Form</h1>
 
-      <form className="mt-3 " onSubmit={handleSubmit}>
+      <form className="mt-3 " /*onSubmit={handleSubmit}*/ >
         {/* Company Name */}
         <div className="form-group row mt-3">
           <label htmlFor="companyName"
@@ -429,7 +468,7 @@ export const ClientForm = () => {
               defaultValue="None"
               onChange={(e) => setProjectType(e.target.value)}
               required>
-                <option value="" selected>choose..</option>
+                <option value="choose" selected>choose..</option>
               <option value="Retail POS">Retail POS</option>
               <option value="Food POS">Food POS</option>
               <option value="E-Commerce">E-Commerce</option>
@@ -518,7 +557,7 @@ export const ClientForm = () => {
           <button type="submit" className="btn btn-outline-success m-3" onClick={handleSubmit}>
             Submit
           </button>
-          <button type="submit" className="btn btn-outline-danger m-3">
+          <button type="submit" className="btn btn-outline-danger m-3" onClick="">
             Cancel
           </button>
         </div>
