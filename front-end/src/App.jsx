@@ -13,6 +13,8 @@ import {
 } from "./Pages/ApplicationPage";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { LogPerform } from "./Pages/LogPerform";
+import AlertTable from "./Alert_page/AlertTable/AlertTable";
+import Dashboard from "./Dashboard/Dashboard";
 import Settings from "./Pages/Settings";
 import { Fragment, useContext, useState } from "react";
 import ChatLogin from "./Alert_page/Chat/chat_pages/ChatLogin";
