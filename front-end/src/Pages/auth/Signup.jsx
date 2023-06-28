@@ -2,7 +2,7 @@ import AuthLayout from "../../layout/AuthLayout";
 import { useNavigate } from "react-router-dom";
 import Icon from "../../images/logo.png";
 import { useState } from "react";
-import axios from "axios";
+import axios from "../../axios";
 import "../../Styles/AuthLayoutStyles.css";
 
 const Signup = () => {
@@ -19,7 +19,7 @@ const Signup = () => {
     e.preventDefault();
     setLoading(true);
     axios
-      .post("api/auth/register", {
+      .post("/auth/register", {
         first_name: firstName,
         last_name: lastName,
         email,

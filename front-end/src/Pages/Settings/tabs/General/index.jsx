@@ -4,7 +4,7 @@ import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
 import Image from "react-bootstrap/Image";
 import Button from "react-bootstrap/Button";
-import axios from "axios";
+import axios from "../../../../axios";
 import Avatar from "../../../../images/girl.png";
 
 const General = () => {
@@ -26,8 +26,11 @@ const General = () => {
     location: "",
   });
 
+  let token;
+
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("loggedInUser"));
+    token = user?.token;
     setCurrentUser(user);
     setSelectedImage(user?.data?.image);
     setFieldValues({
@@ -74,7 +77,7 @@ const General = () => {
     event.preventDefault();
     setLoading(true);
     axios
-      .put(`api/auth/update/${fieldValues.id}`, {
+      .put(`/user/${fieldValues.id}`, {
         first_name: fieldValues.first_name,
         last_name: fieldValues.last_name,
         phone: fieldValues.phone,
@@ -90,7 +93,6 @@ const General = () => {
           JSON.stringify({ ...currentUser, data: res?.data })
         );
         setLoading(false);
-      
       })
       .catch((err) => {
         setLoading(false);
