@@ -1,6 +1,6 @@
-import axios from "axios";
+import axios from "../axios";
 
-const ALERT_API_BASE_URL = "http://localhost:9090/api/v1/alerts";
+const ALERT_API_BASE_URL = "/v1/alerts";
 
 class AlertService {
   getAlerts() {

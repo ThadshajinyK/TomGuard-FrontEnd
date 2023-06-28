@@ -13,8 +13,8 @@ import {
 } from "./Pages/ApplicationPage";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { LogPerform } from "./Pages/LogPerform";
-import AlertTable from './Alert_page/AlertTable/AlertTable';
-import Dashboard from './Dashboard/Dashboard';
+import AlertTable from "./Alert_page/AlertTable/AlertTable";
+import Dashboard from "./Dashboard/Dashboard";
 import Settings from "./Pages/Settings";
 import { Fragment, useContext, useState } from "react";
 import ChatLogin from "./Alert_page/Chat/chat_pages/ChatLogin";
@@ -25,11 +25,9 @@ import Login from "./Pages/auth/Login";
 import Signup from "./Pages/auth/Signup";
 import ForgotPassword from "./Pages/auth/ForgotPassword";
 import ResetPassword from "./Pages/auth/ResetPassword";
-import './App.css';
-
+import "./App.css";
 
 function App() {
-  const [dummyLogin, setDummyLogin] = useState(false);
   //This code for chat
   const { currentUser } = useContext(AuthContext);
   const ProtectedRoute = ({ children }) => {
@@ -40,68 +38,59 @@ function App() {
   };
   //end
 
+  const user = JSON.parse(localStorage.getItem("loggedInUser"));
+
   return (
     <Fragment>
-      {!dummyLogin ? (
-        
+      {!user?.token ? (
         <BrowserRouter>
-
           <Routes>
             <Route path="*" element={<Navigate to="/login" replace />} />
-            <Route
-              path="/login"
-              element={<Login handleDummyLogin={() => setDummyLogin(true)} />}
-            />
+            <Route path="/login" element={<Login />} />
             <Route path="/sign-up" element={<Signup />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/reset-password" element={<ResetPassword />} />
           </Routes>
         </BrowserRouter>
       ) : (
-
         <div className="AppMain">
+          <BrowserRouter>
+            <Titlebar2 />
+            <section className="sidebar">
+              <Navigationbar />
+            </section>
+            <Routes>
+              <Route path="/servers" element={<ServerPage />}></Route>
+              <Route path="/apps" element={<ApplicationPage />}></Route>
+              <Route path="/addClient" element={<ClientForm />}></Route>
+              <Route
+                path="/ClientsDetails"
+                element={<ClientsDetails />}
+              ></Route>
+              <Route path="/addServer" element={<AddServerForm />}></Route>
+              <Route path="/performance" element={<MetricsTable />}></Route>
+              <Route path="/logs" element={<LogsTable />}></Route>
+              <Route path="/logPerform" element={<LogPerform />}></Route>
 
-<BrowserRouter>
-          <Titlebar2 />
-          <section className="sidebar">
-            <Navigationbar />
-          </section>
-          <Routes>
-            <Route path="/servers" element={<ServerPage />}></Route>
-            <Route path="/apps" element={<ApplicationPage />}></Route>
-            <Route path="/addClient" element={<ClientForm/>}></Route>
-            <Route path="/ClientsDetails" element={<ClientsDetails/>}></Route>
-            <Route path="/addServer" element={<AddServerForm />}></Route>
-            <Route path="/performance" element={<MetricsTable/>}></Route>
-            <Route path="/logs" element={<LogsTable/>}></Route>
-            <Route path="/logPerform" element={<LogPerform />}></Route>
-            
-            <Route
-          path="/alert"
-          element={<AlertTable />}
-        ></Route>
-        
-        <Route
-          path="/chat"
-          element={
-            <ProtectedRoute>
-              <ChatHome />
-            </ProtectedRoute>
-          }
-        />
-        <Route path="/chatLogin" element={<ChatLogin />}></Route>
-        <Route path="/chatRegister" element={<ChatRegister />}></Route>
+              <Route path="/alert" element={<AlertTable />}></Route>
 
-        
-        <Route path="/dashboard" element={<Dashboard />}></Route>
-        <Route path="/settings" element={<Settings />}></Route>
-        <Route path="*" element={<Navigate to="/dashboard" replace />} />
-        
+              <Route
+                path="/chat"
+                element={
+                  <ProtectedRoute>
+                    <ChatHome />
+                  </ProtectedRoute>
+                }
+              />
+              <Route path="/chatLogin" element={<ChatLogin />}></Route>
+              <Route path="/chatRegister" element={<ChatRegister />}></Route>
 
-      </Routes>
-        </BrowserRouter>
-
-       </div>
+              <Route path="/dashboard" element={<Dashboard />}></Route>
+              <Route path="/settings" element={<Settings />}></Route>
+              <Route path="*" element={<Navigate to="/dashboard" replace />} />
+            </Routes>
+          </BrowserRouter>
+        </div>
       )}
     </Fragment>
   );

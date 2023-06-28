@@ -266,6 +266,7 @@ const AlertTable = () => {
                         </span>
                       </td>
                       <td>{alert.description}</td>
+                      
                       <td>{alert.timeOfOccurance}</td>
                       <td>
                         <Icon
