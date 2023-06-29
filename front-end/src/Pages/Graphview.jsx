@@ -96,7 +96,7 @@ function Graphview() {
 
   const fetchMetricsData = async () => {
     try {
-      const response = await fetch('http://localhost:9090/metrics/all'); // Replace with your backend API endpoint for fetching metrics data
+      const response = await fetch('http://localhost:9090/api/metrics/all');
       if (response.ok) {
         const data = await response.json();
         setMetricsData(data); // Set the fetched metrics data in state
