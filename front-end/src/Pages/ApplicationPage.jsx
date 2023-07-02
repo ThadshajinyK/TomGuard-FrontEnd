@@ -24,7 +24,7 @@ export const ApplicationPage = () => {
 
   const loadapps = async () => {
     try {
-      const response = await axios.get("http://localhost:9090/apps");
+      const response = await axios.get("http://localhost:9090/api/apps");
       setApps(response.data);
     } catch (error) {
       console.error('Error occurred while loading apps:', error);
@@ -59,7 +59,7 @@ export const ApplicationPage = () => {
     const fetchApps = async () => {
      
       try {
-        const appsResponse = await axios.get('http://localhost:9090/apps/all');
+        const appsResponse = await axios.get('http://localhost:9090/api/apps/all');
         setAppsData(appsResponse.data);
       } catch (error) {
         console.error('Error fetching metrics data:', error);
@@ -81,7 +81,7 @@ export const ApplicationPage = () => {
     const fetchclients = async () => {
 
       try {
-        const appsResponse = await axios.get('http://localhost:9090/clients/all');
+        const appsResponse = await axios.get('http://localhost:9090/api/clients/all');
         setClientsData(appsResponse.data);
       } catch (error) {
         console.error('Error fetching metrics data:', error);
@@ -543,7 +543,7 @@ export const ClientsDetails = () => {
 
   const loadclients = async () => {
     try {
-      const response = await axios.get("http://localhost:9090/clients");
+      const response = await axios.get("http://localhost:9090/api/clients");
       setClients(response.data);
     } catch (error) {
       console.error('Error occurred while loading clients:', error);
@@ -551,7 +551,7 @@ export const ClientsDetails = () => {
   };
   const generateClientPDF = async () => {
     try {
-      const response = await axios.get("http://localhost:9090/clients/clientpdf", {
+      const response = await axios.get("http://localhost:9090/api/clients/clientpdf", {
         responseType: 'blob', // Set the response type to 'blob'
       });
 
@@ -577,7 +577,7 @@ export const ClientsDetails = () => {
 
   const handleDeleteMetrics = (id) => {
     // Make a DELETE request to the delete endpoint
-    fetch(`http://localhost:9090/clients/${id}`, {
+    fetch(`http://localhost:9090/api/clients/${id}`, {
       method: 'DELETE'
     })
       .then(response => {
@@ -602,7 +602,7 @@ export const ClientsDetails = () => {
     const fetchData = async () => {
 
       try {
-        const metricsResponse = await axios.get('http://localhost:9090/clients/all');
+        const metricsResponse = await axios.get('http://localhost:9090/api/clients/all');
         setClientsData(metricsResponse.data);
       } catch (error) {
         console.error('Error fetching metrics data:', error);
