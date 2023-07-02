@@ -28,7 +28,7 @@ import ResetPassword from "./Pages/auth/ResetPassword";
 import "./App.css";
 
 function App() {
-  //This code for chat
+  //This code for chat and Alert table
   const { currentUser } = useContext(AuthContext);
   const ProtectedRoute = ({ children }) => {
     if (!currentUser) {
@@ -36,6 +36,12 @@ function App() {
     }
     return children;
   };
+  const [alertCount, setAlertCount] = useState(0);
+
+  const handleAlertCountChange = (count) => {
+    setAlertCount(count); // Update the alert count value
+  };
+
   //end
 
   const user = JSON.parse(localStorage.getItem("loggedInUser"));
@@ -57,7 +63,7 @@ function App() {
           <BrowserRouter>
             <Titlebar2 />
             <section className="sidebar">
-              <Navigationbar />
+              <Navigationbar alertCount={alertCount}/>
             </section>
             <Routes>
               <Route path="/servers" element={<ServerPage />}></Route>
@@ -72,7 +78,7 @@ function App() {
               <Route path="/logs" element={<LogsTable />}></Route>
               <Route path="/logPerform" element={<LogPerform />}></Route>
 
-              <Route path="/alert" element={<AlertTable />}></Route>
+              <Route path="/alert" element={<AlertTable onAlertCountChange={handleAlertCountChange} />}></Route>
 
               <Route
                 path="/chat"
