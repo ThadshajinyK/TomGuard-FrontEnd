@@ -4,44 +4,54 @@ import Icon from "../../images/logo.png";
 import axios from "../../axios";
 import { useState } from "react";
 import "../../Styles/AuthLayoutStyles.css";
+import { useFormik } from "formik";
+import { object, string, ref } from "yup";
+import TextField from "../../layout/core/TextField";
+
+const validationSchema = object().shape({
+  new_password: string()
+    .required("required !")
+    .min(6, "Password must have at least 6 character"),
+  re_password: string()
+    .required("required !")
+    .oneOf([ref("new_password"), null], "Password should match !"),
+});
 
 const ResetPassword = () => {
-  const [newPassword, setNewPassword] = useState("");
-  const [retypePassword, setRetypePassword] = useState("");
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [isMatch, setIsMatch] = useState(true);
-
   const navigate = useNavigate();
-
   const [searchParam] = useSearchParams();
-
   const token = searchParam.get("token");
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    if (newPassword !== retypePassword) {
-      setIsMatch(false);
-
-      return;
-    }
-    setLoading(true);
+  const handleFormSubmit = (values) => {
     axios
-      .post("/auth/reset-password", { token, new_password: newPassword })
+      .post("/auth/reset-password", { ...values, token })
       .then((res) => {
-        setNewPassword("");
-        setRetypePassword("");
-        setLoading(false);
         setSuccess(res?.data);
         setTimeout(() => navigate("/login"), 2000);
       })
       .catch((err) => {
-        setLoading(false);
         setError(err?.response?.data);
       });
   };
+  const {
+    values,
+    errors,
+    touched,
+    handleBlur,
+    handleChange,
+    handleSubmit,
+    isSubmitting,
+  } = useFormik({
+    initialValues: {
+      new_password: "",
+      re_password: "",
+    },
+    validationSchema,
+    onSubmit: handleFormSubmit,
+  });
 
   return (
     <AuthLayout>
@@ -55,35 +65,36 @@ const ResetPassword = () => {
             To Create your new password, Please fill in the fields below
           </p>
         </div>
-        <div class="mb-3">
+        <div>
           <label className="label">New password</label>
-          <input
-            value={newPassword}
+          <TextField
+            value={values.new_password}
+            name="new_password"
             type="password"
             class="form-control"
             placeholder="Enter your new password"
-            onChange={(e) => setNewPassword(e.target.value)}
-            required
+            onChange={handleChange}
+            onBlur={handleBlur}
+            error={touched.new_password && errors.new_password}
           />
         </div>
-        <div class="mb-3">
+        <div>
           <label className="label">Retype Password</label>
-          <input
-            value={retypePassword}
+          <TextField
+            value={values.re_password}
+            name="re_password"
             type="password"
             class="form-control"
             placeholder="Retype Password"
-            onChange={(e) => {
-              setRetypePassword(e.target.value);
-            }}
-            required
+            onChange={handleChange}
+            onBlur={handleBlur}
+            error={touched.re_password && errors.re_password}
           />
-          {!isMatch && <p className="text-danger ">Password not match !</p>}
         </div>
         <p className="text-danger text-center">{error}</p>
         <p className="text-success text-center">{success}</p>
         <button class="btn btn-secondary w-100 mt-4" type="submit">
-          {loading ? "Resetting..." : "Reset password"}
+          {isSubmitting ? "Resetting..." : "Reset password"}
         </button>
         <button
           class="btn btn-outline-secondary w-100 mt-3"

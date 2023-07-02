@@ -3,7 +3,10 @@ import axios from 'axios';
 import id from "../images/ID Card.png";
 import { Icon } from '@iconify/react';
 import "../Styles/AppPageStyles.css";
+import "../Styles/pagination.css"
 import { Link } from 'react-router-dom';
+import ReactPaginate from "react-paginate";
+import "../Styles/pagination.css"
 
 export const ApplicationPage = () => {
   const [appsData, setAppsData] = useState([]);
@@ -531,6 +534,8 @@ export const ClientsDetails = () => {
 
   const [clientsData, setClientsData] = useState([]);
   const [clients, setClients] = useState([]);
+  const [currentPage, setCurrentPage] = useState(0);
+  const itemsPerPage = 2;
 
   useEffect(() => {
     loadclients();
@@ -561,7 +566,14 @@ export const ClientsDetails = () => {
       console.error('Error occurred while generating or downloading the PDF:', error);
     }
   };
+
+  const handlePageClick = (data) => {
+    setCurrentPage(data.selected);
+  };
   
+  const offset = currentPage * itemsPerPage;
+  const currentClient = clientsData.slice(offset, offset + itemsPerPage);
+  const pageCount = Math.ceil(clientsData.length / itemsPerPage);
 
   const handleDeleteMetrics = (id) => {
     // Make a DELETE request to the delete endpoint
@@ -645,7 +657,7 @@ export const ClientsDetails = () => {
           </thead>
           {/*2nd row*/}
           <tbody>
-            {clientsData.map(client => (
+            {currentClient.map(client => (
               <tr key={client.id}>
                 <td className="text-center">{client.timestamp}</td>
                 <td className="text-center">{client.companyName}</td>
@@ -690,9 +702,26 @@ export const ClientsDetails = () => {
                         >
                           Download pdf
                         </button>
+
+            {clientsData.length > itemsPerPage && (
+            <ReactPaginate
+              previousLabel={"Previous"}
+              nextLabel={"Next"}
+              breakLabel={"..."}
+              breakClassName={"break-me"}
+              pageCount={pageCount}
+              marginPagesDisplayed={2}
+              pageRangeDisplayed={5}
+              onPageChange={handlePageClick}
+              containerClassName={"pagination"}
+              subContainerClassName={"pages pagination"}
+              activeClassName={"active"}
+              pageClassName={"border-box"}
+            />
+          )}
       </div>
 
-
+      
     </div>
 
 

@@ -4,38 +4,43 @@ import Icon from "../../images/logo.png";
 import axios from "../../axios";
 import { useState } from "react";
 import "../../Styles/AuthLayoutStyles.css";
+import { useFormik } from "formik";
+import { object, string } from "yup";
+import TextField from "../../layout/core/TextField";
+
+const validationSchema = object().shape({
+  email: string().required("required !").email("Invalid email !"),
+});
 
 const ForgotPassword = () => {
-  const [email, setEmail] = useState("");
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
   const navigate = useNavigate();
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    setLoading(true);
+  const handleFormSubmit = (values) => {
     axios
-      .post(`/auth/forgot-password/${email}`)
+      .post("/auth/forgot-password", values)
       .then((res) => {
-        setLoading(false);
-        setEmail("");
-        setError("");
         setSuccess(res?.data);
         console.log("res =>", res);
       })
       .catch((err) => {
-        setLoading(false);
         setError(err?.response?.data);
         setTimeout(() => setError(""), 5000);
       });
   };
 
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+    },
+    validationSchema,
+    onSubmit: handleFormSubmit,
+  });
+
   return (
     <AuthLayout>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={formik.handleSubmit}>
         <div className="d-flex flex-column align-items-center mb-3">
           <img className="logo" src={Icon} />
           <p className="text-white text-center fs-4 text fw-bold">
@@ -45,21 +50,22 @@ const ForgotPassword = () => {
             Enter your registered email below to receive password reset code
           </p>
         </div>
-        <div class="mb-3">
+        <div>
           <label className="label">Email</label>
-          <input
-            value={email}
-            type="email"
+          <TextField
+            value={formik.values.email}
+            name="email"
             class="form-control"
             placeholder="Enter your email"
-            onChange={(e) => setEmail(e.target.value)}
-            required
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.touched.email && formik.errors.email}
           />
         </div>
         <p className="text-danger text-center">{error}</p>
         <p className="text-success text-center">{success}</p>
         <button class="btn btn-secondary w-100 mt-4" type="submit">
-          {loading ? "Link sending..." : "Send Link"}
+          {formik.isSubmitting ? "Link sending..." : "Send Link"}
         </button>
         <button
           class="btn btn-outline-secondary w-100 mt-3"

@@ -6,42 +6,41 @@ import Image from "react-bootstrap/Image";
 import Button from "react-bootstrap/Button";
 import axios from "../../../../axios";
 import Avatar from "../../../../images/girl.png";
+import TextField from "../../../../layout/core/TextField";
+import { useFormik } from "formik";
+import { object, string } from "yup";
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
+
+const validationSchema = object().shape({
+  first_name: string().required("required !"),
+  last_name: string().required("required !"),
+  phone: string()
+    .min(11, "Invalid phone number")
+    .max(11, "Invalid phone number"),
+});
 
 const General = () => {
   const [isEdit, setIsEdit] = useState(false);
   const [imageSrc, setImageSrc] = useState(ProfileImg);
   const [selectedImage, setSelectedImage] = useState(null);
-
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [currentUser, setCurrentUser] = useState(null);
-
-  const [fieldValues, setFieldValues] = useState({
-    id: 1,
+  const [initialValues, setInitialValues] = useState({
     first_name: "",
     last_name: "",
     email: "",
-    job_title: "",
     phone: "",
+    job_title: "",
     location: "",
+    image: "",
   });
-
-  let token;
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("loggedInUser"));
-    token = user?.token;
     setCurrentUser(user);
+    setInitialValues({ ...user?.data });
     setSelectedImage(user?.data?.image);
-    setFieldValues({
-      id: user?.data?.id,
-      first_name: user?.data?.first_name,
-      last_name: user?.data?.last_name,
-      location: user?.data?.location,
-      phone: user?.data?.phone,
-      email: user?.data?.email,
-      job_title: user?.data?.job_title,
-    });
   }, []);
 
   const handleToggleEditButtonClicked = () => {
@@ -51,53 +50,50 @@ const General = () => {
   const handleFileUpload = (e) => {
     if (e.target.files && e.target.files.length > 0) {
       const file = e.target.files[0];
-      // const fileAsDataUrl = window.URL.createObjectURL(file);
-      // setImageSrc(fileAsDataUrl);
-
       const reader = new FileReader();
-
       reader.onloadend = () => {
         setSelectedImage(reader.result.toString());
       };
-
       reader.readAsDataURL(file);
     }
   };
 
-  const handleChange = (e) => {
-    setFieldValues({
-      ...fieldValues,
-      [e.target.name]: e.target.value,
-    });
-  };
-
   // Update api call functionality
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    setLoading(true);
+  const handleFormSubmit = (values) => {
     axios
-      .put(`/user/${fieldValues.id}`, {
-        first_name: fieldValues.first_name,
-        last_name: fieldValues.last_name,
-        phone: fieldValues.phone,
-        location: fieldValues.location,
-        job_title: fieldValues.job_title,
+      .put(`/user/${values.id}`, {
+        ...values,
         image: selectedImage,
       })
       .then((res) => {
-        setFieldValues(res?.data);
+        setInitialValues(res?.data);
         setIsEdit(false);
         localStorage.setItem(
           "loggedInUser",
           JSON.stringify({ ...currentUser, data: res?.data })
         );
-        setLoading(false);
       })
-      .catch((err) => {
-        setLoading(false);
-      });
+      .catch((err) => {});
   };
+
+  const {
+    values,
+    errors,
+    touched,
+    handleBlur,
+    resetForm,
+
+    setFieldValue,
+    handleChange,
+    handleSubmit,
+    isSubmitting,
+  } = useFormik({
+    initialValues,
+    validationSchema,
+    onSubmit: handleFormSubmit,
+    enableReinitialize: true,
+  });
 
   return (
     <div className="sub-container">
@@ -138,71 +134,112 @@ const General = () => {
 
           <div className="d-flex flex-md-row flex-column w-100 gap-md-5 gap-1 mt-3">
             <div className="d-flex flex-column w-100 gap-2">
-              <Form.Group className="" controlId="exampleForm.ControlInput1">
+              <div>
                 <p className="field-label">First name</p>
-                <Form.Control
+                <TextField
+                  nobg
+                  className="form-control"
                   disabled={!isEdit}
                   type="text"
-                  value={fieldValues.first_name}
+                  value={values.first_name}
                   name="first_name"
                   onChange={handleChange}
+                  onBlur={handleBlur}
+                  error={touched.first_name && errors.first_name}
                 />
-              </Form.Group>
+              </div>
 
-              <Form.Group className="" controlId="exampleForm.ControlInput1">
+              <div>
                 <p className="field-label">Last name</p>
-                <Form.Control
+                <TextField
+                  nobg
+                  className="form-control"
                   disabled={!isEdit}
                   type="text"
-                  value={fieldValues.last_name}
+                  value={values.last_name}
                   name="last_name"
                   onChange={handleChange}
+                  onBlur={handleBlur}
+                  error={touched.last_name && errors.last_name}
                 />
-              </Form.Group>
+              </div>
 
-              <Form.Group className="" controlId="exampleForm.ControlInput1">
+              <div>
                 <p className="field-label">Email address</p>
-                <Form.Control
+                <TextField
+                  nobg
+                  className="form-control"
                   disabled={true}
                   type="text"
                   name="email"
                   onChange={handleChange}
-                  value={fieldValues.email}
+                  onBlur={handleBlur}
+                  value={values.email}
                 />
-              </Form.Group>
+              </div>
             </div>
             <div className="d-flex flex-column w-100 gap-2">
-              <Form.Group className="" controlId="exampleForm.ControlInput1">
+              <div>
                 <p className="field-label">Job title</p>
-                <Form.Control
+                {/* <TextField
+                  nobg
+                  className="form-control"
                   disabled={!isEdit}
                   type="text"
-                  value={fieldValues.job_title ?? "N/A"}
+                  value={values.job_title ?? "N/A"}
                   name="job_title"
+                  onBlur={handleBlur}
                   onChange={handleChange}
-                />
-              </Form.Group>
-              <Form.Group className="" controlId="exampleForm.ControlInput1">
+                /> */}
+                <div style={{ height: "65px" }}>
+                  <select
+                    class="form-select"
+                    disabled={!isEdit}
+                    value={values.job_title ?? "N/A"}
+                    name="job_title"
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                  >
+                    <option selected> select </option>
+                    <option value="Hr">Hr</option>
+                    <option value="Accountant">Accountant</option>
+                    <option value="Engineer">Engineer</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+              </div>
+              <div>
                 <p className="field-label">Address</p>
-                <Form.Control
+                <TextField
+                  nobg
+                  className="form-control"
                   disabled={!isEdit}
                   type="text"
-                  value={fieldValues.location ?? "N/A"}
+                  value={values.location ?? "N/A"}
                   name="location"
+                  onBlur={handleBlur}
                   onChange={handleChange}
                 />
-              </Form.Group>
+              </div>
 
-              <Form.Group className="" controlId="exampleForm.ControlInput1">
+              <div>
                 <p className="field-label">Phone number</p>
-                <Form.Control
+                <PhoneInput
+                  // className="form-control"
+
                   disabled={!isEdit}
-                  type="text"
-                  value={fieldValues.phone ?? "N/A"}
+                  type="number"
+                  value={values.phone ?? "N/A"}
                   name="phone"
-                  onChange={handleChange}
+                  onChange={(phone) => {
+                    setFieldValue("phone", phone);
+                  }}
+                  onBlur={handleBlur}
                 />
-              </Form.Group>
+                <p style={{ marginTop: "5px", color: "red", fontSize: "13px" }}>
+                  {touched.phone && errors.phone}
+                </p>
+              </div>
             </div>
           </div>
           {isEdit && (
@@ -210,12 +247,15 @@ const General = () => {
               <Button
                 variant="outline-danger"
                 className="w-100"
-                onClick={() => setIsEdit(false)}
+                onClick={() => {
+                  resetForm();
+                  setIsEdit(false);
+                }}
               >
                 Cancel
               </Button>
               <Button className="w-100" type="submit">
-                {loading ? "Updating..." : "Save"}
+                {!errors && isSubmitting ? "Updating..." : "Save"}
               </Button>
             </div>
           )}

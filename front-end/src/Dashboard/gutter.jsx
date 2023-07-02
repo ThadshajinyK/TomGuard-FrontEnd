@@ -58,8 +58,12 @@ function Gutters({ hostName }) {
       }
     };
 
-    fetchData();
-  }, []);
+  const interval = setInterval(fetchData, 1000); // Fetch data every 5 seconds
+
+  return () => {
+    clearInterval(interval); // Cleanup interval on component unmount
+  };
+}, []);
 
   
 

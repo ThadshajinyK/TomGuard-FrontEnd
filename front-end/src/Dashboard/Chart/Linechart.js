@@ -68,8 +68,6 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tool
 export function Linechart() {
   const [data, setData] = useState([]);
 
-  const colors = JSON.parse(localStorage.getItem("colorCollections"));
-
   useEffect(() => {
     fetchData();
   }, []);
@@ -82,6 +80,19 @@ export function Linechart() {
       console.log(error);
     }
   };
+  const colors = JSON.parse(localStorage.getItem("colorCollections"));
+  useEffect(() => {
+    // Fetch metrics data initially
+    fetchData();
+
+    // Fetch metrics data every 5 seconds (adjust the interval as per your requirements)
+    const interval = setInterval(fetchData, 1000);
+
+    // Cleanup interval on component unmount
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
 
   return (
     <div>
@@ -101,3 +112,4 @@ export function Linechart() {
     </div>
   );
 }
+
