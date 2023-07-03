@@ -156,8 +156,9 @@ import "./alertTable.css";
 import AlertService from "../AlertService";
 import { Icon } from "@iconify/react";
 import ReactPaginate from "react-paginate";
-import "./pagination.css"
-
+import "./pagination.css";
+import { dummyAlert } from "./dummyData";
+import { Link } from "react-router-dom";
 
 const AlertTable = () => {
   const [loading, setLoading] = useState(true);
@@ -166,7 +167,15 @@ const AlertTable = () => {
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [alertToDelete, setAlertToDelete] = useState(null);
   const [alertCount, setAlertCount] = useState(0);
-  const itemsPerPage = 10
+  const itemsPerPage = 10;
+
+  const [searchBy, setSearchBy] = useState("");
+  const [searchInput, setSearchInput] = useState("");
+
+  const SEARCH_BY = {
+    ALERT_TYPE: "ALERT_TYPE",
+    SEVERITY_LEVEL: "SEVERITY_LEVEL",
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -227,11 +236,77 @@ const AlertTable = () => {
   const offset = currentPage * itemsPerPage;
   const currentAlerts = alerts.slice(offset, offset + itemsPerPage);
   const pageCount = Math.ceil(alerts.length / itemsPerPage);
+
+  const filteredAlert = currentAlerts.filter(
+    (alert) =>
+      (searchBy === "" && alert) ||
+      (searchBy === SEARCH_BY.ALERT_TYPE &&
+        alert.alertType.includes(searchInput)) ||
+      (searchBy === SEARCH_BY.SEVERITY_LEVEL &&
+        alert.severityLevel.toLowerCase().includes(searchInput.toLowerCase()))
+  );
   return (
     <div>
       <div className="alertCount">Total Alerts: {alertCount}</div>
       <div className="tableContainer">
         <div className="container">
+          <nav className="navbar navbar-expand-lg bg-body-tertiary overView-nav">
+            <div className="container-fluid ">
+              <a className="navbar-brand" href="#">
+                Clients Details
+              </a>
+
+              <button
+                className="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+              >
+                <span className="navbar-toggler-icon"></span>
+              </button>
+
+              <div
+                className="collapse navbar-collapse"
+                id="navbarSupportedContent"
+              >
+                <ul className="navbar-nav me-auto mb-2 mb-lg-0"></ul>
+                <div style={{ margin: "10px", width: "200px" }}>
+                  <select
+                    class="form-select "
+                    value={searchBy}
+                    onChange={(e) => setSearchBy(e.target.value)}
+                  >
+                    <option hidden selected>
+                      Search by
+                    </option>
+
+                    <option value={SEARCH_BY.ALERT_TYPE}>Alert type</option>
+                    <option value={SEARCH_BY.SEVERITY_LEVEL}>
+                      Severity level
+                    </option>
+                  </select>
+                </div>
+
+                <form className="d-flex" role="search">
+                  <input
+                    className="form-control me-2"
+                    type="search"
+                    placeholder="Search"
+                    aria-label="Search"
+                    value={searchInput}
+                    onChange={(e) => setSearchInput(e.target.value)}
+                  />
+                </form>
+                <Link to="/addClient" className="btn btn-outline-primary me-2">
+                  Add Client Details
+                </Link>
+                <div></div>
+              </div>
+            </div>
+          </nav>
           <div className="table-responsive">
             <table className="table table-striped">
               <thead className="table-dark">
@@ -253,30 +328,34 @@ const AlertTable = () => {
               </thead>
               {!loading && (
                 <tbody className="table-group-divider">
-                  {currentAlerts.map((alert) => (
-                    <tr key={alert.id}>
-                      <td>{alert.alertType}</td>
-                      <td>
-                        <span
-                          style={{
-                            color: getSeverityColor(alert.severityLevel),
-                          }}
-                        >
-                          {alert.severityLevel}
-                        </span>
-                      </td>
-                      <td>{alert.description}</td>
-                      
-                      <td>{alert.timeOfOccurance}</td>
-                      <td>
-                        <Icon
-                          icon="uiw:delete"
-                          className="deleteButton"
-                          onClick={() => confirmDeleteAlert(alert.id)}
-                        />
-                      </td>
-                    </tr>
-                  ))}
+                  {filteredAlert.length === 0 ? (
+                    <p className="text-center m-2">No data Found !</p>
+                  ) : (
+                    filteredAlert.map((alert) => (
+                      <tr key={alert.id}>
+                        <td>{alert.alertType}</td>
+                        <td>
+                          <span
+                            style={{
+                              color: getSeverityColor(alert.severityLevel),
+                            }}
+                          >
+                            {alert.severityLevel}
+                          </span>
+                        </td>
+                        <td>{alert.description}</td>
+
+                        <td>{alert.timeOfOccurance}</td>
+                        <td>
+                          <Icon
+                            icon="uiw:delete"
+                            className="deleteButton"
+                            onClick={() => confirmDeleteAlert(alert.id)}
+                          />
+                        </td>
+                      </tr>
+                    ))
+                  )}
                 </tbody>
               )}
             </table>

@@ -1,56 +1,68 @@
 import React, { useEffect, useState } from "react";
 import "../Styles/ServerStyles.css";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 import speed from "../images/speed.png";
 import logs from "../images/logs.png";
-import axios from '../axios';
-import { Icon } from '@iconify/react';
+import axios from "../axios";
+import { Icon } from "@iconify/react";
 import ReactPaginate from "react-paginate";
-import "../Styles/pagination.css"
+import "../Styles/pagination.css";
+
+
 
 export const MetricsTable = () => {
   const [metricsData, setMetricsData] = useState([]);
 
   const [currentPage, setCurrentPage] = useState(0);
-  const itemsPerPage = 6
-  
+  const itemsPerPage = 6;
 
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [alertToDelete, setAlertToDelete] = useState(null);
- 
 
+  const [searchBy, setSearchBy] = useState("");
+  const [searchInput, setSearchInput] = useState("");
 
+  const SEARCH_BY = {
+    UP_TIME: "UP_TIME",
+    AVAILABILITY: "AVAILABILITY",
+    REQ_TIME: "REQ_TIME",
+    RES_TIME: "RES_TIME",
+  };
 
   const deleteAllRecords = () => {
     // Make an API request to your backend to delete all records
-    axios.delete(`/metrics/dltAll`).then(() => {
-      // Update the state to reflect the deletion
-      setMetricsData([]);
-      console.log('all Records deleted successfully');
-
-    }).catch((error) => {
-      console.error('Error deleting all records:', error);
-    });
+    axios
+      .delete(`/metrics/dltAll`)
+      .then(() => {
+        // Update the state to reflect the deletion
+        setMetricsData([]);
+        console.log("all Records deleted successfully");
+      })
+      .catch((error) => {
+        console.error("Error deleting all records:", error);
+      });
   };
 
   const handleDeleteMetrics = (id) => {
     // Make a DELETE request to the delete endpoint
     fetch(`/metrics/${id}`, {
-      method: 'DELETE'
+      method: "DELETE",
     })
-      .then(response => {
+      .then((response) => {
         if (response.ok) {
           // Delete successful, perform any necessary actions (e.g., update UI)
-          setMetricsData(prevData => prevData.filter(item => item.id !== id));
-          console.log('Record deleted successfully');
+          setMetricsData((prevData) =>
+            prevData.filter((item) => item.id !== id)
+          );
+          console.log("Record deleted successfully");
         } else {
           // Delete failed, handle the error (e.g., show error message)
-          console.error('Failed to delete record');
+          console.error("Failed to delete record");
         }
       })
-      .catch(error => {
+      .catch((error) => {
         // Handle network or other errors
-        console.error('Error occurred while deleting record:', error);
+        console.error("Error occurred while deleting record:", error);
       });
   };
   const handlePageClick = (data) => {
@@ -63,11 +75,14 @@ export const MetricsTable = () => {
   //to change availabilty color as per its value
   const getAvailabiltyColor = (availability) => {
     switch (availability) {
-      case 'online': return 'rgb(54, 139, 84)';
-      case 'offline': return 'rgb(190, 25, 25)';
-      default: return 'orange';
+      case "online":
+        return "rgb(54, 139, 84)";
+      case "offline":
+        return "rgb(190, 25, 25)";
+      default:
+        return "orange";
     }
-  }
+  };
 
   const confirmDeleteAllMetrics = () => {
     setShowConfirmation(true);
@@ -84,14 +99,12 @@ export const MetricsTable = () => {
   };
 
   const fetchMetrics = async () => {
-
     try {
-      const metricsResponse = await axios.get('/metrics/all');
+      const metricsResponse = await axios.get("/metrics/all");
       setMetricsData(metricsResponse.data);
     } catch (error) {
-      console.error('Error fetching metrics data:', error);
+      console.error("Error fetching metrics data:", error);
     }
-
   };
 
   useEffect(() => {
@@ -105,99 +118,168 @@ export const MetricsTable = () => {
     };
   }, []);
 
+  const filteredMetrics = currentMetrics.filter(
+    (metrics) =>
+      (searchBy === "" && metrics) ||
+      (searchBy === SEARCH_BY.UP_TIME &&
+        metrics.uptimeInMillis.toString().includes(searchInput)) ||
+      (searchBy === SEARCH_BY.REQ_TIME &&
+        metrics.requestTimeInMillis
+          .toString()
+          .toLowerCase()
+          .includes(searchInput)) ||
+      (searchBy === SEARCH_BY.RES_TIME &&
+        metrics.responseTimeInMillis
+          .toString()
+          .toLowerCase()
+          .includes(searchInput)) ||
+      (searchBy === SEARCH_BY.AVAILABILITY &&
+        metrics.availability.toLowerCase().includes(searchInput))
+  );
 
   return (
     <div className="metricsContent">
       <nav className="navbar navbar-expand-lg bg-body-tertiary overView-nav">
         <div className="container-fluid">
           <h4>Metrics Table</h4>
-          <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <button
+            className="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
             <span className="navbar-toggler-icon"></span>
           </button>
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-            </ul>
-            <form className="d-flex" role="search">
-              <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-              <button className="btn btn-success" type="submit">Search</button>
-            </form>
+            <ul className="navbar-nav me-auto mb-2 mb-lg-0"></ul>
+            <div style={{ margin: "10px", width: "200px" }}>
+              <select
+                class="form-select "
+                value={searchBy}
+                onChange={(e) => setSearchBy(e.target.value)}
+              >
+                <option hidden selected>
+                  Search by
+                </option>
 
+                <option value={SEARCH_BY.UP_TIME}>Up time</option>
+                <option value={SEARCH_BY.AVAILABILITY}>Availability</option>
+                <option value={SEARCH_BY.REQ_TIME}>Request time</option>
+                <option value={SEARCH_BY.RES_TIME}>Response time</option>
+              </select>
+            </div>
+
+            <form className="d-flex" role="search">
+              <input
+                className="form-control me-2"
+                type="search"
+                placeholder="Search"
+                aria-label="Search"
+                value={searchInput}
+                onChange={(e) => setSearchInput(e.target.value)}
+              />
+            </form>
           </div>
         </div>
       </nav>
 
       {/* Metrics Table */}
       <div className="table-responsive-xxl mt-5 metricTable">
-        <table className="table table-striped " >
+        <table className="table table-striped ">
           <thead className="table-dark">
-            <tr>{/*1st row */}
+            <tr>
+              {/*1st row */}
               <th className="text-center">Timestamp</th>
               <th className="text-center">Availability</th>
               <th className="text-center">uptime</th>
               <th className="text-center">Request time</th>
               <th className="text-center">Response Time</th>
-              <th><button
-                className="btn btn-outline-danger"
-                type="button"
-                data-toggle="tooltip"
-                data-placement="top"
-                title="Delete"
-                onClick={confirmDeleteAllMetrics}>
-                {/* <Icon 
+              <th>
+                <button
+                  className="btn btn-outline-danger"
+                  type="button"
+                  data-toggle="tooltip"
+                  data-placement="top"
+                  title="Delete"
+                  onClick={confirmDeleteAllMetrics}
+                >
+                  {/* <Icon 
                   icon="material-symbols:delete-outline" 
                   color="#dc3545" 
                   width="25"
                   height="25"
                   /> */}
-                Delete All</button></th>
+                  Delete All
+                </button>
+              </th>
             </tr>
           </thead>
           {/*2nd row*/}
           <tbody>
-            {currentMetrics.map(metric => (
-              <tr key={metric.id}>
-                <td className="text-center">{metric.timestamp}</td>
-                <td className="text-center"><span className="badge rounded-pill"
-                  style={{ backgroundColor: getAvailabiltyColor(metric.availability) }}>{metric.availability} </span>
-                </td>
-                <td className="text-center">{metric.uptimeInMillis}</td>
-                <td className="text-center">{metric.requestTimeInMillis}</td>
-                <td className="text-center">{metric.responseTimeInMillis}</td>
-                <td><button
-                  class="btn btn-link"
-                  type="button"
-                  data-toggle="tooltip"
-                  data-placement="top"
-                  title="Delete"
-                  onClick={() => confirmDeleteMetric(metric.id)}>
-                  <Icon
-                    icon="material-symbols:delete-outline"
-                    color="#dc3545"
-                    width="25"
-                    height="25"
-                  /></button></td>
-                {/* ...other table cells... */}
-              </tr>
-            ))}
+            {filteredMetrics.length === 0 ? (
+              <p className="text-center m-2">No data Found !</p>
+            ) : (
+              filteredMetrics.map((metric) => (
+                <tr key={metric.id}>
+                  <td className="text-center">{metric.timestamp}</td>
+                  <td className="text-center">
+                    <span
+                      className="badge rounded-pill"
+                      style={{
+                        backgroundColor: getAvailabiltyColor(
+                          metric.availability
+                        ),
+                      }}
+                    >
+                      {metric.availability}{" "}
+                    </span>
+                  </td>
+                  <td className="text-center">{metric.uptimeInMillis}</td>
+                  <td className="text-center">{metric.requestTimeInMillis}</td>
+                  <td className="text-center">{metric.responseTimeInMillis}</td>
+                  <td>
+                    <button
+                      class="btn btn-link"
+                      type="button"
+                      data-toggle="tooltip"
+                      data-placement="top"
+                      title="Delete"
+                      onClick={() => confirmDeleteMetric(metric.id)}
+                    >
+                      <Icon
+                        icon="material-symbols:delete-outline"
+                        color="#dc3545"
+                        width="25"
+                        height="25"
+                      />
+                    </button>
+                  </td>
+                  {/* ...other table cells... */}
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
 
         {metricsData.length > itemsPerPage && (
-            <ReactPaginate
-              previousLabel={"Previous"}
-              nextLabel={"Next"}
-              breakLabel={"..."}
-              breakClassName={"break-me"}
-              pageCount={pageCount}
-              marginPagesDisplayed={2}
-              pageRangeDisplayed={5}
-              onPageChange={handlePageClick}
-              containerClassName={"pagination"}
-              subContainerClassName={"pages pagination"}
-              activeClassName={"active"}
-              pageClassName={"border-box"}
-            />
-          )}
+          <ReactPaginate
+            previousLabel={"Previous"}
+            nextLabel={"Next"}
+            breakLabel={"..."}
+            breakClassName={"break-me"}
+            pageCount={pageCount}
+            marginPagesDisplayed={2}
+            pageRangeDisplayed={5}
+            onPageChange={handlePageClick}
+            containerClassName={"pagination"}
+            subContainerClassName={"pages pagination"}
+            activeClassName={"active"}
+            pageClassName={"border-box"}
+          />
+        )}
       </div>
 
       {showConfirmation && (
@@ -231,16 +313,9 @@ export const MetricsTable = () => {
           </div>
         </div>
       )}
-
-
-
     </div>
-
-
-
   );
-
-}
+};
 
 export const LogsTable = () => {
   const [logsData, setLogsData] = useState([]);
@@ -249,44 +324,56 @@ export const LogsTable = () => {
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [alertToDelete, setAlertToDelete] = useState(null);
 
+  const [searchBy, setSearchBy] = useState("");
+  const [searchInput, setSearchInput] = useState("");
+
+  const SEARCH_BY = {
+    LOG_LEVEL: "LOG_LEVEL",
+    LOGGER_NAME: "LOGGER_NAME",
+    THREAD_NAME: "THREAD_NAME",
+    MESSAGE: "MESSAGE",
+  };
 
   const deleteAllRecords = () => {
     // Make an API request to your backend to delete all records
-    axios.delete(`/logs/dltAll`).then(() => {
-      // Update the state to reflect the deletion
-      setLogsData([]);
-      console.log('all Records deleted successfully');
-
-    }).catch((error) => {
-      console.error('Error deleting all records:', error);
-    });
+    axios
+      .delete(`/logs/dltAll`)
+      .then(() => {
+        // Update the state to reflect the deletion
+        setLogsData([]);
+        console.log("all Records deleted successfully");
+      })
+      .catch((error) => {
+        console.error("Error deleting all records:", error);
+      });
   };
 
   const handleDeleteLogs = (timestamp) => {
     // Make a DELETE request to the delete endpoint
     fetch(`/logs/${timestamp}`, {
-      method: 'DELETE'
+      method: "DELETE",
     })
-      .then(response => {
+      .then((response) => {
         if (response.ok) {
           // Delete successful, perform any necessary actions (e.g., update UI)
-          setLogsData(prevData => prevData.filter(item => item.timestamp !== timestamp));
-          console.log('Record deleted successfully');
+          setLogsData((prevData) =>
+            prevData.filter((item) => item.timestamp !== timestamp)
+          );
+          console.log("Record deleted successfully");
         } else {
           // Delete failed, handle the error (e.g., show error message)
-          console.error('Failed to delete record');
+          console.error("Failed to delete record");
         }
       })
-      .catch(error => {
+      .catch((error) => {
         // Handle network or other errors
-        console.error('Error occurred while deleting record:', error);
+        console.error("Error occurred while deleting record:", error);
       });
   };
 
   const handlePageClick = (data) => {
     setCurrentPage(data.selected);
   };
-
 
   const confirmDeleteLogs = (id) => {
     setAlertToDelete(id);
@@ -304,27 +391,29 @@ export const LogsTable = () => {
 
   const getLogLevel = (logLevel) => {
     switch (logLevel) {
-      case "INFO": return 'rgb(54, 139, 84)';// Green color 
-      case "DEBUG": return 'rgb(0, 171, 193)';//cyan color
-      case "WARNING": return 'rgb(247, 165, 49)';//yellow color
-      case "FATAL": return 'rgb(62, 9, 7)';//bold red color
-      case "SEVERE": return 'rgb(190, 25, 25)';//red  color
-      default: return 'orange';//orange color
+      case "INFO":
+        return "rgb(54, 139, 84)"; // Green color
+      case "DEBUG":
+        return "rgb(0, 171, 193)"; //cyan color
+      case "WARNING":
+        return "rgb(247, 165, 49)"; //yellow color
+      case "FATAL":
+        return "rgb(62, 9, 7)"; //bold red color
+      case "SEVERE":
+        return "rgb(190, 25, 25)"; //red  color
+      default:
+        return "orange"; //orange color
     }
   };
-
 
   const fetchLogs = async () => {
-
     try {
-      const logsResponse = await axios.get('/logs/all');
+      const logsResponse = await axios.get("/logs/all");
       setLogsData(logsResponse.data);
     } catch (error) {
-      console.error('Error fetching logs data:', error);
+      console.error("Error fetching logs data:", error);
     }
-
   };
-
 
   useEffect(() => {
     fetchLogs();
@@ -336,106 +425,165 @@ export const LogsTable = () => {
     };
   }, []);
 
-
-
-const offset = currentPage * itemsPerPage;
+  const offset = currentPage * itemsPerPage;
   const currentLogs = logsData.slice(offset, offset + itemsPerPage);
   const pageCount = Math.ceil(logsData.length / itemsPerPage);
+
+  const filteredLog = currentLogs.filter(
+    (log) =>
+      (searchBy === "" && log) ||
+      (searchBy === SEARCH_BY.LOG_LEVEL &&
+        log.logLevel
+          .toString()
+          .toLowerCase()
+          .includes(searchInput.toLowerCase())) ||
+      (searchBy === SEARCH_BY.LOGGER_NAME &&
+        log.loggerName.toLowerCase().includes(searchInput.toLowerCase())) ||
+      (searchBy === SEARCH_BY.THREAD_NAME &&
+        log.threadName.toLowerCase().includes(searchInput.toLowerCase())) ||
+      (searchBy === SEARCH_BY.MESSAGE &&
+        log.message.toLowerCase().includes(searchInput.toLowerCase()))
+  );
 
   return (
     <div className="logsContent">
       <nav className="navbar navbar-expand-lg bg-body-tertiary overView-nav">
         <div className="container-fluid">
           <h3>Logs Details</h3>
-          <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <button
+            className="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
             <span className="navbar-toggler-icon"></span>
           </button>
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul className="navbar-nav me-auto mb-2 mb-lg-0">            </ul>
+            <ul className="navbar-nav me-auto mb-2 mb-lg-0"> </ul>
+            <div style={{ margin: "10px", width: "200px" }}>
+              <select
+                class="form-select "
+                value={searchBy}
+                onChange={(e) => setSearchBy(e.target.value)}
+              >
+                <option hidden selected>
+                  Search by
+                </option>
+
+                <option value={SEARCH_BY.LOG_LEVEL}>Log level</option>
+                <option value={SEARCH_BY.LOGGER_NAME}>Logger name</option>
+                <option value={SEARCH_BY.THREAD_NAME}>Thread name</option>
+                <option value={SEARCH_BY.MESSAGE}>Message</option>
+              </select>
+            </div>
+
             <form className="d-flex" role="search">
-              <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-              <button className="btn btn-success" type="submit">Search</button>
+              <input
+                className="form-control me-2"
+                type="search"
+                placeholder="Search"
+                aria-label="Search"
+                value={searchInput}
+                onChange={(e) => setSearchInput(e.target.value)}
+              />
             </form>
-
-
           </div>
         </div>
       </nav>
       <div className="table-responsive-xxl mt-4">
-        <table className="table table-striped server-table" >
+        <table className="table table-striped server-table">
           <thead className="table-dark">
-            <tr>{/*1st row */}
+            <tr>
+              {/*1st row */}
               <th className="text-center">TimeStamp</th>
               <th className="text-center">Log Level</th>
               <th className="text-center">Logger Name</th>
               <th className="text-center">Thread Name</th>
               <th className="text-center">Message</th>
-              <th><button
-                className="btn btn-outline-danger"
-                type="button"
-                data-toggle="tooltip"
-                data-placement="top"
-                title="Delete"
-                onClick={confirmDeleteAllLogs}>
-                {/* <Icon 
+              <th>
+                <button
+                  className="btn btn-outline-danger"
+                  type="button"
+                  data-toggle="tooltip"
+                  data-placement="top"
+                  title="Delete"
+                  onClick={confirmDeleteAllLogs}
+                >
+                  {/* <Icon 
                   icon="material-symbols:delete-outline" 
                   color="#dc3545" 
                   width="25"
                   height="25"
                   /> */}
-                Delete All</button></th> {/*Delete button space */}
+                  Delete All
+                </button>
+              </th>{" "}
+              {/*Delete button space */}
             </tr>
           </thead>
           {/*2nd row*/}
           <tbody>
-            {currentLogs.map(item => (
-              <tr key={item.timestamp}>
-                <td className="text-center">{item.timestamp}</td>
-                <td className="text-center">
-                  <span className="badge rounded-pill"
-                    style={{
-                      backgroundColor:getLogLevel(item.logLevel)
-                    }}
-                  >
-                    {item.logLevel}
-                  </span>
-                </td>
-                <td className="text-center">{item.loggerName}</td>
-                <td className="text-center">{item.threadName}</td>
-                <td className="text-center">{item.message}</td>
-                <td><button
-                  class="btn btn-link"
-                  type="button"
-                  data-toggle="tooltip"
-                  data-placement="top"
-                  title="Delete"
-                  onClick={() => confirmDeleteLogs(item.timestamp)}>
-                  <Icon
-                    icon="mdi:delete-outline"
-                    color="#DC3545"
-                    width="25"
-                    height="25" /></button></td>
-              </tr>
-            ))}
+            {filteredLog.length === 0 ? (
+              <p className="text-center m-2">No data Found !</p>
+            ) : (
+              filteredLog.map((item) => (
+                <tr key={item.timestamp}>
+                  <td className="text-center">{item.timestamp}</td>
+                  <td className="text-center">
+                    <span
+                      className="badge rounded-pill"
+                      style={{
+                        backgroundColor: getLogLevel(item.logLevel),
+                      }}
+                    >
+                      {item.logLevel}
+                    </span>
+                  </td>
+                  <td className="text-center">{item.loggerName}</td>
+                  <td className="text-center">{item.threadName}</td>
+                  <td className="text-center">{item.message}</td>
+                  <td>
+                    <button
+                      class="btn btn-link"
+                      type="button"
+                      data-toggle="tooltip"
+                      data-placement="top"
+                      title="Delete"
+                      onClick={() => confirmDeleteLogs(item.timestamp)}
+                    >
+                      <Icon
+                        icon="mdi:delete-outline"
+                        color="#DC3545"
+                        width="25"
+                        height="25"
+                      />
+                    </button>
+                  </td>
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
 
         {logsData.length > itemsPerPage && (
-            <ReactPaginate
-              previousLabel={"Previous"}
-              nextLabel={"Next"}
-              breakLabel={"..."}
-              breakClassName={"break-me"}
-              pageCount={pageCount}
-              marginPagesDisplayed={2}
-              pageRangeDisplayed={5}
-              onPageChange={handlePageClick}
-              containerClassName={"pagination"}
-              subContainerClassName={"pages pagination"}
-              activeClassName={"active"}
-              pageClassName={"border-box"}
-            />
-          )}
+          <ReactPaginate
+            previousLabel={"Previous"}
+            nextLabel={"Next"}
+            breakLabel={"..."}
+            breakClassName={"break-me"}
+            pageCount={pageCount}
+            marginPagesDisplayed={2}
+            pageRangeDisplayed={5}
+            onPageChange={handlePageClick}
+            containerClassName={"pagination"}
+            subContainerClassName={"pages pagination"}
+            activeClassName={"active"}
+            pageClassName={"border-box"}
+          />
+        )}
       </div>
 
       {showConfirmation && (
@@ -471,12 +619,22 @@ const offset = currentPage * itemsPerPage;
       )}
     </div>
   );
-}
-
+};
 
 export const ServerPage = () => {
   const [data, setData] = useState([]);
   const [servers, setServers] = useState([]);
+
+  const [searchBy, setSearchBy] = useState("");
+  const [searchInput, setSearchInput] = useState("");
+
+  const SEARCH_BY = {
+    HOST_NAME: "HOST_NAME",
+    AVAILABILITY: "AVAILABILITY",
+    UPTIME: "UPTIME",
+    OS_NAME: "OS_NAME",
+    OS_VERSION: "OS_VERSION",
+  };
 
   useEffect(() => {
     loadservers();
@@ -487,70 +645,93 @@ export const ServerPage = () => {
       const response = await axios.get("/server");
       setServers(response.data);
     } catch (error) {
-      console.error('Error occurred while loading servers:', error);
+      console.error("Error occurred while loading servers:", error);
     }
   };
   const generateServerPDF = async () => {
     try {
       const response = await axios.get("/serverpdf", {
-        responseType: 'blob', // Set the response type to 'blob'
+        responseType: "blob", // Set the response type to 'blob'
       });
 
       // Create a download link
       const url = window.URL.createObjectURL(new Blob([response.data]));
-      const link = document.createElement('a');
+      const link = document.createElement("a");
       link.href = url;
-      link.setAttribute('download', 'Servers.pdf');
+      link.setAttribute("download", "Servers.pdf");
       document.body.appendChild(link);
       link.click();
     } catch (error) {
-      console.error('Error occurred while generating or downloading the PDF:', error);
+      console.error(
+        "Error occurred while generating or downloading the PDF:",
+        error
+      );
     }
   };
 
   const handleDelete = (hostName) => {
     fetch(`/server/${hostName}`, {
-      method: 'DELETE'
+      method: "DELETE",
     })
-      .then(response => {
+      .then((response) => {
         if (response.ok) {
           // Delete successful
-          setData(prevData => prevData.filter(item => item.hostName !== hostName));
-          console.log('Record deleted successfully');
+          setData((prevData) =>
+            prevData.filter((item) => item.hostName !== hostName)
+          );
+          console.log("Record deleted successfully");
         } else {
           // Delete failed
-          console.error('Failed to delete record');
+          console.error("Failed to delete record");
         }
       })
-      .catch(error => {
+      .catch((error) => {
         // Handle network or other errors
-        console.error('Error occurred while deleting record:', error);
+        console.error("Error occurred while deleting record:", error);
       });
   };
 
   //to change availabilty color as per its value
   const getAvailabiltyColor = (availability) => {
     switch (availability) {
-      case 'online': return 'rgb(54, 139, 84)';
-      case 'offline': return 'rgb(190, 25, 25)';
-      default: return 'orange';
+      case "online":
+        return "rgb(54, 139, 84)";
+      case "offline":
+        return "rgb(190, 25, 25)";
+      default:
+        return "orange";
     }
-  }
+  };
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const serverResponse = await axios.get('/server/all');
+        const serverResponse = await axios.get("/server/all");
         setData(serverResponse.data);
       } catch (error) {
-        console.error('Error fetching server data:', error);
+        console.error("Error fetching server data:", error);
       }
-
     };
 
     fetchData();
   }, []);
 
+  const filteredServerData = data.filter(
+    (server) =>
+      (searchBy === "" && server) ||
+      (searchBy === SEARCH_BY.AVAILABILITY &&
+        server.availability
+          .toLowerCase()
+          .includes(searchInput.toLowerCase())) ||
+      (searchBy === SEARCH_BY.HOST_NAME &&
+        server.hostName.toLowerCase().includes(searchInput.toLowerCase())) ||
+      (searchBy === SEARCH_BY.OS_NAME &&
+        server.osName.toLowerCase().includes(searchInput.toLowerCase())) ||
+      (searchBy === SEARCH_BY.OS_VERSION &&
+        server.osVersion.toLowerCase().includes(searchInput.toLowerCase())) ||
+      (searchBy === SEARCH_BY.UPTIME &&
+        server.uptime.toLowerCase().includes(searchInput.toLowerCase()))
+  );
 
   return (
     <div className="serverContent">
@@ -558,70 +739,155 @@ export const ServerPage = () => {
       <nav className="navbar navbar-expand-lg bg-body-tertiary overView-nav">
         <div className="container-fluid">
           <h3>Server Details</h3>
-          <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <button
+            className="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
             <span className="navbar-toggler-icon"></span>
           </button>
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-
-            </ul>
+            <ul className="navbar-nav me-auto mb-2 mb-lg-0"></ul>
 
             {/* <Link to="/addServer" className="btn btn-outline-primary me-2">
               Add new server
             </Link> */}
-            <form className="d-flex" role="search">
-              <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-              <button className="btn btn-outline-success" type="submit">Search</button>
-            </form>
-
           </div>
         </div>
       </nav>
 
-
       {/* Server details in boxes */}
 
-
-      {data.map(item => (
+      {data.map((item) => (
         <div className="servergroup table-responsive-xxl mt-4">
           <table>
             <tr>
-              <td className="text-end"><h5>Host Name:</h5></td>
-              <td ><p className="serverDetail">{item.hostName}</p></td>
+              <td className="text-end">
+                <h5>Host Name:</h5>
+              </td>
+              <td>
+                {" "}
+                <p className="serverDetail">{item.hostName}</p>{" "}
+              </td>
             </tr>
             <tr>
-              <td className="text-end"><h5>IP address:</h5></td>
-              <td ><p className="serverDetail">{item.ipAddress}</p></td>
+              <td className="text-end">
+                <h5>IP address:</h5>
+              </td>
+              <td>
+                <p className="serverDetail">{item.ipAddress}</p>{" "}
+              </td>
             </tr>
             <tr>
-              <td className="text-end"><h5>Availabailty:</h5></td>
-              <td><h5 className="serverDetail"
-                style={{ color: getAvailabiltyColor(item.availability) }}>
-                {item.availability}
-              </h5></td>
+              <td className="text-end">
+                <h5>Availabailty:</h5>
+              </td>
+              <td>
+                <h5
+                  className="serverDetail"
+                  style={{ color: getAvailabiltyColor(item.availability) }}
+                >
+                  {item.availability}
+                </h5>
+              </td>
             </tr>
           </table>
-
         </div>
       ))}
       <div className="accordion mb-4" id="accordionExample">
         <div class="accordion-item">
           <h2 class="accordion-header">
-            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+            <button
+              class="accordion-button"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#collapseOne"
+              aria-expanded="true"
+              aria-controls="collapseOne"
+            >
               View more in detail
             </button>
           </h2>
-          <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+          <div
+            id="collapseOne"
+            class="accordion-collapse collapse"
+            data-bs-parent="#accordionExample"
+          >
             <div class="accordion-body">
               {/* <strong>This is the first item's accordion body.</strong> It is shown by default,
              until the collapse plugin adds the appropriate classes that we use to style each element. 
              These classes control the overall appearance, as well as the showing and hiding via CSS transitions.
               You can modify any of this with custom CSS or overriding our default variables. It's also worth noting 
              that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow. */}
+
+              <nav className="navbar navbar-expand-lg bg-body-tertiary overView-nav">
+                <div className="container-fluid">
+                  <h3>More in detail</h3>
+                  <button
+                    className="navbar-toggler"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation"
+                  >
+                    <span className="navbar-toggler-icon"></span>
+                  </button>
+                  <div
+                    className="collapse navbar-collapse"
+                    id="navbarSupportedContent"
+                  >
+                    <ul className="navbar-nav me-auto mb-2 mb-lg-0"></ul>
+
+                    {/* <Link to="/addServer" className="btn btn-outline-primary me-2">
+              Add new server
+            </Link> */}
+
+                    <div style={{ margin: "0 10px", width: "200px" }}>
+                      <select
+                        class="form-select "
+                        value={searchBy}
+                        onChange={(e) => setSearchBy(e.target.value)}
+                      >
+                        <option hidden selected>
+                          Search by
+                        </option>
+                        <option value={SEARCH_BY.HOST_NAME}>Host name</option>
+                        <option value={SEARCH_BY.AVAILABILITY}>
+                          Availability
+                        </option>
+                        <option value={SEARCH_BY.UPTIME}>Up time</option>
+                        <option value={SEARCH_BY.OS_NAME}>Os name</option>
+                        <option value={SEARCH_BY.OS_VERSION}>Os version</option>
+                      </select>
+                    </div>
+                    <div className="d-flex" role="search">
+                      <input
+                        className="form-control me-2"
+                        type="search"
+                        placeholder="Search"
+                        aria-label="Search"
+                        value={searchInput}
+                        onChange={(e) => setSearchInput(e.target.value)}
+                      />
+                      <button className="btn btn-outline-success">
+                        Search
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </nav>
+
               <div className="table-responsive-xxl mt-4">
-                <table className="table table-striped server-table" >
+                <table className="table table-striped server-table">
                   <thead className="table-dark">
-                    <tr>{/*1st row */}
+                    <tr>
+                      {/*1st row */}
                       <th className="text-center">Host name</th>
                       <th className="text-center">Availability</th>
                       <th>IP address</th>
@@ -635,56 +901,59 @@ export const ServerPage = () => {
                   </thead>
                   {/*2nd row*/}
                   <tbody>
-                    {data.map(item => (
-                      <tr key={item.hostName}>
-                        <td className="text-center">{item.hostName}</td>
-                        <td className="text-center">
-                          <span className="badge rounded-pill"
-                            style={{
-                              backgroundColor:
-                                item.availability === "online"
-                                  ? 'rgb(54, 139, 84)' // Green color for 'online'
-                                  : item.availability === "offline"
-                                    ? 'rgb(190, 25, 25)' // Red color for 'offline'
-                                    : 'orange' // Orange color for 'NotFound'
-                            }}
-                          >
-                            {item.availability}
-                          </span>
-                        </td>
-                        <td className="text-center">{item.ipAddress}</td>
-                        <td className="text-center">{item.uptime}</td>
-                        <td className="text-center">{item.osName}</td>
-                        <td className="text-center">{item.osVersion}</td>
-                        <td className="text-center">{item.osArchitecture}</td>
-                        <td className="text-center">{item.jvmVersion}</td>
-                        {/* <td><button
-                          class="btn btn-link"
-                          type="button"
-                          data-toggle="tooltip"
-                          data-placement="top"
-                          title="Delete"
-                          onClick={() => handleDelete(item.hostName)}>
-                          <Icon
-                            icon="mdi:delete-outline"
-                            color="#DC3545"
-                            width="25"
-                            height="25" /></button></td> */}
+                    {filteredServerData.length === 0 ? (
+                      <p className="text-center m-2">No data Found !</p>
+                    ) : (
+                      filteredServerData.map((item, index) => (
+                        <tr key={index}>
+                          <td className="text-center">{item.hostName}</td>
+                          <td className="text-center">
+                            <span
+                              className="badge rounded-pill"
+                              style={{
+                                backgroundColor:
+                                  item.availability === "online"
+                                    ? "rgb(54, 139, 84)" // Green color for 'online'
+                                    : item.availability === "offline"
+                                    ? "rgb(190, 25, 25)" // Red color for 'offline'
+                                    : "orange", // Orange color for 'NotFound'
+                              }}
+                            >
+                              {item.availability}
+                            </span>
+                          </td>
+                          <td className="text-center">{item.ipAddress}</td>
+                          <td className="text-center">{item.uptime}</td>
+                          <td className="text-center">{item.osName}</td>
+                          <td className="text-center">{item.osVersion}</td>
+                          <td className="text-center">{item.osArchitecture}</td>
+                          <td className="text-center">{item.jvmVersion}</td>
+                          {/* <td><button
+                        class="btn btn-link"
+                        type="button"
+                        data-toggle="tooltip"
+                        data-placement="top"
+                        title="Delete"
+                        onClick={() => handleDelete(item.hostName)}>
+                        <Icon
+                          icon="mdi:delete-outline"
+                          color="#DC3545"
+                          width="25"
+                          height="25" /></button></td> */}
 
-                        {/* ...other table cells... */}
-                      </tr>
-                    ))}
+                          {/* ...other table cells... */}
+                        </tr>
+                      ))
+                    )}
                   </tbody>
                 </table>
-                <button onClick={generateServerPDF}
+                <button
+                  onClick={generateServerPDF}
                   type="button"
                   className="btn btn-outline-info"
-
-
                 >
                   Download pdf
                 </button>
-
               </div>
             </div>
           </div>
@@ -701,8 +970,17 @@ export const ServerPage = () => {
             <div class="card mb-5 ms-5 me-5">
               <div class="card-body">
                 <h4 class="card-title text-center">Performance Metrics</h4>
-                <div className="imagebox"><img src={speed} alt="performance" className="speedImage"></img></div>
-                <Link to="/performance" className="imagebox">View Metrics<Icon icon="bi:arrow-up" color="#0d6efd" rotate={1} /></Link>
+                <div className="imagebox">
+                  <img
+                    src={speed}
+                    alt="performance"
+                    className="speedImage"
+                  ></img>
+                </div>
+                <Link to="/performance" className="imagebox">
+                  View Metrics
+                  <Icon icon="bi:arrow-up" color="#0d6efd" rotate={1} />
+                </Link>
               </div>
             </div>
           </div>
@@ -713,44 +991,51 @@ export const ServerPage = () => {
                 <div className="imagebox">
                   <img src={logs} alt="logs" className="logsImage"></img>
                 </div>
-                <Link to="/logs" className="imagebox">View Logs<Icon icon="bi:arrow-up" color="#0d6efd" rotate={1} /></Link>
+                <Link to="/logs" className="imagebox">
+                  View Logs
+                  <Icon icon="bi:arrow-up" color="#0d6efd" rotate={1} />
+                </Link>
               </div>
             </div>
           </div>
         </div>
-
       </div>
     </div>
   );
-
-}
-
+};
 
 export const AddServerForm = () => {
-
   //Use states
-  const [hostName, sethostName] = useState('')
-  const [availability, setAvailability] = useState('')
-  const [ipAddress, setipAddress] = useState('')
-  const [uptime, setUptime] = useState('')
-  const [osName, setOsName] = useState('')
-  const [osVersion, setOsVersion] = useState('')
-  const [osArchitecture, setOsArchitecture] = useState('')
-  const [jvmVersion, setJvmVersion] = useState('')
+  const [hostName, sethostName] = useState("");
+  const [availability, setAvailability] = useState("");
+  const [ipAddress, setipAddress] = useState("");
+  const [uptime, setUptime] = useState("");
+  const [osName, setOsName] = useState("");
+  const [osVersion, setOsVersion] = useState("");
+  const [osArchitecture, setOsArchitecture] = useState("");
+  const [jvmVersion, setJvmVersion] = useState("");
   const [popupMessage, setPopupMessage] = useState("");
 
-
   const handleSubmit = (e) => {
-    e.preventDefault()
-    const server = { hostName, availability, ipAddress, uptime, osName, osVersion, osArchitecture, jvmVersion }
-    console.log(server)
+    e.preventDefault();
+    const server = {
+      hostName,
+      availability,
+      ipAddress,
+      uptime,
+      osName,
+      osVersion,
+      osArchitecture,
+      jvmVersion,
+    };
+    console.log(server);
     fetch("http://localhost:9090/server/add", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(server)
+      body: JSON.stringify(server),
     }).then(() => {
-      console.log("New server data added ")
-    })
+      console.log("New server data added ");
+    });
     setPopupMessage("Form submitted successfully!");
 
     sethostName("");
@@ -761,13 +1046,9 @@ export const AddServerForm = () => {
     setOsVersion("");
     setOsArchitecture("");
     setJvmVersion("");
-
   };
 
-
-
   return (
-
     <div className="formContent">
       <h1>Server Details</h1>
       <form className="row g-3 mt-3">
@@ -878,7 +1159,11 @@ export const AddServerForm = () => {
         </div>
 
         <div className="col-12">
-          <button type="submit" className="btn btn-outline-success m-3" onClick={handleSubmit}>
+          <button
+            type="submit"
+            className="btn btn-outline-success m-3"
+            onClick={handleSubmit}
+          >
             Submit
           </button>
           <button type="submit" className="btn btn-outline-danger m-3">
@@ -887,10 +1172,9 @@ export const AddServerForm = () => {
         </div>
       </form>
 
-      {popupMessage && <div className="alert alert-success">{popupMessage}</div>}
+      {popupMessage && (
+        <div className="alert alert-success">{popupMessage}</div>
+      )}
     </div>
   );
-
-}
-
-
+};

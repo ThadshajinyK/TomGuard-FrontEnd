@@ -19,7 +19,7 @@ const ForgotPassword = () => {
   const navigate = useNavigate();
   const handleFormSubmit = (values) => {
     axios
-      .post("/auth/forgot-password", values)
+      .post("/auth/forgot-password/"+ values.email)
       .then((res) => {
         setSuccess(res?.data);
         console.log("res =>", res);
@@ -65,7 +65,7 @@ const ForgotPassword = () => {
         <p className="text-danger text-center">{error}</p>
         <p className="text-success text-center">{success}</p>
         <button class="btn btn-secondary w-100 mt-4" type="submit">
-          {formik.isSubmitting ? "Link sending..." : "Send Link"}
+          {!error && formik.isSubmitting ? "Link sending..." : "Send Link"}
         </button>
         <button
           class="btn btn-outline-secondary w-100 mt-3"

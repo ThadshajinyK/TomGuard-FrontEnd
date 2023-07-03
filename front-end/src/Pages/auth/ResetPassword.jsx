@@ -94,7 +94,7 @@ const ResetPassword = () => {
         <p className="text-danger text-center">{error}</p>
         <p className="text-success text-center">{success}</p>
         <button class="btn btn-secondary w-100 mt-4" type="submit">
-          {isSubmitting ? "Resetting..." : "Reset password"}
+          {! error && isSubmitting ? "Resetting..." : "Reset password"}
         </button>
         <button
           class="btn btn-outline-secondary w-100 mt-3"

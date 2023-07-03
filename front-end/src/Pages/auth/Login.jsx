@@ -102,7 +102,7 @@ const Login = () => {
         {/* Login button */}
 
         <button className="btn btn-secondary w-100">
-          {isSubmitting ? "loading..." : "Login"}
+          {!error && isSubmitting ? "loading..." : "Login"}
         </button>
         <div className="mt-3">
           <p className="text-white ">

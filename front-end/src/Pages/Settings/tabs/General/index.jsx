@@ -195,7 +195,7 @@ const General = () => {
                   <select
                     class="form-select"
                     disabled={!isEdit}
-                    value={values.job_title ?? "N/A"}
+                    value={values.job_title }
                     name="job_title"
                     onBlur={handleBlur}
                     onChange={handleChange}
@@ -215,7 +215,7 @@ const General = () => {
                   className="form-control"
                   disabled={!isEdit}
                   type="text"
-                  value={values.location ?? "N/A"}
+                  value={values.location }
                   name="location"
                   onBlur={handleBlur}
                   onChange={handleChange}
@@ -229,7 +229,8 @@ const General = () => {
 
                   disabled={!isEdit}
                   type="number"
-                  value={values.phone ?? "N/A"}
+                  value={values.phone }
+                  country="lk"
                   name="phone"
                   onChange={(phone) => {
                     setFieldValue("phone", phone);
