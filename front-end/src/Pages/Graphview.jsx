@@ -109,7 +109,7 @@ function Graphview() {
     // Fetch metrics data initially
     fetchMetricsData();
 
-    // Fetch metrics data every 5 seconds (adjust the interval as per your requirements)
+    // Fetch metrics data every 1 seconds (adjust the interval as per your requirements)
     const interval = setInterval(fetchMetricsData, 1000);
 
     // Cleanup interval on component unmount
