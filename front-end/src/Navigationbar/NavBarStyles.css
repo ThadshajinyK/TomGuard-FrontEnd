@@ -124,7 +124,7 @@ tr:hover {
   font-weight: 600;
 }
 
-.badge {
+/* .badge {
   display: inline-block;
   position: relative;
   right:-40px;
@@ -135,7 +135,7 @@ tr:hover {
   color: #fff;
   background-color:darkred;
   border-radius: 12px;
-}
+} */
 
 .badge:hover {
   background-color: red;

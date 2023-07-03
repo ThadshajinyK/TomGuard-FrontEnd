@@ -27,14 +27,25 @@ export const Navigationbar = ({ alertCount }) => {
           </Link>
         </li>
 
+        {/* <li>
+          <Link to="/alert" className="sidebar-item">
+            <Icon icon="ri:notification-4-line" />
+            <span className="side"></span>
+            <span>Alerts</span>
+            {alertCount > 0 && <span className="badge rounded-pill text-bg-warning">{alertCount}</span>}
+          </Link>
+        </li> */}
         <li>
           <Link to="/alert" className="sidebar-item">
             <Icon icon="ri:notification-4-line" />
             <span className="side"></span>
             <span>Alerts</span>
-            {alertCount > 0 && <span className="badge">{alertCount}</span>}
+            {alertCount > 0 && (
+              <span className="badge rounded-pill text-bg-warning" style={{ marginLeft: '10px' }}>{alertCount}</span>
+            )}
           </Link>
         </li>
+
 
         <li>
           <Link to="/settings" className="sidebar-item">
