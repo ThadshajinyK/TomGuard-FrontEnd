@@ -2,32 +2,48 @@ import AuthLayout from "../../layout/AuthLayout";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import Icon from "../../images/logo.png";
-// import axios from "axios";
+import { useFormik } from "formik";
 import axios from "../../axios";
 import "../../Styles/AuthLayoutStyles.css";
+import TextField from "../../layout/core/TextField";
+import { object, string } from "yup";
+
+const validationSchema = object().shape({
+  email: string().required("required !").email("Invalid email !"),
+  password: string().required("required !"),
+});
 
 const Login = () => {
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    setLoading(true);
+  const handleFormSubmit = (values) => {
     axios
-      .post("/auth/login", { email, password })
+      .post("/auth/login", values)
       .then((response) => {
         localStorage.setItem("loggedInUser", JSON.stringify(response.data));
-        setLoading(false);
+
         window.location.reload();
       })
       .catch((err) => {
         setError(err?.response?.data);
-        setLoading(false);
       });
   };
+  const {
+    values,
+    errors,
+    touched,
+    handleBlur,
+    handleChange,
+    handleSubmit,
+    isSubmitting,
+  } = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    validationSchema,
+    onSubmit: handleFormSubmit,
+  });
 
   return (
     <AuthLayout>
@@ -39,26 +55,30 @@ const Login = () => {
             Log in
           </p>
         </div>
-        <div className="mb-3">
+        <div>
           <label className="label">Email</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(event) => setEmail(event.target.value)}
+          <TextField
+            name="email"
+            value={values.email}
+            // onChange={(event) => setEmail(event.target.value)}
+            onChange={handleChange}
+            onBlur={handleBlur}
             className="form-control"
             placeholder="Enter your email"
-            required
+            error={touched.email && errors.email}
           />
         </div>
-        <div className="mb-3">
+        <div>
           <label className="label">Password</label>
-          <input
+          <TextField
+            name="password"
             type="password"
-            value={password}
-            onChange={(event) => setPassword(event.target.value)}
+            value={values.password}
+            onChange={handleChange}
+            onBlur={handleBlur}
             className="form-control"
             placeholder="Enter your password"
-            required
+            error={touched.password && errors.password}
           />
         </div>
         <div className="mb-3">
@@ -82,7 +102,7 @@ const Login = () => {
         {/* Login button */}
 
         <button className="btn btn-secondary w-100">
-          {loading ? "loading..." : "Login"}
+          {!error && isSubmitting ? "loading..." : "Login"}
         </button>
         <div className="mt-3">
           <p className="text-white ">
