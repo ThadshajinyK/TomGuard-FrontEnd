@@ -158,29 +158,41 @@ import { Icon } from "@iconify/react";
 import ReactPaginate from "react-paginate";
 import "./pagination.css"
 
-
-const AlertTable = () => {
+const AlertTable = ({ onAlertCountChange }) => {
   const [loading, setLoading] = useState(true);
   const [alerts, setAlerts] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [alertToDelete, setAlertToDelete] = useState(null);
   const [alertCount, setAlertCount] = useState(0);
-  const itemsPerPage = 10
+  const itemsPerPage = 10;
 
   useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        const response = await AlertService.getAlerts();
-        setAlerts(response.data);
-      } catch (error) {
-        console.log(error);
-      }
-      setLoading(false);
+    fetchData(); // Fetch initial alerts
+
+    // Start polling for new alerts every 10 seconds
+    const interval = setInterval(fetchData, 10000);
+
+    return () => {
+      clearInterval(interval); // Clean up the interval on component unmount
     };
-    fetchData();
   }, []);
+
+  useEffect(() => {
+    setAlertCount(alerts.length);
+    onAlertCountChange(alerts.length);
+  }, [alerts,onAlertCountChange]);
+
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+      const response = await AlertService.getAlerts();
+      setAlerts(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+    setLoading(false);
+  };
 
   const deleteAlert = (id) => {
     AlertService.deleteAlert(id).then(() => {
@@ -224,9 +236,11 @@ const AlertTable = () => {
         return "black";
     }
   };
+
   const offset = currentPage * itemsPerPage;
   const currentAlerts = alerts.slice(offset, offset + itemsPerPage);
   const pageCount = Math.ceil(alerts.length / itemsPerPage);
+
   return (
     <div>
       <div className="alertCount">Total Alerts: {alertCount}</div>
@@ -266,7 +280,6 @@ const AlertTable = () => {
                         </span>
                       </td>
                       <td>{alert.description}</td>
-                      
                       <td>{alert.timeOfOccurance}</td>
                       <td>
                         <Icon
@@ -335,3 +348,4 @@ const AlertTable = () => {
 };
 
 export default AlertTable;
+
