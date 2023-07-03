@@ -6,18 +6,19 @@
 }
 
 .deleteButton {
-  color: red;
+  color: darkgreen;
   position: relative;
   left: 30px;
+  font-size: 25px;
   font-weight: bolder;
   cursor: pointer;
 }
 
 .deleteButton:hover {
-  color: darkred;
+  color: green;
 }
 .deleteButton:active {
-  color: red;
+  color: lightgreen;
 }
 
 .confirmation-dialog {
@@ -61,33 +62,33 @@
 
 .confirmation-actions button.btn-confirm {
   background-color: white;
-  color: red;
+  color: green;
   border: none;
   margin-right: 5px; /* Adjust margin right for small gap between buttons */
 }
 
 .confirmation-actions button.btn-confirm:hover {
-  background-color: #dc3545;
+  background-color: darkgreen;
   color: #fff;
 }
 .confirmation-actions button.btn-confirm:active {
-  background-color: darkred;
+  background-color: green;
   color: #fff;
 }
 
 .confirmation-actions button.btn-cancel {
   background-color: white;
-  color: green;
+  color: red;
   border: none;
   margin-left: 5px; /* Adjust margin left for small gap between buttons */
 }
 
 .confirmation-actions button.btn-cancel:hover {
-  background-color: green; /* Change color to dark green */
+  background-color: darkred; /* Change color to dark green */
   color: #fff;
 }
 .confirmation-actions button.btn-cancel:active {
-  background-color: darkgreen; /* Change color to dark green */
+  background-color: red; /* Change color to dark green */
   color: #fff;
 }
 

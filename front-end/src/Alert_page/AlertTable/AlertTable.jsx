@@ -170,8 +170,8 @@ const AlertTable = ({ onAlertCountChange }) => {
   useEffect(() => {
     fetchData(); // Fetch initial alerts
 
-    // Start polling for new alerts every 10 seconds
-    const interval = setInterval(fetchData, 10000);
+    // Start polling for new alerts every 12 seconds
+    const interval = setInterval(fetchData, 12000);
 
     return () => {
       clearInterval(interval); // Clean up the interval on component unmount
@@ -257,10 +257,10 @@ const AlertTable = ({ onAlertCountChange }) => {
                   <th>
                     <button
                       type="button"
-                      className="btn btn-outline-danger"
+                      className="btn btn-outline-success"
                       onClick={confirmDeleteAllAlerts}
                     >
-                      Delete all
+                      Solved all
                     </button>
                   </th>
                 </tr>
@@ -283,7 +283,7 @@ const AlertTable = ({ onAlertCountChange }) => {
                       <td>{alert.timeOfOccurance}</td>
                       <td>
                         <Icon
-                          icon="uiw:delete"
+                          icon="mdi:shield-tick-outline"
                           className="deleteButton"
                           onClick={() => confirmDeleteAlert(alert.id)}
                         />
@@ -315,8 +315,8 @@ const AlertTable = ({ onAlertCountChange }) => {
       {showConfirmation && (
         <div className="confirmation-dialog">
           <div className="confirmation-message">
-            Are you sure you want to delete{" "}
-            {alertToDelete ? "this alert?" : "all alerts?"}
+          Have you resolved{" "}
+            {alertToDelete ? "this issue?" : "these issues?"}
           </div>
           <div className="confirmation-actions">
             <button
