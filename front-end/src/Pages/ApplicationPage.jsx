@@ -8,6 +8,8 @@ import { Link } from 'react-router-dom';
 import ReactPaginate from "react-paginate";
 import "../Styles/pagination.css"
 
+// this is from branch thadshajiny -(before merging searching and sorting)
+
 export const ApplicationPage = () => {
   const [appsData, setAppsData] = useState([]);
   const [clientsData, setClientsData] = useState([]);
