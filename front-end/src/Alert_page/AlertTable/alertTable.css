@@ -36,13 +36,32 @@
 
 .confirmation-message {
   font-size: 18px;
-  padding: 20px;
+  padding: 15px;
   background-color: #fff;
   border-radius: 7px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   text-align: center;
   max-width: 400px;
   margin-bottom: 10px; /* Add margin bottom for gap */
+  display: flex;
+  flex-direction: column;
+}
+.iconAndWarn {
+  display: flex;
+  font-size: 11px;
+}
+
+.warnIcon {
+  color: rgb(255, 162, 0);
+  padding: 0px;
+  margin-top: 0.6px;
+  margin-bottom: 0px;
+  margin-right: 2.5px;
+}
+
+.warningMessage {
+  color: rgb(199, 199, 199);
+  font-weight: lighter;
 }
 
 .confirmation-actions {

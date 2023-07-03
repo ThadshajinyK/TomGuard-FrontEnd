@@ -156,7 +156,7 @@ import "./alertTable.css";
 import AlertService from "../AlertService";
 import { Icon } from "@iconify/react";
 import ReactPaginate from "react-paginate";
-import "./pagination.css"
+import "./pagination.css";
 
 const AlertTable = ({ onAlertCountChange }) => {
   const [loading, setLoading] = useState(true);
@@ -181,7 +181,7 @@ const AlertTable = ({ onAlertCountChange }) => {
   useEffect(() => {
     setAlertCount(alerts.length);
     onAlertCountChange(alerts.length);
-  }, [alerts,onAlertCountChange]);
+  }, [alerts, onAlertCountChange]);
 
   const fetchData = async () => {
     setLoading(true);
@@ -315,8 +315,18 @@ const AlertTable = ({ onAlertCountChange }) => {
       {showConfirmation && (
         <div className="confirmation-dialog">
           <div className="confirmation-message">
-          Have you resolved{" "}
+            Have you successfully resolved{" "}
             {alertToDelete ? "this issue?" : "these issues?"}
+            <div className="iconAndWarn">
+              <Icon icon="uiw:warning" className="warnIcon" />
+              <span className="warningMessage">
+                If you click yes
+                {alertToDelete
+                  ? " this alert message "
+                  : " all alert messages "}{" "}
+                will be permanently deleted !
+              </span>
+            </div>
           </div>
           <div className="confirmation-actions">
             <button
@@ -348,4 +358,3 @@ const AlertTable = ({ onAlertCountChange }) => {
 };
 
 export default AlertTable;
-
