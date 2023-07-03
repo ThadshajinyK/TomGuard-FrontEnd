@@ -157,7 +157,6 @@ import AlertService from "../AlertService";
 import { Icon } from "@iconify/react";
 import ReactPaginate from "react-paginate";
 import "./pagination.css";
-import { dummyAlert } from "./dummyData";
 import { Link } from "react-router-dom";
 
 const AlertTable = () => {
@@ -252,9 +251,7 @@ const AlertTable = () => {
         <div className="container">
           <nav className="navbar navbar-expand-lg bg-body-tertiary overView-nav">
             <div className="container-fluid ">
-              <a className="navbar-brand" href="#">
-                Clients Details
-              </a>
+              
 
               <button
                 className="navbar-toggler"
@@ -300,9 +297,7 @@ const AlertTable = () => {
                     onChange={(e) => setSearchInput(e.target.value)}
                   />
                 </form>
-                <Link to="/addClient" className="btn btn-outline-primary me-2">
-                  Add Client Details
-                </Link>
+               
                 <div></div>
               </div>
             </div>
