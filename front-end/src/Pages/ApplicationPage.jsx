@@ -1,18 +1,27 @@
 import React, { useEffect, useState } from "react";
-import axios from 'axios';
+import axios from "axios";
 import id from "../images/ID Card.png";
-import { Icon } from '@iconify/react';
+import { Icon } from "@iconify/react";
 import "../Styles/AppPageStyles.css";
-import "../Styles/pagination.css"
-import { Link } from 'react-router-dom';
+import "../Styles/pagination.css";
+import { Link } from "react-router-dom";
 import ReactPaginate from "react-paginate";
-import "../Styles/pagination.css"
+import "../Styles/pagination.css";
 
 export const ApplicationPage = () => {
   const [appsData, setAppsData] = useState([]);
   const [clientsData, setClientsData] = useState([]);
-  const [selectedClient, setSelectedClient] = useState('');
+  const [selectedClient, setSelectedClient] = useState("");
   const [apps, setApps] = useState([]);
+
+  const [searchBy, setSearchBy] = useState("");
+  const [searchInput, setSearchInput] = useState("");
+
+  const SEARCH_BY = {
+    APP_NAME: "APP_NAME",
+    PATH: "PATH",
+    STATUS: "STATUS",
+  };
 
   const handleSelectClient = (event) => {
     setSelectedClient(event.target.value);
@@ -27,107 +36,145 @@ export const ApplicationPage = () => {
       const response = await axios.get("http://localhost:9090/api/apps");
       setApps(response.data);
     } catch (error) {
-      console.error('Error occurred while loading apps:', error);
+      console.error("Error occurred while loading apps:", error);
     }
   };
-
 
   const generateAppPDF = async () => {
     try {
-      const response = await axios.get("http://localhost:9090/api/apps/apppdf", {
-        responseType: 'blob', // Set the response type to 'blob'
-      });
+      const response = await axios.get(
+        "http://localhost:9090/api/apps/apppdf",
+        {
+          responseType: "blob", // Set the response type to 'blob'
+        }
+      );
 
       // Create a download link
       const url = window.URL.createObjectURL(new Blob([response.data]));
-      const link = document.createElement('a');
+      const link = document.createElement("a");
       link.href = url;
-      link.setAttribute('download', 'apps.pdf');
+      link.setAttribute("download", "apps.pdf");
       document.body.appendChild(link);
       link.click();
     } catch (error) {
-      console.error('Error occurred while generating or downloading the PDF:', error);
+      console.error(
+        "Error occurred while generating or downloading the PDF:",
+        error
+      );
     }
   };
 
-
   //update apps details
-  const updateApps = (applicationName) => {
-    
+  const updateApps = (applicationName) => {};
+  //fetching Apps details from backend with the time interval
+  const fetchApps = async () => {
+    try {
+      const appsResponse = await axios.get(
+        "http://localhost:9090/api/apps/all"
+      );
+      setAppsData(appsResponse.data);
+    } catch (error) {
+      console.error("Error fetching metrics data:", error);
+    }
   };
-//fetching Apps details from backend with the time interval
-    const fetchApps = async () => {
-     
-      try {
-        const appsResponse = await axios.get('http://localhost:9090/api/apps/all');
-        setAppsData(appsResponse.data);
-      } catch (error) {
-        console.error('Error fetching metrics data:', error);
-      }
-      
+
+  useEffect(() => {
+    fetchApps(); // Initial fetch
+
+    // Polling every 12 seconds (adjust the interval as per your requirements)
+    const interval = setInterval(fetchApps, 2000);
+    return () => {
+      clearInterval(interval); // Cleanup interval on component unmount
     };
+  }, []);
 
-    useEffect(() => {
-      fetchApps(); // Initial fetch
-  
-      // Polling every 12 seconds (adjust the interval as per your requirements)
-      const interval = setInterval(fetchApps, 2000);
-        return () => {
-        clearInterval(interval); // Cleanup interval on component unmount
-      };
-    }, []);
+  //fetching Clients Details from backend with the time intervl
+  const fetchclients = async () => {
+    try {
+      const appsResponse = await axios.get(
+        "http://localhost:9090/api/clients/all"
+      );
+      setClientsData(appsResponse.data);
+    } catch (error) {
+      console.error("Error fetching metrics data:", error);
+    }
+  };
+  useEffect(() => {
+    fetchclients(); // Initial fetch
 
-//fetching Clients Details from backend with the time intervl
-    const fetchclients = async () => {
-
-      try {
-        const appsResponse = await axios.get('http://localhost:9090/api/clients/all');
-        setClientsData(appsResponse.data);
-      } catch (error) {
-        console.error('Error fetching metrics data:', error);
-      }
-
+    // Polling every 12 seconds (adjust the interval as per your requirements)
+    const interval = setInterval(fetchclients, 2000);
+    return () => {
+      clearInterval(interval); // Cleanup interval on component unmount
     };
-    useEffect(() => {
-      fetchclients(); // Initial fetch
-  
-      // Polling every 12 seconds (adjust the interval as per your requirements)
-      const interval = setInterval(fetchclients, 2000);
-        return () => {
-        clearInterval(interval); // Cleanup interval on component unmount
-      };
-    }, []);
+  }, []);
 
-    
-
+  const filteredData = appsData.filter(
+    (app) =>
+      (searchBy === "" && app) ||
+      (searchBy === SEARCH_BY.APP_NAME &&
+        app.applicationName.includes(searchInput)) ||
+      (searchBy === SEARCH_BY.PATH &&
+        app.path.toLowerCase().includes(searchInput.toLowerCase())) ||
+      (searchBy === SEARCH_BY.STATUS &&
+        app.state.toLowerCase().includes(searchInput.toLowerCase()))
+  );
 
   return (
     <div className=" appContent">
       {/* Apps Overview Navbar */}
       <nav className="navbar navbar-expand-lg bg-body-tertiary overView-nav">
-        <div className="container-fluid">
+        <div className="container-fluid ">
           <h3>Apps Overview</h3>
-          <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <button
+            className="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
             <span className="navbar-toggler-icon"></span>
           </button>
 
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-
-            </ul>
+            <ul className="navbar-nav me-auto mb-2 mb-lg-0"></ul>
+            <div style={{ margin: "10px", width: "200px" }}>
+              <select
+                class="form-select "
+                value={searchBy}
+                onChange={(e) => setSearchBy(e.target.value)}
+              >
+                <option hidden selected>
+                  Search by
+                </option>
+                <option value={SEARCH_BY.APP_NAME}>App name</option>
+                <option value={SEARCH_BY.PATH}>Path</option>
+                <option value={SEARCH_BY.STATUS}>Status</option>
+              </select>
+            </div>
 
             <form className="d-flex" role="search">
-              <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-              <button className="btn btn-outline-success" type="submit">Search</button>
+              <input
+                className="form-control me-2"
+                type="search"
+                placeholder="Search"
+                aria-label="Search"
+                value={searchInput}
+                onChange={(e) => setSearchInput(e.target.value)}
+              />
+              <button className="btn btn-outline-success" type="submit">
+                Search
+              </button>
             </form>
           </div>
         </div>
       </nav>
 
-
       {/* Apps Table  */}
       <div className="table-responsive-xxl apps-table">
-        <table className="table table-striped "  >
+        <table className="table table-striped ">
           <thead className="table-dark">
             <tr>
               <th>Application Name</th>
@@ -143,11 +190,18 @@ export const ApplicationPage = () => {
 
           {/*2nd row*/}
           <tbody>
-            {appsData.map(apps => (
-              <tr key={apps.applicationName}>
-                <td> {apps.applicationName}</td>
-                <td><a href={`http://localhost:8080/${apps.path}`}>{apps.path}</a></td>
-                {/* <td className="text-center"><span className="badge rounded-pill" style={{
+            {filteredData.length === 0 ? (
+              <p className="text-center m-2">No data Found !</p>
+            ) : (
+              filteredData.map((apps) => (
+                <tr key={apps.applicationName}>
+                  <td> {apps.applicationName}</td>
+                  <td>
+                    <a href={`http://localhost:8080/${apps.path}`}>
+                      {apps.path}
+                    </a>
+                  </td>
+                  {/* <td className="text-center"><span className="badge rounded-pill" style={{
                   backgroundColor
                     : apps.state === "online" ? 'rgb(54, 139, 84)'
                       : apps.availability === "offline" ? 'rgb(190, 25, 25)'
@@ -155,15 +209,15 @@ export const ApplicationPage = () => {
                 }}>{apps.availability} </span>
                 </td> */}
 
-                <td>{apps.state}</td>
-                {/* <td>{apps.appType}</td>
+                  <td>{apps.state}</td>
+                  {/* <td>{apps.appType}</td>
                 <td>{apps.clientName}</td> */}
-                {/* <td className="text-center">
+                  {/* <td className="text-center">
                   <button className="btn btn-outline-primary">start/stop</button>
                 </td> */}
 
-                {/* delete button */}
-                {/* <td className="text-center"><button
+                  {/* delete button */}
+                  {/* <td className="text-center"><button
                   className="btn btn-link"
                   type="button"
                   data-toggle="tooltip"
@@ -175,10 +229,9 @@ export const ApplicationPage = () => {
                     color="#DC3545"
                     width="25"
                     height="25" /></button></td> */}
-                    
 
-                {/* edit button  */}
-                {/* <td className="text-center ">
+                  {/* edit button  */}
+                  {/* <td className="text-center ">
                   <button
                     className="btn btn-link  "
                     type="button"
@@ -187,89 +240,111 @@ export const ApplicationPage = () => {
                     title="edit"
                   >
                     <Icon icon="material-symbols:edit-outline" color="#4989f4" /></button></td> */}
-                {/* ...modal hidden popup... */}
-                <div class="modal fade" id="clients" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                  <div class="modal-dialog">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="exampleModalLabel">Add more details</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                      </div>
-                      <div class="modal-body">
-                        <form>
-                          <div className="row">
-                            <label htmlFor="client" className="form-label">
-                              Client Company Name
-                            </label>
-                            <select
-                              className="form-select"
-                              id="client"
-                              value={selectedClient}
-                              onChange={handleSelectClient}
-                              required
-                            >
-                              <option value="" disabled>Choose...</option>
-                              {clientsData.map((client) => (
-                                <option key={client.id} value={client.id}>
-                                  {client.companyName} -{client.contactPerson}
+                  {/* ...modal hidden popup... */}
+                  <div
+                    class="modal fade"
+                    id="clients"
+                    tabindex="-1"
+                    aria-labelledby="exampleModalLabel"
+                    aria-hidden="true"
+                  >
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h1 class="modal-title fs-5" id="exampleModalLabel">
+                            Add more details
+                          </h1>
+                          <button
+                            type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Close"
+                          ></button>
+                        </div>
+                        <div class="modal-body">
+                          <form>
+                            <div className="row">
+                              <label htmlFor="client" className="form-label">
+                                Client Company Name
+                              </label>
+                              <select
+                                className="form-select"
+                                id="client"
+                                value={selectedClient}
+                                onChange={handleSelectClient}
+                                required
+                              >
+                                <option value="" disabled>
+                                  Choose...
                                 </option>
-                              ))}
-                            </select>
-
-                          </div>
-                        </form>
-                      </div>
-                      <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary" onClick={() => updateApps(apps.applicationName)}>Save changes</button>
+                                {clientsData.map((client) => (
+                                  <option key={client.id} value={client.id}>
+                                    {client.companyName} -{client.contactPerson}
+                                  </option>
+                                ))}
+                              </select>
+                            </div>
+                          </form>
+                        </div>
+                        <div class="modal-footer">
+                          <button
+                            type="button"
+                            class="btn btn-secondary"
+                            data-bs-dismiss="modal"
+                          >
+                            Close
+                          </button>
+                          <button
+                            type="button"
+                            class="btn btn-primary"
+                            onClick={() => updateApps(apps.applicationName)}
+                          >
+                            Save changes
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-
-              </tr>
-            ))}
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
-        <button onClick={generateAppPDF}
-                          type="button"
-                          className="btn btn-outline-info"
-                          
-                        >
-                          Download pdf
-                        </button>
+        <button
+          onClick={generateAppPDF}
+          type="button"
+          className="btn btn-outline-info"
+        >
+          Download pdf
+        </button>
       </div>
 
-
-
       <div>
-        <Link to="/ClientsDetails"><img src={id} alt="clients details" className="id"></img>View Clients Details Table<Icon icon="bi:arrow-up" color="#0d6efd" rotate={1} /></Link>
-      
+        <Link to="/ClientsDetails">
+          <img src={id} alt="clients details" className="id"></img>View Clients
+          Details Table
+          <Icon icon="bi:arrow-up" color="#0d6efd" rotate={1} />
+        </Link>
       </div>
     </div>
   );
-
-}
-
-
+};
 
 export const ClientForm = () => {
-
-  const [companyName, setCompanyName] = useState('')
-  const [contactPerson, setContactPerson] = useState('')
-  const [emailAddress, setEmailAddress] = useState('')
-  const [phoneNumber, setPhoneNumber] = useState('')
-  const [businessType, setBusinessType] = useState('')
-  const [projectType, setProjectType] = useState('')
-  const [projectName, setProjectName] = useState('')
-  const [projectScope, setProjectScope] = useState('')
-  const [targetAudience, setTargetAudience] = useState('')
-  const [expectedFeatures, SetExpectedFeatures] = useState('')
+  const [companyName, setCompanyName] = useState("");
+  const [contactPerson, setContactPerson] = useState("");
+  const [emailAddress, setEmailAddress] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [businessType, setBusinessType] = useState("");
+  const [projectType, setProjectType] = useState("");
+  const [projectName, setProjectName] = useState("");
+  const [projectScope, setProjectScope] = useState("");
+  const [targetAudience, setTargetAudience] = useState("");
+  const [expectedFeatures, SetExpectedFeatures] = useState("");
   const [popupMessage, setPopupMessage] = useState("");
 
   const handleSubmit = (e) => {
-    e.preventDefault()
-
+    e.preventDefault();
 
     //email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -278,24 +353,35 @@ export const ClientForm = () => {
       return;
     }
     //If all validations pass, proceed with form submission
-    const clients = { companyName, contactPerson, phoneNumber, emailAddress, businessType, projectType, projectName, projectScope, targetAudience, expectedFeatures }
-    console.log(clients)
+    const clients = {
+      companyName,
+      contactPerson,
+      phoneNumber,
+      emailAddress,
+      businessType,
+      projectType,
+      projectName,
+      projectScope,
+      targetAudience,
+      expectedFeatures,
+    };
+    console.log(clients);
     fetch("http://localhost:9090/clients/add", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(clients)
-    }).then((response) => {
-      if (response.ok) {
-        console.log("New Clients details added ");
-        setPopupMessage("Form submitted successfully!");
-      } else {
-        throw new Error("Form submission Failed");
-      }
-
+      body: JSON.stringify(clients),
     })
+      .then((response) => {
+        if (response.ok) {
+          console.log("New Clients details added ");
+          setPopupMessage("Form submitted successfully!");
+        } else {
+          throw new Error("Form submission Failed");
+        }
+      })
       .catch((error) => {
         console.error(error);
-        setPopupMessage("Form submission failed. ")
+        setPopupMessage("Form submission failed. ");
       });
 
     setCompanyName("");
@@ -308,9 +394,7 @@ export const ClientForm = () => {
     setProjectScope("");
     setTargetAudience("");
     SetExpectedFeatures("");
-
   };
-
 
   return (
     <div className="ClientFormContent">
@@ -319,8 +403,7 @@ export const ClientForm = () => {
       <form className="mt-3 " onSubmit={handleSubmit}>
         {/* Company Name */}
         <div className="form-group row mt-3">
-          <label htmlFor="companyName"
-            className="col-sm-2 col-form-label">
+          <label htmlFor="companyName" className="col-sm-2 col-form-label">
             Company Name
           </label>
           <div className="col-sm-5">
@@ -332,15 +415,13 @@ export const ClientForm = () => {
               value={companyName}
               onChange={(e) => setCompanyName(e.target.value)}
               required
-            >
-            </input>
+            ></input>
           </div>
         </div>
 
         {/* Contact Person */}
         <div className="form-group row mt-3">
-          <label htmlFor="emailAddress"
-            className="col-sm-2 col-form-label">
+          <label htmlFor="emailAddress" className="col-sm-2 col-form-label">
             Contact Person
           </label>
           <div className="col-sm-5">
@@ -358,8 +439,7 @@ export const ClientForm = () => {
 
         {/* Email address */}
         <div className="form-group row mt-3">
-          <label htmlFor="emailAddress"
-            className="col-sm-2 col-form-label">
+          <label htmlFor="emailAddress" className="col-sm-2 col-form-label">
             Email Address
           </label>
           <div className="col-sm-3">
@@ -373,15 +453,16 @@ export const ClientForm = () => {
               required
             />
             <div className="valid-feedback">Looks good!</div>
-            <div className="invalid-feedback">Please provide a valid email address</div>
+            <div className="invalid-feedback">
+              Please provide a valid email address
+            </div>
           </div>
         </div>
 
         {/* Phone Number */}
 
         <div className="form-group row mt-3">
-          <label htmlFor="phoneNumber"
-            className="col-sm-2 col-form-label">
+          <label htmlFor="phoneNumber" className="col-sm-2 col-form-label">
             Contact No
           </label>
           <div className="col-sm-3">
@@ -398,8 +479,7 @@ export const ClientForm = () => {
         </div>
         {/* Business Type */}
         <div className="form-group row mt-3">
-          <label htmlFor="businessType"
-            className="col-sm-2 col-form-label">
+          <label htmlFor="businessType" className="col-sm-2 col-form-label">
             Business Type
           </label>
           <div className="col-sm-3">
@@ -417,8 +497,7 @@ export const ClientForm = () => {
 
         {/* Project Type */}
         <div className="form-group row mt-3">
-          <label htmlFor="projectType"
-            className="col-sm-2 col-form-label">
+          <label htmlFor="projectType" className="col-sm-2 col-form-label">
             Project Type
           </label>
           <div className="col-sm-3">
@@ -428,8 +507,11 @@ export const ClientForm = () => {
               value={projectType}
               defaultValue="None"
               onChange={(e) => setProjectType(e.target.value)}
-              required>
-                <option value="" selected>choose..</option>
+              required
+            >
+              <option value="" selected>
+                choose..
+              </option>
               <option value="Retail POS">Retail POS</option>
               <option value="Food POS">Food POS</option>
               <option value="E-Commerce">E-Commerce</option>
@@ -438,8 +520,7 @@ export const ClientForm = () => {
         </div>
         {/* Project Name */}
         <div className="form-group row mt-3">
-          <label htmlFor="projectName"
-            className="col-sm-2 col-form-label">
+          <label htmlFor="projectName" className="col-sm-2 col-form-label">
             Project Name
           </label>
           <div className="col-sm-3">
@@ -456,19 +537,16 @@ export const ClientForm = () => {
         </div>
         {/* Project Scope */}
         <div className="form-group row mt-3">
-          <label htmlFor="projectScope"
-            className="col-sm-2 col-form-label">
+          <label htmlFor="projectScope" className="col-sm-2 col-form-label">
             Project Scope
           </label>
           <div className="col-sm-8">
-
             <textarea
               type="text"
               className="form-control"
               rows="5"
               id="projectScope"
               placeholder="Briefly describe your project requirements and scope"
-
               value={projectScope}
               onChange={(e) => setProjectScope(e.target.value)}
               required
@@ -477,8 +555,7 @@ export const ClientForm = () => {
         </div>
         {/* Target Audience */}
         <div className="form-group row mt-3">
-          <label htmlFor="targetAudience"
-            className="col-sm-2 col-form-label">
+          <label htmlFor="targetAudience" className="col-sm-2 col-form-label">
             Target Audience
           </label>
           <div className="col-sm-8">
@@ -496,8 +573,7 @@ export const ClientForm = () => {
         </div>
         {/* Expected Features */}
         <div className="form-group row mt-3">
-          <label htmlFor="expectedFeatures"
-            className="col-sm-2 col-form-label">
+          <label htmlFor="expectedFeatures" className="col-sm-2 col-form-label">
             Expected Features
           </label>
           <div className="col-sm-8">
@@ -515,7 +591,11 @@ export const ClientForm = () => {
         </div>
 
         <div className="col-12">
-          <button type="submit" className="btn btn-outline-success m-3" onClick={handleSubmit}>
+          <button
+            type="submit"
+            className="btn btn-outline-success m-3"
+            onClick={handleSubmit}
+          >
             Submit
           </button>
           <button type="submit" className="btn btn-outline-danger m-3">
@@ -523,19 +603,29 @@ export const ClientForm = () => {
           </button>
         </div>
       </form>
-      {popupMessage && <div className="alert alert-success">{popupMessage}</div>}
-
+      {popupMessage && (
+        <div className="alert alert-success">{popupMessage}</div>
+      )}
     </div>
   );
-}
-
+};
 
 export const ClientsDetails = () => {
-
   const [clientsData, setClientsData] = useState([]);
   const [clients, setClients] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
   const itemsPerPage = 2;
+
+  const [searchBy, setSearchBy] = useState("");
+  const [searchInput, setSearchInput] = useState("");
+
+  const SEARCH_BY = {
+    COMPANY_NAME: "COMPANY_NAME",
+    CONTACT_PERSON: "CONTACT_PERSON",
+    PROJECT_NAME: "PROJECT_NAME",
+    PROJECT_TYPE: "PROJECT_TYPE",
+    BUSINESS_TYPE: "BUSINESS_TYPE",
+  };
 
   useEffect(() => {
     loadclients();
@@ -546,31 +636,37 @@ export const ClientsDetails = () => {
       const response = await axios.get("http://localhost:9090/api/clients");
       setClients(response.data);
     } catch (error) {
-      console.error('Error occurred while loading clients:', error);
+      console.error("Error occurred while loading clients:", error);
     }
   };
   const generateClientPDF = async () => {
     try {
-      const response = await axios.get("http://localhost:9090/api/clients/clientpdf", {
-        responseType: 'blob', // Set the response type to 'blob'
-      });
+      const response = await axios.get(
+        "http://localhost:9090/api/clients/clientpdf",
+        {
+          responseType: "blob", // Set the response type to 'blob'
+        }
+      );
 
       // Create a download link
       const url = window.URL.createObjectURL(new Blob([response.data]));
-      const link = document.createElement('a');
+      const link = document.createElement("a");
       link.href = url;
-      link.setAttribute('download', 'clients.pdf');
+      link.setAttribute("download", "clients.pdf");
       document.body.appendChild(link);
       link.click();
     } catch (error) {
-      console.error('Error occurred while generating or downloading the PDF:', error);
+      console.error(
+        "Error occurred while generating or downloading the PDF:",
+        error
+      );
     }
   };
 
   const handlePageClick = (data) => {
     setCurrentPage(data.selected);
   };
-  
+
   const offset = currentPage * itemsPerPage;
   const currentClient = clientsData.slice(offset, offset + itemsPerPage);
   const pageCount = Math.ceil(clientsData.length / itemsPerPage);
@@ -578,69 +674,123 @@ export const ClientsDetails = () => {
   const handleDeleteMetrics = (id) => {
     // Make a DELETE request to the delete endpoint
     fetch(`http://localhost:9090/api/clients/${id}`, {
-      method: 'DELETE'
+      method: "DELETE",
     })
-      .then(response => {
+      .then((response) => {
         if (response.ok) {
           // Delete successful, perform any necessary actions (e.g., update UI)
-          setClientsData(prevData => prevData.filter(item => item.id !== id));
-          console.log('Record deleted successfully');
+          setClientsData((prevData) =>
+            prevData.filter((item) => item.id !== id)
+          );
+          console.log("Record deleted successfully");
         } else {
           // Delete failed, handle the error (e.g., show error message)
-          console.error('Failed to delete record');
+          console.error("Failed to delete record");
         }
       })
-      .catch(error => {
+      .catch((error) => {
         // Handle network or other errors
-        console.error('Error occurred while deleting record:', error);
+        console.error("Error occurred while deleting record:", error);
       });
   };
 
-
-
   useEffect(() => {
     const fetchData = async () => {
-
       try {
-        const metricsResponse = await axios.get('http://localhost:9090/api/clients/all');
+        const metricsResponse = await axios.get(
+          "http://localhost:9090/api/clients/all"
+        );
         setClientsData(metricsResponse.data);
       } catch (error) {
-        console.error('Error fetching metrics data:', error);
+        console.error("Error fetching metrics data:", error);
       }
-
     };
 
     fetchData();
   }, []);
 
+  const filteredClient = currentClient.filter(
+    (client) =>
+      (searchBy === "" && client) ||
+      (searchBy === SEARCH_BY.COMPANY_NAME &&
+        client.companyName.includes(searchInput)) ||
+      (searchBy === SEARCH_BY.CONTACT_PERSON &&
+        client.contactPerson
+          .toLowerCase()
+          .includes(searchInput.toLowerCase())) ||
+      (searchBy === SEARCH_BY.BUSINESS_TYPE &&
+        client.businessType
+          .toLowerCase()
+          .includes(searchInput.toLowerCase())) ||
+      (searchBy === SEARCH_BY.PROJECT_NAME &&
+        client.projectName.toLowerCase().includes(searchInput.toLowerCase())) ||
+      (searchBy === SEARCH_BY.PROJECT_TYPE &&
+        client.projectType.toLowerCase().includes(searchInput.toLowerCase()))
+  );
+
   return (
     <div className="ClientFormContent">
       <nav className="navbar navbar-expand-lg bg-body-tertiary overView-nav">
-        <div className="container-fluid">
-          <a className="navbar-brand" href="#">Clients Details</a>
-          <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <div className="container-fluid ">
+          <a className="navbar-brand" href="#">
+            Clients Details
+          </a>
+
+          <button
+            className="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
             <span className="navbar-toggler-icon"></span>
           </button>
-          <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
 
-            </ul>
+          <div className="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul className="navbar-nav me-auto mb-2 mb-lg-0"></ul>
+            <div style={{ margin: "10px", width: "200px" }}>
+              <select
+                class="form-select "
+                value={searchBy}
+                onChange={(e) => setSearchBy(e.target.value)}
+              >
+                <option hidden selected>
+                  Search by
+                </option>
+                <option value={SEARCH_BY.COMPANY_NAME}>Company name</option>
+                <option value={SEARCH_BY.BUSINESS_TYPE}>Business type</option>
+                <option value={SEARCH_BY.CONTACT_PERSON}>Contact person</option>
+                <option value={SEARCH_BY.PROJECT_NAME}>Project name</option>
+                <option value={SEARCH_BY.PROJECT_TYPE}>Project type</option>
+              </select>
+            </div>
+
+            <form className="d-flex" role="search">
+              <input
+                className="form-control me-2"
+                type="search"
+                placeholder="Search"
+                aria-label="Search"
+                value={searchInput}
+                onChange={(e) => setSearchInput(e.target.value)}
+              />
+            </form>
             <Link to="/addClient" className="btn btn-outline-primary me-2">
               Add Client Details
             </Link>
-            <div>
-            </div>
-
+            <div></div>
           </div>
         </div>
       </nav>
 
-
       {/* Metrics Table */}
       <div className="table-responsive-xxl mt-5 clientsTable">
-        <table className="table table-hover " >
+        <table className="table table-hover ">
           <thead className="table-dark">
-            <tr>{/*1st row */}
+            <tr>
+              {/*1st row */}
               <th className="text-center">Timestamp</th>
               <th className="text-center">Company name</th>
               <th className="text-center">Contact Person</th>
@@ -657,74 +807,83 @@ export const ClientsDetails = () => {
           </thead>
           {/*2nd row*/}
           <tbody>
-            {currentClient.map(client => (
-              <tr key={client.id}>
-                <td className="text-center">{client.timestamp}</td>
-                <td className="text-center">{client.companyName}</td>
-                <td className="text-center">{client.contactPerson}</td>
-                <td className="text-center">{client.businessType}</td>
-                <td className="text-center">{client.emailAddress}</td>
-                <td className="text-center">{client.projectName}</td>
-                <td className="text-center">{client.projectType}</td>
-                <td>
-                  <div><b>Project Scope:</b> {client.projectScope}</div>
-                  <div className="mt-2"><b>Target Audience:</b> </div>
-                  <div>{client.targetAudience}</div>
-                  <div className="mt-2"><b>Expected Features and Requirements: </b></div>
-                  <div>{client.expectedFeatures}</div>
-
-                </td>
-                {/* <td className="text-center">{client.projectScope}</td>
+            {filteredClient.length === 0 ? (
+              <p className="text-center m-2">No data Found !</p>
+            ) : (
+              filteredClient.map((client) => (
+                <tr key={client.id}>
+                  <td className="text-center">{client.timestamp}</td>
+                  <td className="text-center">{client.companyName}</td>
+                  <td className="text-center">{client.contactPerson}</td>
+                  <td className="text-center">{client.businessType}</td>
+                  <td className="text-center">{client.emailAddress}</td>
+                  <td className="text-center">{client.projectName}</td>
+                  <td className="text-center">{client.projectType}</td>
+                  <td>
+                    <div>
+                      <b>Project Scope:</b> {client.projectScope}
+                    </div>
+                    <div className="mt-2">
+                      <b>Target Audience:</b>{" "}
+                    </div>
+                    <div>{client.targetAudience}</div>
+                    <div className="mt-2">
+                      <b>Expected Features and Requirements: </b>
+                    </div>
+                    <div>{client.expectedFeatures}</div>
+                  </td>
+                  {/* <td className="text-center">{client.projectScope}</td>
                 <td className="text-center">{client.targetAudience}</td>
                 <td className="text-center">{client.expectedFeatures}</td> */}
 
-                <td><button
-                  className="btn btn-link"
-                  type="button"
-                  data-toggle="tooltip"
-                  data-placement="top"
-                  title="Delete"
-                  onClick={() => handleDeleteMetrics(client.id)}>
-                  <Icon
-                    icon="mdi:delete-outline"
-                    color="#DC3545"
-                    width="25"
-                    height="25" /></button></td>
-                {/* ...other table cells... */}
-              </tr>
-            ))}
+                  <td>
+                    <button
+                      className="btn btn-link"
+                      type="button"
+                      data-toggle="tooltip"
+                      data-placement="top"
+                      title="Delete"
+                      onClick={() => handleDeleteMetrics(client.id)}
+                    >
+                      <Icon
+                        icon="mdi:delete-outline"
+                        color="#DC3545"
+                        width="25"
+                        height="25"
+                      />
+                    </button>
+                  </td>
+                  {/* ...other table cells... */}
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
-        <button           onClick={generateClientPDF}
-                          type="button"
-                          className="btn btn-outline-info"
-                          
-                        >
-                          Download pdf
-                        </button>
+        <button
+          onClick={generateClientPDF}
+          type="button"
+          className="btn btn-outline-info"
+        >
+          Download pdf
+        </button>
 
-            {clientsData.length > itemsPerPage && (
-            <ReactPaginate
-              previousLabel={"Previous"}
-              nextLabel={"Next"}
-              breakLabel={"..."}
-              breakClassName={"break-me"}
-              pageCount={pageCount}
-              marginPagesDisplayed={2}
-              pageRangeDisplayed={5}
-              onPageChange={handlePageClick}
-              containerClassName={"pagination"}
-              subContainerClassName={"pages pagination"}
-              activeClassName={"active"}
-              pageClassName={"border-box"}
-            />
-          )}
+        {clientsData.length > itemsPerPage && (
+          <ReactPaginate
+            previousLabel={"Previous"}
+            nextLabel={"Next"}
+            breakLabel={"..."}
+            breakClassName={"break-me"}
+            pageCount={pageCount}
+            marginPagesDisplayed={2}
+            pageRangeDisplayed={5}
+            onPageChange={handlePageClick}
+            containerClassName={"pagination"}
+            subContainerClassName={"pages pagination"}
+            activeClassName={"active"}
+            pageClassName={"border-box"}
+          />
+        )}
       </div>
-
-      
     </div>
-
-
-
   );
-}
+};

@@ -3,37 +3,51 @@ import { useNavigate } from "react-router-dom";
 import Icon from "../../images/logo.png";
 import { useState } from "react";
 import axios from "../../axios";
+import { useFormik } from "formik";
 import "../../Styles/AuthLayoutStyles.css";
+import { object, string } from "yup";
+import TextField from "../../layout/core/TextField";
+
+const validationSchema = object().shape({
+  first_name: string().required("required !").min(3, "At least 3 characters"),
+  last_name: string().required("required !").min(3, "At least 3 characters"),
+  email: string().required("required !").email("Invalid email !"),
+  password: string()
+    .required("required !")
+    .min(6, "Password must have at least 6 character"),
+});
 
 const Signup = () => {
   const navigate = useNavigate();
-
   const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setLoading(true);
+  const handleFormSubmit = (values) => {
     axios
-      .post("/auth/register", {
-        first_name: firstName,
-        last_name: lastName,
-        email,
-        password,
-      })
+      .post("/auth/register", values)
       .then((response) => {
-        setLoading(false);
         navigate("/login");
       })
       .catch((err) => {
         setError(err?.response?.data);
-        setLoading(false);
       });
   };
+  const {
+    values,
+    errors,
+    touched,
+    handleBlur,
+    handleChange,
+    handleSubmit,
+    isSubmitting,
+  } = useFormik({
+    initialValues: {
+      first_name: "",
+      last_name: "",
+      email: "",
+      password: "",
+    },
+    validationSchema,
+    onSubmit: handleFormSubmit,
+  });
 
   return (
     <AuthLayout>
@@ -45,48 +59,53 @@ const Signup = () => {
             Sign up
           </p>
         </div>
-        <div class="mb-3">
+        <div>
           <label className="label">First name</label>
-          <input
-            value={firstName}
-            type="first name"
+          <TextField
+            value={values.first_name}
+            name="first_name"
             class="form-control"
             placeholder="Enter your first name"
-            onChange={(e) => setFirstName(e.target.value)}
-            required
+            onChange={handleChange}
+            onBlur={handleBlur}
+            error={touched.first_name && errors.first_name}
           />
         </div>
-        <div class="mb-3">
+        <div>
           <label className="label">Last name</label>
-          <input
-            value={lastName}
-            type="last name"
+          <TextField
+            value={values.last_name}
+            name="last_name"
             class="form-control"
             placeholder="Enter your last name"
-            onChange={(e) => setLastName(e.target.value)}
-            required
+            onChange={handleChange}
+            onBlur={handleBlur}
+            error={touched.last_name && errors.last_name}
           />
         </div>
-        <div class="mb-3">
+        <div>
           <label className="label">Email</label>
-          <input
-            value={email}
-            type="email"
+          <TextField
+            value={values.email}
+            name="email"
             class="form-control"
             placeholder="Enter your email"
-            onChange={(e) => setEmail(e.target.value)}
-            required
+            onChange={handleChange}
+            onBlur={handleBlur}
+            error={touched.email && errors.email}
           />
         </div>
-        <div class="mb-3">
+        <div>
           <label className="label">Password</label>
-          <input
-            value={password}
+          <TextField
+            value={values.password}
+            name="password"
             type="password"
             class="form-control"
             placeholder="Enter your password"
-            onChange={(e) => setPassword(e.target.value)}
-            required
+            onChange={handleChange}
+            onBlur={handleBlur}
+            error={touched.password && errors.password}
           />
         </div>
         <div className="mb-3">
@@ -105,7 +124,7 @@ const Signup = () => {
         {/* Error massage component */}
         <p className="text-danger text-center">{error}</p>
         <button class="btn btn-secondary w-100" type="submit">
-          {loading ? "Loading..." : "Sign up"}
+          {isSubmitting ? "Loading..." : "Sign up"}
         </button>
       </form>
     </AuthLayout>
