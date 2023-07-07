@@ -3,7 +3,7 @@ import "./NavBarStyles.css";
 import { Icon } from "@iconify/react";
 import { Link } from "react-router-dom";
 
-export const Navigationbar = () => {
+export const Navigationbar = ({ alertCount }) => {
   return (
     <div>
       <ul className="sidebar-lists">
@@ -27,13 +27,25 @@ export const Navigationbar = () => {
           </Link>
         </li>
 
+        {/* <li>
+          <Link to="/alert" className="sidebar-item">
+            <Icon icon="ri:notification-4-line" />
+            <span className="side"></span>
+            <span>Alerts</span>
+            {alertCount > 0 && <span className="badge rounded-pill text-bg-warning">{alertCount}</span>}
+          </Link>
+        </li> */}
         <li>
           <Link to="/alert" className="sidebar-item">
             <Icon icon="ri:notification-4-line" />
             <span className="side"></span>
             <span>Alerts</span>
+            {alertCount > 0 && (
+              <span className="badge rounded-pill text-bg-danger" style={{ marginLeft: '45px', fontSize:'14px' }}>{alertCount}</span>
+            )}
           </Link>
         </li>
+
 
         <li>
           <Link to="/settings" className="sidebar-item">
