@@ -52,7 +52,7 @@ function Dashboard() {
             </div>
           </div>
           <div className="col-md-2"></div>
-          <div className="col-md-2">
+          {/* <div className="col-md-2">
             <div style={{ display: 'flex', flexDirection: 'row' }}>
               <div style={{ marginRight: 20 }}>
                 <CircularProgressBar percentage={75} Text="CPU usage"/>
@@ -61,7 +61,7 @@ function Dashboard() {
                 <CircularProgressBar percentage={45} Text="Memory usage"/>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </section>
     </div>
