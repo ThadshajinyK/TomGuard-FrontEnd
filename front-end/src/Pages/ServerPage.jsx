@@ -43,7 +43,8 @@ export const MetricsTable = () => {
 
   const handleDeleteMetrics = (id) => {
     // Make a DELETE request to the delete endpoint
-    fetch(`/metrics/${id}`, {
+    axios
+    .delete(`/metrics/${id}`, {
       method: "DELETE",
     })
       .then((response) => {
@@ -781,7 +782,7 @@ export const ServerPage = () => {
             </tr>
             <tr>
               <td className="text-end">
-                <h5>Availabailty:</h5>
+                <h5>Availability:</h5>
               </td>
               <td>
                 <h5

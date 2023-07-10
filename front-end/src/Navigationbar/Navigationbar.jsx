@@ -41,11 +41,15 @@ export const Navigationbar = ({ alertCount }) => {
             <span className="side"></span>
             <span>Alerts</span>
             {alertCount > 0 && (
-              <span className="badge rounded-pill text-bg-danger" style={{ marginLeft: '45px', fontSize:'14px' }}>{alertCount}</span>
+              <span
+                className="badge rounded-pill text-bg-danger"
+                style={{ marginLeft: "45px", fontSize: "14px" }}
+              >
+                {alertCount}
+              </span>
             )}
           </Link>
         </li>
-
 
         <li>
           <Link to="/settings" className="sidebar-item">
