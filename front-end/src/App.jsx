@@ -63,7 +63,7 @@ function App() {
           <BrowserRouter>
             <Titlebar2 />
             <section className="sidebar">
-              <Navigationbar alertCount={alertCount}/>
+              <Navigationbar alertCount={alertCount} />
             </section>
             <Routes>
               <Route path="/servers" element={<ServerPage />}></Route>
@@ -78,7 +78,12 @@ function App() {
               <Route path="/logs" element={<LogsTable />}></Route>
               <Route path="/logPerform" element={<LogPerform />}></Route>
 
-              <Route path="/alert" element={<AlertTable onAlertCountChange={handleAlertCountChange} />}></Route>
+              <Route
+                path="/alert"
+                element={
+                  <AlertTable onAlertCountChange={handleAlertCountChange} />
+                }
+              ></Route>
 
               <Route
                 path="/chat"

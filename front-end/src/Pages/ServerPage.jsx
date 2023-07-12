@@ -43,9 +43,10 @@ export const MetricsTable = () => {
 
   const handleDeleteMetrics = (id) => {
     // Make a DELETE request to the delete endpoint
-    fetch(`/metrics/${id}`, {
-      method: "DELETE",
-    })
+    axios
+      .delete(`/metrics/${id}`, {
+        method: "DELETE",
+      })
       .then((response) => {
         if (response.ok) {
           // Delete successful, perform any necessary actions (e.g., update UI)
@@ -109,7 +110,7 @@ export const MetricsTable = () => {
     fetchMetrics(); // Initial fetch
 
     // Polling every 5 seconds (adjust the interval as per your requirements)
-    const interval = setInterval(fetchMetrics, 12000);
+    const interval = setInterval(fetchMetrics, 1000);
 
     return () => {
       clearInterval(interval); // Cleanup interval on component unmount
@@ -195,6 +196,10 @@ export const MetricsTable = () => {
               <th className="text-center">uptime</th>
               <th className="text-center">Request time</th>
               <th className="text-center">Response Time</th>
+              <th className="text-center">Memory Usage</th>
+              <th className="text-center">No of Sessions</th>
+              <th className="text-center">Thread Count</th>
+
               <th>
                 <button
                   className="btn btn-outline-danger"
@@ -222,7 +227,7 @@ export const MetricsTable = () => {
             ) : (
               filteredMetrics.map((metric) => (
                 <tr key={metric.id}>
-                  <td className="text-center">{metric.timestamp}</td>
+                   <td className="text-center">{metric.timestamp}</td>
                   <td className="text-center">
                     <span
                       className="badge rounded-pill"
@@ -235,18 +240,44 @@ export const MetricsTable = () => {
                       {metric.availability}{" "}
                     </span>
                   </td>
-                  <td className="text-center">{metric.uptimeInMillis}</td>
-                  <td className="text-center">{metric.requestTimeInMillis}</td>
-                  <td className="text-center">{metric.responseTimeInMillis}</td>
-                  <td>
+                  <td className="text-center">
+                    {metric.uptimeInMillis !== 0
+                      ? metric.uptimeInMillis
+                      : "N/A"}
+                  </td>
+                  <td className="text-center">
+                    {metric.requestTimeInMillis !== 0
+                      ? metric.requestTimeInMillis
+                      : "N/A"}
+                  </td>
+                  <td className="text-center">
+                    {metric.responseTimeInMillis !== 0
+                      ? metric.responseTimeInMillis
+                      : "N/A"}
+                  </td>
+                  <td className="text-center">
+                    {metric.responseTimeInMillis !== 0
+                      ? metric.memoryUsage
+                      : "N/A"}
+                  </td>
+                  <td className="text-center">
+                    {metric.responseTimeInMillis !== 0
+                      ? metric.noOfSession
+                      : "N/A"}
+                  </td>
+                  <td className="text-center">
+                    {metric.responseTimeInMillis !== 0
+                      ? metric.threadCount
+                      : "N/A"}
+                  </td> 
+                   <td>
                     <button
                       class="btn btn-link"
                       type="button"
                       data-toggle="tooltip"
                       data-placement="top"
                       title="Delete"
-                      onClick={() => confirmDeleteMetric(metric.id)}
-                    >
+                      onClick={() => confirmDeleteMetric(metric.id)}>
                       <Icon
                         icon="material-symbols:delete-outline"
                         color="#dc3545"
@@ -781,7 +812,7 @@ export const ServerPage = () => {
             </tr>
             <tr>
               <td className="text-end">
-                <h5>Availabailty:</h5>
+                <h5>Availability:</h5>
               </td>
               <td>
                 <h5

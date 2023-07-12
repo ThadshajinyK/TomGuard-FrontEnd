@@ -18,7 +18,6 @@
 //     { month: 'Dec', value: 550 },
 //   ];
 
-
 //   const data2 = [
 //     { month: 'Jan', value: 450 },
 //     { month: 'Feb', value: 550 },
@@ -32,7 +31,6 @@
 //     { month: 'Oct', value: 400 },
 //     { month: 'Nov', value: 200 },
 //     { month: 'Dec', value: 650 },
-
 
 //   ];
 
@@ -50,9 +48,6 @@
 //     { month: 'Nov', value: 550 },
 //     { month: 'Dec', value: 150 },
 //   ];
-
-
-
 
 //   return (
 //     <div >
@@ -73,7 +68,6 @@
 //           </div>
 //         </div>
 
-
 //       </section>
 
 //     </div>
@@ -93,15 +87,15 @@ function Graphview() {
 
   const fetchMetricsData = async () => {
     try {
-      const response = await fetch('http://localhost:9090/api/metrics/all');
+      const response = await fetch("http://localhost:9090/api/metrics/all");
       if (response.ok) {
         const data = await response.json();
         setMetricsData(data);
       } else {
-        console.error('Failed to fetch metrics data');
+        console.error("Failed to fetch metrics data");
       }
     } catch (error) {
-      console.error('Error fetching metrics data:', error);
+      console.error("Error fetching metrics data:", error);
     }
   };
 
@@ -118,17 +112,17 @@ function Graphview() {
     };
   }, []);
 
-  const uptimeData = metricsData.map(metric => ({
+  const uptimeData = metricsData.map((metric) => ({
     month: metric.timestamp,
     value: metric.uptimeInMillis,
   }));
 
-  const responseTimeData = metricsData.map(metric => ({
+  const responseTimeData = metricsData.map((metric) => ({
     month: metric.timestamp,
     value: metric.responseTimeInMillis,
   }));
 
-  const requestTimeData = metricsData.map(metric => ({
+  const requestTimeData = metricsData.map((metric) => ({
     month: metric.timestamp,
     value: metric.requestTimeInMillis,
   }));
