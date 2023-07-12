@@ -702,6 +702,8 @@ export const ClientsDetails = () => {
       console.error("Error occurred while loading clients:", error);
     }
   };
+
+  
   const generateClientPDF = async () => {
     try {
       const response = await axios.get(
