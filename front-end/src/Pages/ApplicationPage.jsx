@@ -703,7 +703,7 @@ export const ClientsDetails = () => {
     }
   };
 
-  
+
   const generateClientPDF = async () => {
     try {
       const response = await axios.get(
@@ -842,7 +842,7 @@ export const ClientsDetails = () => {
                 onChange={(e) => setSearchInput(e.target.value)}
               />
             </form>
-            <Link to="/addClient" className="btn btn-outline-primary mt-2">
+            <Link to="/addClient" className="btn btn-outline-primary ">
             <Icon icon="mdi:add-bold" width="20" height="20" className="mt-0 me-2 mb-1" />Add Client Details
             </Link>
             <div></div>
