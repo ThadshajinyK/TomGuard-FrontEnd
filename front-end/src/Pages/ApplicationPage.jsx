@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from "react";
-import axios from 'axios';
+import axios from "axios";
 import id from "../images/ID Card.png";
-import { Icon } from '@iconify/react';
+import { Icon } from "@iconify/react";
 import "../Styles/AppPageStyles.css";
-import "../Styles/pagination.css"
-import { Link } from 'react-router-dom';
+import "../Styles/pagination.css";
+import { Link } from "react-router-dom";
 import ReactPaginate from "react-paginate";
-import "../Styles/pagination.css"
+import "../Styles/pagination.css";
 
 export const ApplicationPage = () => {
   const [appsData, setAppsData] = useState([]);
   const [clientsData, setClientsData] = useState([]);
-  const [selectedClient, setSelectedClient] = useState('');
+  const [selectedClient, setSelectedClient] = useState("");
   const [apps, setApps] = useState([]);
 
   const handleSelectClient = (event) => {
@@ -27,79 +27,78 @@ export const ApplicationPage = () => {
       const response = await axios.get("http://localhost:9090/api/apps");
       setApps(response.data);
     } catch (error) {
-      console.error('Error occurred while loading apps:', error);
+      console.error("Error occurred while loading apps:", error);
     }
   };
-
 
   const generateAppPDF = async () => {
     try {
-      const response = await axios.get("http://localhost:9090/api/apps/apppdf", {
-        responseType: 'blob', // Set the response type to 'blob'
-      });
+      const response = await axios.get(
+        "http://localhost:9090/api/apps/apppdf",
+        {
+          responseType: "blob", // Set the response type to 'blob'
+        }
+      );
 
       // Create a download link
       const url = window.URL.createObjectURL(new Blob([response.data]));
-      const link = document.createElement('a');
+      const link = document.createElement("a");
       link.href = url;
-      link.setAttribute('download', 'apps.pdf');
+      link.setAttribute("download", "apps.pdf");
       document.body.appendChild(link);
       link.click();
     } catch (error) {
-      console.error('Error occurred while generating or downloading the PDF:', error);
+      console.error(
+        "Error occurred while generating or downloading the PDF:",
+        error
+      );
     }
   };
 
-
   //update apps details
-  const updateApps = (applicationName) => {
-    
+  const updateApps = (applicationName) => {};
+  //fetching Apps details from backend with the time interval
+  const fetchApps = async () => {
+    try {
+      const appsResponse = await axios.get(
+        "http://localhost:9090/api/apps/all"
+      );
+      setAppsData(appsResponse.data);
+    } catch (error) {
+      console.error("Error fetching metrics data:", error);
+    }
   };
-//fetching Apps details from backend with the time interval
-    const fetchApps = async () => {
-     
-      try {
-        const appsResponse = await axios.get('http://localhost:9090/api/apps/all');
-        setAppsData(appsResponse.data);
-      } catch (error) {
-        console.error('Error fetching metrics data:', error);
-      }
-      
+
+  useEffect(() => {
+    fetchApps(); // Initial fetch
+
+    // Polling every 12 seconds (adjust the interval as per your requirements)
+    const interval = setInterval(fetchApps, 2000);
+    return () => {
+      clearInterval(interval); // Cleanup interval on component unmount
     };
+  }, []);
 
-    useEffect(() => {
-      fetchApps(); // Initial fetch
-  
-      // Polling every 12 seconds (adjust the interval as per your requirements)
-      const interval = setInterval(fetchApps, 2000);
-        return () => {
-        clearInterval(interval); // Cleanup interval on component unmount
-      };
-    }, []);
+  //fetching Clients Details from backend with the time intervl
+  const fetchclients = async () => {
+    try {
+      const appsResponse = await axios.get(
+        "http://localhost:9090/api/clients/all"
+      );
+      setClientsData(appsResponse.data);
+    } catch (error) {
+      console.error("Error fetching metrics data:", error);
+    }
+  };
+  useEffect(() => {
+    fetchclients(); // Initial fetch
 
-//fetching Clients Details from backend with the time intervl
-    const fetchclients = async () => {
-
-      try {
-        const appsResponse = await axios.get('http://localhost:9090/api/clients/all');
-        setClientsData(appsResponse.data);
-      } catch (error) {
-        console.error('Error fetching metrics data:', error);
-      }
-
+    // Polling every 12 seconds (adjust the interval as per your requirements)
+    const interval = setInterval(fetchclients, 2000);
+    return () => {
+      clearInterval(interval); // Cleanup interval on component unmount
     };
-    useEffect(() => {
-      fetchclients(); // Initial fetch
-  
-      // Polling every 12 seconds (adjust the interval as per your requirements)
-      const interval = setInterval(fetchclients, 2000);
-        return () => {
-        clearInterval(interval); // Cleanup interval on component unmount
-      };
-    }, []);
-
-    
-
+  }, []);
 
   return (
     <div className=" appContent">
@@ -107,27 +106,39 @@ export const ApplicationPage = () => {
       <nav className="navbar navbar-expand-lg bg-body-tertiary overView-nav">
         <div className="container-fluid">
           <h3>Apps Overview</h3>
-          <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <button
+            className="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
             <span className="navbar-toggler-icon"></span>
           </button>
 
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-
-            </ul>
+            <ul className="navbar-nav me-auto mb-2 mb-lg-0"></ul>
 
             <form className="d-flex" role="search">
-              <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-              <button className="btn btn-outline-success" type="submit">Search</button>
+              <input
+                className="form-control me-2"
+                type="search"
+                placeholder="Search"
+                aria-label="Search"
+              />
+              <button className="btn btn-outline-success" type="submit">
+                Search
+              </button>
             </form>
           </div>
         </div>
       </nav>
 
-
       {/* Apps Table  */}
       <div className="table-responsive-xxl apps-table">
-        <table className="table table-striped "  >
+        <table className="table table-striped ">
           <thead className="table-dark">
             <tr>
               <th>Application Name</th>
@@ -143,10 +154,12 @@ export const ApplicationPage = () => {
 
           {/*2nd row*/}
           <tbody>
-            {appsData.map(apps => (
+            {appsData.map((apps) => (
               <tr key={apps.applicationName}>
                 <td> {apps.applicationName}</td>
-                <td><a href={`http://localhost:8080/${apps.path}`}>{apps.path}</a></td>
+                <td>
+                  <a href={`http://localhost:8080/${apps.path}`}>{apps.path}</a>
+                </td>
                 {/* <td className="text-center"><span className="badge rounded-pill" style={{
                   backgroundColor
                     : apps.state === "online" ? 'rgb(54, 139, 84)'
@@ -175,7 +188,6 @@ export const ApplicationPage = () => {
                     color="#DC3545"
                     width="25"
                     height="25" /></button></td> */}
-                    
 
                 {/* edit button  */}
                 {/* <td className="text-center ">
@@ -188,12 +200,25 @@ export const ApplicationPage = () => {
                   >
                     <Icon icon="material-symbols:edit-outline" color="#4989f4" /></button></td> */}
                 {/* ...modal hidden popup... */}
-                <div class="modal fade" id="clients" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div
+                  class="modal fade"
+                  id="clients"
+                  tabindex="-1"
+                  aria-labelledby="exampleModalLabel"
+                  aria-hidden="true"
+                >
                   <div class="modal-dialog">
                     <div class="modal-content">
                       <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="exampleModalLabel">Add more details</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">
+                          Add more details
+                        </h1>
+                        <button
+                          type="button"
+                          class="btn-close"
+                          data-bs-dismiss="modal"
+                          aria-label="Close"
+                        ></button>
                       </div>
                       <div class="modal-body">
                         <form>
@@ -208,133 +233,172 @@ export const ApplicationPage = () => {
                               onChange={handleSelectClient}
                               required
                             >
-                              <option value="" disabled>Choose...</option>
+                              <option value="" disabled>
+                                Choose...
+                              </option>
                               {clientsData.map((client) => (
                                 <option key={client.id} value={client.id}>
                                   {client.companyName} -{client.contactPerson}
                                 </option>
                               ))}
                             </select>
-
                           </div>
                         </form>
                       </div>
                       <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary" onClick={() => updateApps(apps.applicationName)}>Save changes</button>
+                        <button
+                          type="button"
+                          class="btn btn-secondary"
+                          data-bs-dismiss="modal"
+                        >
+                          Close
+                        </button>
+                        <button
+                          type="button"
+                          class="btn btn-primary"
+                          onClick={() => updateApps(apps.applicationName)}
+                        >
+                          Save changes
+                        </button>
                       </div>
                     </div>
                   </div>
                 </div>
-
               </tr>
             ))}
           </tbody>
         </table>
-        <button onClick={generateAppPDF}
-                          type="button"
-                          className="btn btn-outline-info"
-                          
-                        >
-                          Download pdf
-                        </button>
+        <button
+          onClick={generateAppPDF}
+          type="button"
+          className="btn btn-outline-info"
+        >
+          Download pdf
+        </button>
       </div>
 
-
-
       <div>
-        <Link to="/ClientsDetails"><img src={id} alt="clients details" className="id"></img>View Clients Details Table<Icon icon="bi:arrow-up" color="#0d6efd" rotate={1} /></Link>
-      
+        <Link to="/ClientsDetails">
+          <img src={id} alt="clients details" className="id"></img>View Clients
+          Details Table
+          <Icon icon="bi:arrow-up" color="#0d6efd" rotate={1} />
+        </Link>
       </div>
     </div>
   );
-
-}
-
-
+};
 
 export const ClientForm = () => {
-
-  const [companyName, setCompanyName] = useState('')
-  const [contactPerson, setContactPerson] = useState('')
-  const [emailAddress, setEmailAddress] = useState('')
-  const [phoneNumber, setPhoneNumber] = useState('')
-  const [businessType, setBusinessType] = useState('')
-  const [projectType, setProjectType] = useState('')
-  const [projectName, setProjectName] = useState('')
-  const [projectScope, setProjectScope] = useState('')
-  const [targetAudience, setTargetAudience] = useState('')
-  const [expectedFeatures, SetExpectedFeatures] = useState('')
+  const [companyName, setCompanyName] = useState("");
+  const [contactPerson, setContactPerson] = useState("");
+  const [emailAddress, setEmailAddress] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [businessType, setBusinessType] = useState("");
+  const [projectType, setProjectType] = useState("");
+  const [projectName, setProjectName] = useState("");
+  const [projectScope, setProjectScope] = useState("");
+  const [targetAudience, setTargetAudience] = useState("");
+  const [expectedFeatures, SetExpectedFeatures] = useState("");
   const [popupMessage, setPopupMessage] = useState("");
 
   const handleSubmit = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     //company name must not be empty
-    if(companyName.length==0){
-      alert('Invlaid Form, Company name can notbe empty')
+    if (companyName.length == 0) {
+      alert("Invlaid Form, Company name cannot be empty");
       return;
     }
 
-    if(contactPerson.length==0){
-      alert('Invalid form, Contact person name can not be empty')
+    if (contactPerson.length == 0) {
+      alert("Invalid form, Contact person name cannot be empty");
       return;
     }
     //email validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(emailAddress)) {
-      alert("Please provide a valid email address");
+    if (emailAddress.length == 0) {
+      alert(
+        "Email address cannot be empty. please provide a valid email address"
+      );
+    } else {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(emailAddress)) {
+        alert("Please provide a valid email address");
+        return;
+      }
+    }
+
+    if (phoneNumber.length === 0) {
+      alert(
+        "Phone number cannot be empty. Please provide a valid phone number."
+      );
+      return;
+    } else if (/\D/.test(phoneNumber)) {
+      alert("Invalid number. Please provide a valid phone number.");
+      return;
+    } else if (phoneNumber.length != 10) {
+      alert("phone number should be in 10 digits (including 0)");
       return;
     }
 
-    if(phoneNumber.length==0 || phoneNumber.includes(String)){
-      alert("Please provide a valid phone number and cannot be empty");
-    }
-
-    if(businessType.length==0){
+    if (businessType.length == 0) {
       alert("Business type cannot be empty");
       return;
     }
 
-    if(projectType.valueOf("choose")){
+    if (projectType === "choose") {
       alert("Please select a suitable project type");
-      return
+      return;
     }
 
-    if(projectScope.length==0){
+    if (projectName.length == 0) {
+      alert("project name cannot be empty");
+      return;
+    }
+
+    if (projectScope.length == 0) {
       alert("project scope cannot be empty");
-      return
+      return;
     }
 
-    if(targetAudience.length==0){
+    if (targetAudience.length == 0) {
       alert("target Audience cannot be empty");
-      return
+      return;
     }
 
-    if(expectedFeatures.length==0){
-      alert("Features cannot be empty")
-      return
+    if (expectedFeatures.length == 0) {
+      alert("Features cannot be empty");
+      return;
     }
-
 
     //If all validations pass, proceed with form submission
-    const clients = { companyName, contactPerson, phoneNumber, emailAddress, businessType, projectType, projectName, projectScope, targetAudience, expectedFeatures }
-    console.log(clients)
-    fetch("http://localhost:9090/clients/add", {
+    const clients = {
+      companyName,
+      contactPerson,
+      phoneNumber,
+      emailAddress,
+      businessType,
+      projectType,
+      projectName,
+      projectScope,
+      targetAudience,
+      expectedFeatures,
+    };
+    console.log(clients);
+    fetch("http://localhost:9090/api/clients/add", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(clients)
-    }).then((response) => {
-      if (response.ok) {
-        console.log("New Clients details added ");
-        setPopupMessage("Form submitted successfully!");
-      } else {
-        throw new Error("Form submission Failed");
-      }
-
+      body: JSON.stringify(clients),
     })
+      .then((response) => {
+        if (response.ok) {
+          console.log("New Clients details added ");
+          setPopupMessage("Form submitted successfully!");
+        } else {
+          throw new Error("Form submission Failed");
+        }
+      })
       .catch((error) => {
         console.error(error);
-        setPopupMessage("Form submission failed. ")
+        setPopupMessage("Form submission failed. ");
       });
 
     setCompanyName("");
@@ -347,19 +411,16 @@ export const ClientForm = () => {
     setProjectScope("");
     setTargetAudience("");
     SetExpectedFeatures("");
-
   };
-
 
   return (
     <div className="ClientFormContent">
       <h1>Client Details Form</h1>
 
-      <form className="mt-3 " /*onSubmit={handleSubmit}*/ >
+      <form className="mt-3 " /*onSubmit={handleSubmit}*/>
         {/* Company Name */}
         <div className="form-group row mt-3">
-          <label htmlFor="companyName"
-            className="col-sm-2 col-form-label">
+          <label htmlFor="companyName" className="col-sm-2 col-form-label">
             Company Name
           </label>
           <div className="col-sm-5">
@@ -371,15 +432,13 @@ export const ClientForm = () => {
               value={companyName}
               onChange={(e) => setCompanyName(e.target.value)}
               required
-            >
-            </input>
+            ></input>
           </div>
         </div>
 
         {/* Contact Person */}
         <div className="form-group row mt-3">
-          <label htmlFor="emailAddress"
-            className="col-sm-2 col-form-label">
+          <label htmlFor="emailAddress" className="col-sm-2 col-form-label">
             Contact Person
           </label>
           <div className="col-sm-5">
@@ -397,8 +456,7 @@ export const ClientForm = () => {
 
         {/* Email address */}
         <div className="form-group row mt-3">
-          <label htmlFor="emailAddress"
-            className="col-sm-2 col-form-label">
+          <label htmlFor="emailAddress" className="col-sm-2 col-form-label">
             Email Address
           </label>
           <div className="col-sm-3">
@@ -412,15 +470,16 @@ export const ClientForm = () => {
               required
             />
             <div className="valid-feedback">Looks good!</div>
-            <div className="invalid-feedback">Please provide a valid email address</div>
+            <div className="invalid-feedback">
+              Please provide a valid email address
+            </div>
           </div>
         </div>
 
         {/* Phone Number */}
 
         <div className="form-group row mt-3">
-          <label htmlFor="phoneNumber"
-            className="col-sm-2 col-form-label">
+          <label htmlFor="phoneNumber" className="col-sm-2 col-form-label">
             Contact No
           </label>
           <div className="col-sm-3">
@@ -437,8 +496,7 @@ export const ClientForm = () => {
         </div>
         {/* Business Type */}
         <div className="form-group row mt-3">
-          <label htmlFor="businessType"
-            className="col-sm-2 col-form-label">
+          <label htmlFor="businessType" className="col-sm-2 col-form-label">
             Business Type
           </label>
           <div className="col-sm-3">
@@ -456,8 +514,7 @@ export const ClientForm = () => {
 
         {/* Project Type */}
         <div className="form-group row mt-3">
-          <label htmlFor="projectType"
-            className="col-sm-2 col-form-label">
+          <label htmlFor="projectType" className="col-sm-2 col-form-label">
             Project Type
           </label>
           <div className="col-sm-3">
@@ -467,8 +524,11 @@ export const ClientForm = () => {
               value={projectType}
               defaultValue="None"
               onChange={(e) => setProjectType(e.target.value)}
-              required>
-                <option value="choose" selected>choose..</option>
+              required
+            >
+              <option value="choose" selected>
+                choose..
+              </option>
               <option value="Retail POS">Retail POS</option>
               <option value="Food POS">Food POS</option>
               <option value="E-Commerce">E-Commerce</option>
@@ -477,8 +537,7 @@ export const ClientForm = () => {
         </div>
         {/* Project Name */}
         <div className="form-group row mt-3">
-          <label htmlFor="projectName"
-            className="col-sm-2 col-form-label">
+          <label htmlFor="projectName" className="col-sm-2 col-form-label">
             Project Name
           </label>
           <div className="col-sm-3">
@@ -495,19 +554,16 @@ export const ClientForm = () => {
         </div>
         {/* Project Scope */}
         <div className="form-group row mt-3">
-          <label htmlFor="projectScope"
-            className="col-sm-2 col-form-label">
+          <label htmlFor="projectScope" className="col-sm-2 col-form-label">
             Project Scope
           </label>
           <div className="col-sm-8">
-
             <textarea
               type="text"
               className="form-control"
               rows="5"
               id="projectScope"
               placeholder="Briefly describe your project requirements and scope"
-
               value={projectScope}
               onChange={(e) => setProjectScope(e.target.value)}
               required
@@ -516,8 +572,7 @@ export const ClientForm = () => {
         </div>
         {/* Target Audience */}
         <div className="form-group row mt-3">
-          <label htmlFor="targetAudience"
-            className="col-sm-2 col-form-label">
+          <label htmlFor="targetAudience" className="col-sm-2 col-form-label">
             Target Audience
           </label>
           <div className="col-sm-8">
@@ -535,8 +590,7 @@ export const ClientForm = () => {
         </div>
         {/* Expected Features */}
         <div className="form-group row mt-3">
-          <label htmlFor="expectedFeatures"
-            className="col-sm-2 col-form-label">
+          <label htmlFor="expectedFeatures" className="col-sm-2 col-form-label">
             Expected Features
           </label>
           <div className="col-sm-8">
@@ -554,23 +608,30 @@ export const ClientForm = () => {
         </div>
 
         <div className="col-12">
-          <button type="submit" className="btn btn-outline-success m-3" onClick={handleSubmit}>
+          <button
+            type="submit"
+            className="btn btn-outline-success m-3"
+            onClick={handleSubmit}
+          >
             Submit
           </button>
-          <button type="submit" className="btn btn-outline-danger m-3" onClick="">
+          <button
+            type="submit"
+            className="btn btn-outline-danger m-3"
+            onClick=""
+          >
             Cancel
           </button>
         </div>
       </form>
-      {popupMessage && <div className="alert alert-success">{popupMessage}</div>}
-
+      {popupMessage && (
+        <div className="alert alert-success">{popupMessage}</div>
+      )}
     </div>
   );
-}
-
+};
 
 export const ClientsDetails = () => {
-
   const [clientsData, setClientsData] = useState([]);
   const [clients, setClients] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
@@ -585,31 +646,37 @@ export const ClientsDetails = () => {
       const response = await axios.get("http://localhost:9090/api/clients");
       setClients(response.data);
     } catch (error) {
-      console.error('Error occurred while loading clients:', error);
+      console.error("Error occurred while loading clients:", error);
     }
   };
   const generateClientPDF = async () => {
     try {
-      const response = await axios.get("http://localhost:9090/api/clients/clientpdf", {
-        responseType: 'blob', // Set the response type to 'blob'
-      });
+      const response = await axios.get(
+        "http://localhost:9090/api/clients/clientpdf",
+        {
+          responseType: "blob", // Set the response type to 'blob'
+        }
+      );
 
       // Create a download link
       const url = window.URL.createObjectURL(new Blob([response.data]));
-      const link = document.createElement('a');
+      const link = document.createElement("a");
       link.href = url;
-      link.setAttribute('download', 'clients.pdf');
+      link.setAttribute("download", "clients.pdf");
       document.body.appendChild(link);
       link.click();
     } catch (error) {
-      console.error('Error occurred while generating or downloading the PDF:', error);
+      console.error(
+        "Error occurred while generating or downloading the PDF:",
+        error
+      );
     }
   };
 
   const handlePageClick = (data) => {
     setCurrentPage(data.selected);
   };
-  
+
   const offset = currentPage * itemsPerPage;
   const currentClient = clientsData.slice(offset, offset + itemsPerPage);
   const pageCount = Math.ceil(clientsData.length / itemsPerPage);
@@ -617,36 +684,36 @@ export const ClientsDetails = () => {
   const handleDeleteMetrics = (id) => {
     // Make a DELETE request to the delete endpoint
     fetch(`http://localhost:9090/api/clients/${id}`, {
-      method: 'DELETE'
+      method: "DELETE",
     })
-      .then(response => {
+      .then((response) => {
         if (response.ok) {
           // Delete successful, perform any necessary actions (e.g., update UI)
-          setClientsData(prevData => prevData.filter(item => item.id !== id));
-          console.log('Record deleted successfully');
+          setClientsData((prevData) =>
+            prevData.filter((item) => item.id !== id)
+          );
+          console.log("Record deleted successfully");
         } else {
           // Delete failed, handle the error (e.g., show error message)
-          console.error('Failed to delete record');
+          console.error("Failed to delete record");
         }
       })
-      .catch(error => {
+      .catch((error) => {
         // Handle network or other errors
-        console.error('Error occurred while deleting record:', error);
+        console.error("Error occurred while deleting record:", error);
       });
   };
 
-
-
   useEffect(() => {
     const fetchData = async () => {
-
       try {
-        const metricsResponse = await axios.get('http://localhost:9090/api/clients/all');
+        const metricsResponse = await axios.get(
+          "http://localhost:9090/api/clients/all"
+        );
         setClientsData(metricsResponse.data);
       } catch (error) {
-        console.error('Error fetching metrics data:', error);
+        console.error("Error fetching metrics data:", error);
       }
-
     };
 
     fetchData();
@@ -656,30 +723,36 @@ export const ClientsDetails = () => {
     <div className="ClientFormContent">
       <nav className="navbar navbar-expand-lg bg-body-tertiary overView-nav">
         <div className="container-fluid">
-          <a className="navbar-brand" href="#">Clients Details</a>
-          <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <a className="navbar-brand" href="#">
+            Clients Details
+          </a>
+          <button
+            className="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
             <span className="navbar-toggler-icon"></span>
           </button>
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-
-            </ul>
+            <ul className="navbar-nav me-auto mb-2 mb-lg-0"></ul>
             <Link to="/addClient" className="btn btn-outline-primary me-2">
               Add Client Details
             </Link>
-            <div>
-            </div>
-
+            <div></div>
           </div>
         </div>
       </nav>
 
-
       {/* Metrics Table */}
       <div className="table-responsive-xxl mt-5 clientsTable">
-        <table className="table table-hover " >
+        <table className="table table-hover ">
           <thead className="table-dark">
-            <tr>{/*1st row */}
+            <tr>
+              {/*1st row */}
               <th className="text-center">Timestamp</th>
               <th className="text-center">Company name</th>
               <th className="text-center">Contact Person</th>
@@ -696,7 +769,7 @@ export const ClientsDetails = () => {
           </thead>
           {/*2nd row*/}
           <tbody>
-            {currentClient.map(client => (
+            {currentClient.map((client) => (
               <tr key={client.id}>
                 <td className="text-center">{client.timestamp}</td>
                 <td className="text-center">{client.companyName}</td>
@@ -706,64 +779,114 @@ export const ClientsDetails = () => {
                 <td className="text-center">{client.projectName}</td>
                 <td className="text-center">{client.projectType}</td>
                 <td>
-                  <div><b>Project Scope:</b> {client.projectScope}</div>
-                  <div className="mt-2"><b>Target Audience:</b> </div>
+                  <div>
+                    <b>Project Scope:</b> {client.projectScope}
+                  </div>
+                  <div className="mt-2">
+                    <b>Target Audience:</b>{" "}
+                  </div>
                   <div>{client.targetAudience}</div>
-                  <div className="mt-2"><b>Expected Features and Requirements: </b></div>
+                  <div className="mt-2">
+                    <b>Expected Features and Requirements: </b>
+                  </div>
                   <div>{client.expectedFeatures}</div>
-
                 </td>
                 {/* <td className="text-center">{client.projectScope}</td>
                 <td className="text-center">{client.targetAudience}</td>
                 <td className="text-center">{client.expectedFeatures}</td> */}
 
-                <td><button
-                  className="btn btn-link"
-                  type="button"
-                  data-toggle="tooltip"
-                  data-placement="top"
-                  title="Delete"
-                  onClick={() => handleDeleteMetrics(client.id)}>
-                  <Icon
-                    icon="mdi:delete-outline"
-                    color="#DC3545"
-                    width="25"
-                    height="25" /></button></td>
+                <td>
+                  {/* <button
+                    className="btn btn-link"
+                    type="button"
+                    data-toggle="tooltip"
+                    data-placement="top"
+                    title="Delete"
+                    onClick={() => handleDeleteMetrics(client.id)}
+                  >
+                    <Icon
+                      icon="mdi:delete-outline"
+                      color="#DC3545"
+                      width="25"
+                      height="25"
+                    />
+                  </button> */}
+
+                  {/* drop down start */}
+                  <div class="btn-group" role="group">
+                    <button
+                      type="button"
+                      class="btn btn-primary btn-sm dropdown-toggle"
+                      data-bs-toggle="dropdown"
+                      aria-expanded="false"
+                    >
+                      <Icon
+                        icon="icon-park-outline:more-one"
+                        width="20"
+                        height="20"
+                      />
+                      More
+                    </button>
+                    <ul class="dropdown-menu">
+                      <li>
+                        <a class="dropdown-item" href="#">
+                          <Icon
+                            icon="fluent:edit-16-regular"
+                            width="20"
+                            height="20"
+                          />
+                          edit
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          class="dropdown-item"
+                          href="#"
+                          onClick={() => handleDeleteMetrics(client.id)}
+                        >
+                          <Icon
+                            icon="mdi-light:delete"
+                            width="20"
+                            height="20"
+                          />
+                          Delete
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+
+                  {/* dropdown end */}
+                </td>
                 {/* ...other table cells... */}
               </tr>
             ))}
           </tbody>
         </table>
-        <button           onClick={generateClientPDF}
-                          type="button"
-                          className="btn btn-outline-info"
-                          
-                        >
-                          Download pdf
-                        </button>
+        <button
+          onClick={generateClientPDF}
+          type="button"
+          className="btn btn-outline-info"
+        >
+          Download pdf
+        </button>
 
-            {clientsData.length > itemsPerPage && (
-            <ReactPaginate
-              previousLabel={"Previous"}
-              nextLabel={"Next"}
-              breakLabel={"..."}
-              breakClassName={"break-me"}
-              pageCount={pageCount}
-              marginPagesDisplayed={2}
-              pageRangeDisplayed={5}
-              onPageChange={handlePageClick}
-              containerClassName={"pagination"}
-              subContainerClassName={"pages pagination"}
-              activeClassName={"active"}
-              pageClassName={"border-box"}
-            />
-          )}
+        {clientsData.length > itemsPerPage && (
+          <ReactPaginate
+            previousLabel={"Previous"}
+            nextLabel={"Next"}
+            breakLabel={"..."}
+            breakClassName={"break-me"}
+            pageCount={pageCount}
+            marginPagesDisplayed={2}
+            pageRangeDisplayed={5}
+            onPageChange={handlePageClick}
+            containerClassName={"pagination"}
+            subContainerClassName={"pages pagination"}
+            activeClassName={"active"}
+            pageClassName={"border-box"}
+          />
+        )}
       </div>
-
-      
     </div>
-
-
-
   );
-}
+};
