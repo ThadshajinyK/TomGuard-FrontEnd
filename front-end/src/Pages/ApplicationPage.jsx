@@ -276,7 +276,7 @@ export const ClientForm = () => {
     }
 
     if(contactPerson.length==0){
-      alert('Invalid form, Email address can not be empty')
+      alert('Invalid form, Contact person name can not be empty')
       return;
     }
     //email validation
