@@ -158,13 +158,12 @@ import { Icon } from "@iconify/react";
 import ReactPaginate from "react-paginate";
 import "./pagination.css";
 
-const AlertTable = ({ onAlertCountChange }) => {
+const AlertTable = () => {
   const [loading, setLoading] = useState(true);
   const [alerts, setAlerts] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [alertToDelete, setAlertToDelete] = useState(null);
-  const [alertCount, setAlertCount] = useState(0);
   const itemsPerPage = 10;
 
   const [searchBy, setSearchBy] = useState("");
@@ -185,11 +184,6 @@ const AlertTable = ({ onAlertCountChange }) => {
       clearInterval(interval); // Clean up the interval on component unmount
     };
   }, []);
-
-  useEffect(() => {
-    setAlertCount(alerts.length);
-    onAlertCountChange(alerts.length);
-  }, [alerts, onAlertCountChange]);
 
   const fetchData = async () => {
     setLoading(true);
@@ -253,18 +247,18 @@ const AlertTable = ({ onAlertCountChange }) => {
     (alert) =>
       (searchBy === "" && alert) ||
       (searchBy === SEARCH_BY.ALERT_TYPE &&
-        alert.alertType.includes(searchInput)) ||
+        alert.alertType.toLowerCase().includes(searchInput)) ||
       (searchBy === SEARCH_BY.SEVERITY_LEVEL &&
         alert.severityLevel.toLowerCase().includes(searchInput.toLowerCase()))
   );
 
   return (
     <div>
-      <div className="alertCount">Total Alerts: {alertCount}</div>
       <div className="tableContainer">
         <div className="container">
           <nav className="navbar navbar-expand-lg bg-body-tertiary overView-nav">
             <div className="container-fluid ">
+              <h3>Alert Details</h3>
               <button
                 className="navbar-toggler"
                 type="button"
@@ -309,7 +303,6 @@ const AlertTable = ({ onAlertCountChange }) => {
                     onChange={(e) => setSearchInput(e.target.value)}
                   />
                 </form>
-
                 <div></div>
               </div>
             </div>
