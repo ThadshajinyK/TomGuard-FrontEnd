@@ -247,7 +247,9 @@ const AlertTable = () => {
     (alert) =>
       (searchBy === "" && alert) ||
       (searchBy === SEARCH_BY.ALERT_TYPE &&
-        alert.alertType.toLowerCase().includes(searchInput)) ||
+
+        alert.alertType.toLowerCase(). includes(searchInput)) ||
+
       (searchBy === SEARCH_BY.SEVERITY_LEVEL &&
         alert.severityLevel.toLowerCase().includes(searchInput.toLowerCase()))
   );

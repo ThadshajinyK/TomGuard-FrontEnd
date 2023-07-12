@@ -12,7 +12,7 @@ const Settings = () => {
         <TabList>
           <Tab>General</Tab>
           <Tab>Preference</Tab>
-          <Tab>Report</Tab>
+          {/* <Tab>Report</Tab> */}
         </TabList>
 
         <TabPanel>

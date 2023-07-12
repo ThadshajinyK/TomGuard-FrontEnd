@@ -104,7 +104,7 @@ const General = () => {
               <Image
                 src={selectedImage || Avatar}
                 className="rounded-circle"
-                style={{ width: "70px", height: "70px" }}
+                style={{borderRadius: "50%", width: "70px", height: "70px" }}
               />
               <label
                 style={{
