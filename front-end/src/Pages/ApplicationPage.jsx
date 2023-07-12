@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-comment-textnodes */
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import id from "../images/ID Card.png";
@@ -837,7 +838,7 @@ export const ClientsDetails = () => {
                 <td className="text-center">{client.expectedFeatures}</td> */}
 
                   <td>
-                    <button
+                    {/* <button
                       className="btn btn-link"
                       type="button"
                       data-toggle="tooltip"
@@ -851,7 +852,48 @@ export const ClientsDetails = () => {
                         width="25"
                         height="25"
                       />
-                    </button>
+                    </button> */}
+                    {/* drop down start */}
+                    <div class="btn-group" role="group">
+                      <button
+                        type="button"
+                        class="btn btn-primary btn-sm dropdown-toggle"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                      >
+                        <Icon
+                          icon="icon-park-outline:more-one"
+                          width="20"
+                          height="20"
+                        />
+                        More
+                      </button>
+                      <ul class="dropdown-menu">
+                        <li>
+                          <a class="dropdown-item" href="#">
+                            <Icon
+                              icon="fluent:edit-16-regular"
+                              width="20"
+                              height="20"
+                            />
+                            edit
+                          </a>
+                        </li>
+                        <li>
+                          // eslint-disable-next-line jsx-a11y/anchor-is-valid
+                          <a class="dropdown-item" href="#" onClick={() => handleDeleteMetrics(client.id)}>
+                            <Icon
+                              icon="mdi-light:delete"
+                              width="20"
+                              height="20"
+                            />
+                            Delete
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+
+                    {/* dropdown end */}
                   </td>
                   {/* ...other table cells... */}
                 </tr>
