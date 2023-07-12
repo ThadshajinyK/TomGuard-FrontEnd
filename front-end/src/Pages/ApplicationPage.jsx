@@ -347,12 +347,72 @@ export const ClientForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    //email validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(emailAddress)) {
-      setPopupMessage("Please provide a valid email address");
+    //company name must not be empty
+    if (companyName.length == 0) {
+      alert("Invlaid Form, Company name cannot be empty");
       return;
     }
+
+    if (contactPerson.length == 0) {
+      alert("Invalid form, Contact person name cannot be empty");
+      return;
+    }
+    //email validation
+    if (emailAddress.length == 0) {
+      alert(
+        "Email address cannot be empty. please provide a valid email address"
+      );
+    } else {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(emailAddress)) {
+        alert("Please provide a valid email address");
+        return;
+      }
+    }
+
+    if (phoneNumber.length === 0) {
+      alert(
+        "Phone number cannot be empty. Please provide a valid phone number."
+      );
+      return;
+    } else if (/\D/.test(phoneNumber)) {
+      alert("Invalid number. Please provide a valid phone number.");
+      return;
+    } else if (phoneNumber.length != 10) {
+      alert("phone number should be in 10 digits (including 0)");
+      return;
+    }
+
+    if (businessType.length == 0) {
+      alert("Business type cannot be empty");
+      return;
+    }
+
+    if (projectType === "choose") {
+      alert("Please select a suitable project type");
+      return;
+    }
+
+    if (projectName.length == 0) {
+      alert("project name cannot be empty");
+      return;
+    }
+
+    if (projectScope.length == 0) {
+      alert("project scope cannot be empty");
+      return;
+    }
+
+    if (targetAudience.length == 0) {
+      alert("target Audience cannot be empty");
+      return;
+    }
+
+    if (expectedFeatures.length == 0) {
+      alert("Features cannot be empty");
+      return;
+    }
+
     //If all validations pass, proceed with form submission
     const clients = {
       companyName,
@@ -367,7 +427,7 @@ export const ClientForm = () => {
       expectedFeatures,
     };
     console.log(clients);
-    fetch("http://localhost:9090/clients/api/add", {
+    fetch("http://localhost:9090/api/clients/add", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(clients),
@@ -376,6 +436,7 @@ export const ClientForm = () => {
         if (response.ok) {
           console.log("New Clients details added ");
           setPopupMessage("Form submitted successfully!");
+          alert("Form submitted successfully!")
         } else {
           throw new Error("Form submission Failed");
         }
@@ -383,6 +444,7 @@ export const ClientForm = () => {
       .catch((error) => {
         console.error(error);
         setPopupMessage("Form submission failed. ");
+        alert("Form submission failed.");
       });
 
     setCompanyName("");
@@ -778,8 +840,8 @@ export const ClientsDetails = () => {
                 onChange={(e) => setSearchInput(e.target.value)}
               />
             </form>
-            <Link to="/addClient" className="btn btn-outline-primary me-2">
-              Add Client Details
+            <Link to="/addClient" className="btn btn-outline-primary mt-2">
+            <Icon icon="mdi:add-bold" width="20" height="20" className="mt-0 me-2 mb-1" />Add Client Details
             </Link>
             <div></div>
           </div>
@@ -880,7 +942,6 @@ export const ClientsDetails = () => {
                           </a>
                         </li>
                         <li>
-                          // eslint-disable-next-line jsx-a11y/anchor-is-valid
                           <a class="dropdown-item" href="#" onClick={() => handleDeleteMetrics(client.id)}>
                             <Icon
                               icon="mdi-light:delete"
