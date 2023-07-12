@@ -367,7 +367,7 @@ export const ClientForm = () => {
       expectedFeatures,
     };
     console.log(clients);
-    fetch("http://localhost:9090/clients/add", {
+    fetch("http://localhost:9090/clients/api/add", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(clients),
