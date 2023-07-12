@@ -49,26 +49,40 @@ function Gutters({ hostName }) {
   // }, []);
 
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const serverResponse = await axios.get('/metrics/all');
-        setData(serverResponse.data);
-      } catch (error) {
-        console.error('Error fetching server data:', error);
+  const fetchData = async () => {
+    try {
+      const response = await fetch("http://localhost:9090/api/metrics/all");
+      if (response.ok) {
+        const data = await response.json();
+        setData(data);
+      } else {
+        console.error("Failed to fetch metrics data");
       }
-    };
+    } catch (error) {
+      console.error("Error fetching metrics data:", error);
+    }
+  };
 
+
+  useEffect(() => {
+    // Fetch metrics data initially
     fetchData();
+
+    // Fetch metrics data every 1 seconds (adjust the interval as per your requirements)
+    const interval = setInterval(fetchData, 1000);
+
+    // Cleanup interval on component unmount
+    return () => {
+      clearInterval(interval);
+    };
   }, []);
 
 
-  
-
-  // Retrieve the lastly added server's uptime
+  // Retrieve the lastly added server's metrics
   const lastUptime = data.length > 0 ? data[data.length - 1].uptimeInMillis : null;
   const lastResponsetime = data.length > 0 ? data[data.length - 1].responseTimeInMillis : null;
   const lastRequesttime = data.length > 0 ? data[data.length - 1].requestTimeInMillis : null;
+  const lastThreadUsage = data.length> 0 ? data[data.length - 1].threadCount: null;
 
   return (
     <div className="container mt-3">
@@ -94,8 +108,8 @@ function Gutters({ hostName }) {
       </div>
       <div className="p-3 border rounded bg-light m-2">
         <div className="row">
-          <div className="col-md-6">No Of Session:</div>
-          <div className="col-md-6"><b>{/* Add session count here */}</b></div>
+          <div className="col-md-6">Thread Usage:</div>
+          <div className="col-md-6"><b>{lastThreadUsage ? `${lastThreadUsage}` : ''}</b></div>
         </div>
       </div>
     </div>
