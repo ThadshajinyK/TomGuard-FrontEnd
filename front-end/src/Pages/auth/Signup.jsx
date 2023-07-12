@@ -108,6 +108,9 @@ const Signup = () => {
             error={touched.password && errors.password}
           />
         </div>
+
+
+        
         <div className="mb-3">
           <p className="text-white ">
             Already have an account ?{" "}

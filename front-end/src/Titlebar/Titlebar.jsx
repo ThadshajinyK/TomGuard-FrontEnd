@@ -39,8 +39,11 @@ export const Titlebar2 = () => {
           <img
             src={user?.data?.image || Girl}
             alt="avatar"
-            className="avatar-img"
-            style={{ borderRadius: "50%" }}
+            // className="avatar-img"
+            className="rounded-circle"
+            style={{ borderRadius: "50%",width:"70px", height: "70px"}}
+            
+            
           />
           {/* </div> */}
 
