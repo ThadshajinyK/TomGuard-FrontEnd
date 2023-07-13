@@ -73,6 +73,7 @@ const General = () => {
           "loggedInUser",
           JSON.stringify({ ...currentUser, data: res?.data })
         );
+        window.location.reload();
       })
       .catch((err) => {});
   };

@@ -8,6 +8,7 @@ import "../Styles/pagination.css";
 import { Link } from "react-router-dom";
 import ReactPaginate from "react-paginate";
 import "../Styles/pagination.css";
+import { useLocation } from "react-router-dom";
 
 export const ApplicationPage = () => {
   const [appsData, setAppsData] = useState([]);
@@ -332,6 +333,9 @@ export const ApplicationPage = () => {
 };
 
 export const ClientForm = () => {
+ 
+  
+
   const [companyName, setCompanyName] = useState("");
   const [contactPerson, setContactPerson] = useState("");
   const [emailAddress, setEmailAddress] = useState("");
@@ -436,7 +440,7 @@ export const ClientForm = () => {
         if (response.ok) {
           console.log("New Clients details added ");
           setPopupMessage("Form submitted successfully!");
-          alert("Form submitted successfully!")
+          alert("Form submitted successfully!");
         } else {
           throw new Error("Form submission Failed");
         }
@@ -697,12 +701,11 @@ export const ClientsDetails = () => {
   const loadclients = async () => {
     try {
       const response = await axios.get("http://localhost:9090/api/clients");
-      setClients(response.data);
+      setClientsData(response.data);
     } catch (error) {
       console.error("Error occurred while loading clients:", error);
     }
   };
-
 
   const generateClientPDF = async () => {
     try {
@@ -842,8 +845,15 @@ export const ClientsDetails = () => {
                 onChange={(e) => setSearchInput(e.target.value)}
               />
             </form>
-            <Link to="/addClient" className="btn btn-outline-primary ">
-            <Icon icon="mdi:add-bold" width="20" height="20" className="mt-0 me-2 mb-1" />Add Client Details
+            <Link to="/addClient"
+             className="btn btn-outline-primary ">
+              <Icon
+                icon="mdi:add-bold"
+                width="20"
+                height="20"
+                className="mt-0 me-2 mb-1"
+              />
+              Add Client Details
             </Link>
             <div></div>
           </div>
@@ -898,25 +908,25 @@ export const ClientsDetails = () => {
                     <div>{client.expectedFeatures}</div>
                   </td>
                   {/* <td className="text-center">{client.projectScope}</td>
-                <td className="text-center">{client.targetAudience}</td>
-                <td className="text-center">{client.expectedFeatures}</td> */}
+      <td className="text-center">{client.targetAudience}</td>
+      <td className="text-center">{client.expectedFeatures}</td> */}
 
                   <td>
                     {/* <button
-                      className="btn btn-link"
-                      type="button"
-                      data-toggle="tooltip"
-                      data-placement="top"
-                      title="Delete"
-                      onClick={() => handleDeleteMetrics(client.id)}
-                    >
-                      <Icon
-                        icon="mdi:delete-outline"
-                        color="#DC3545"
-                        width="25"
-                        height="25"
-                      />
-                    </button> */}
+            className="btn btn-link"
+            type="button"
+            data-toggle="tooltip"
+            data-placement="top"
+            title="Delete"
+            onClick={() => handleDeleteMetrics(client.id)}
+          >
+            <Icon
+              icon="mdi:delete-outline"
+              color="#DC3545"
+              width="25"
+              height="25"
+            />
+          </button> */}
                     {/* drop down start */}
                     <div class="btn-group" role="group">
                       <button
@@ -933,7 +943,7 @@ export const ClientsDetails = () => {
                         More
                       </button>
                       <ul class="dropdown-menu">
-                        <li>
+                        {/* <li>
                           <a class="dropdown-item" href="#">
                             <Icon
                               icon="fluent:edit-16-regular"
@@ -942,9 +952,29 @@ export const ClientsDetails = () => {
                             />
                             edit
                           </a>
+                        </li> */}
+                        <li>
+                          <Link
+                            to={{
+                              pathname: "/addClient",
+                              state: { clients: client },
+                            }}
+                            className="dropdown-item"
+                          >
+                            <Icon
+                              icon="fluent:edit-16-regular"
+                              width="20"
+                              height="20"
+                            />
+                            Edit
+                          </Link>
                         </li>
                         <li>
-                          <a class="dropdown-item" href="#" onClick={() => handleDeleteMetrics(client.id)}>
+                          <a
+                            class="dropdown-item"
+                            href="#"
+                            onClick={() => handleDeleteMetrics(client.id)}
+                          >
                             <Icon
                               icon="mdi-light:delete"
                               width="20"
