@@ -11,7 +11,7 @@ class AlertService {
     return axios.delete(ALERT_API_BASE_URL + "/" + id);
   }
 
-  deleteAllAlert(){
+  deleteAllAlert() {
     return axios.delete(ALERT_API_BASE_URL + "/deleteAll");
   }
 }

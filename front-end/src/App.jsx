@@ -26,6 +26,8 @@ import Signup from "./Pages/auth/Signup";
 import ForgotPassword from "./Pages/auth/ForgotPassword";
 import ResetPassword from "./Pages/auth/ResetPassword";
 import "./App.css";
+import { useEffect } from "react";
+import AlertService from "./Alert_page/AlertService";
 
 function App() {
   //This code for chat and Alert table
@@ -36,11 +38,24 @@ function App() {
     }
     return children;
   };
-  const [alertCount, setAlertCount] = useState(0);
 
-  const handleAlertCountChange = (count) => {
-    setAlertCount(count); // Update the alert count value
-  };
+  const [alertCount, setAlertCount] = useState(0);
+  useEffect(() => {
+    const fetchAlertCount = async () => {
+      try {
+        const response = await AlertService.getAlerts();
+        setAlertCount(response.data.length);
+      } catch (error) {
+        console.error("Error fetching alert count:", error);
+      }
+    };
+
+    const interval = setInterval(() => {
+      fetchAlertCount();
+    }, 200);
+
+    return () => clearInterval(interval);
+  }, []);
 
   //end
 
@@ -78,12 +93,7 @@ function App() {
               <Route path="/logs" element={<LogsTable />}></Route>
               <Route path="/logPerform" element={<LogPerform />}></Route>
 
-              <Route
-                path="/alert"
-                element={
-                  <AlertTable onAlertCountChange={handleAlertCountChange} />
-                }
-              ></Route>
+              <Route path="/alert" element={<AlertTable />}></Route>
 
               <Route
                 path="/chat"
