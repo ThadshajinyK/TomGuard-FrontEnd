@@ -321,13 +321,13 @@ export const ApplicationPage = () => {
         </button>
       </div>
 
-      <div>
+      {/* <div>
         <Link to="/ClientsDetails">
           <img src={id} alt="clients details" className="id"></img>View Clients
           Details Table
           <Icon icon="bi:arrow-up" color="#0d6efd" rotate={1} />
         </Link>
-      </div>
+      </div> */}
     </div>
   );
 };

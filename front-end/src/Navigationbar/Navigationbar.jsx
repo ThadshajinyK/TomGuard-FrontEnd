@@ -50,7 +50,13 @@ export const Navigationbar = ({ alertCount }) => {
             )}
           </Link>
         </li>
-
+        <li>
+          <Link to="/ClientsDetails" className="sidebar-item">
+            <Icon icon="material-symbols:settings-applications-outline" />
+            <span className="side"></span>
+            <span>Clients</span>
+          </Link>
+        </li>
         <li>
           <Link to="/settings" className="sidebar-item">
             <Icon icon="material-symbols:settings-applications-outline" />

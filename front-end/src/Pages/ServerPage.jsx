@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "../Styles/ServerStyles.css";
 import { Link } from "react-router-dom";
-import speed from "../images/speed.png";
+import speed from "../images/performance.png";
 import logs from "../images/logs.png";
 import axios from "../axios";
 import { Icon } from "@iconify/react";
@@ -194,9 +194,9 @@ export const MetricsTable = () => {
               <th className="text-center">Timestamp</th>
               <th className="text-center">Availability</th>
               <th className="text-center">uptime</th>
-              <th className="text-center">Request time</th>
-              <th className="text-center">Response Time</th>
-              <th className="text-center">Memory Usage</th>
+              <th className="text-center">Request time (ms)</th>
+              <th className="text-center">Response Time (ms)</th>
+              <th className="text-center">Memory Usage (%)</th>
               <th className="text-center">No of Sessions</th>
               <th className="text-center">Thread Count</th>
 
@@ -379,7 +379,8 @@ export const LogsTable = () => {
 
   const handleDeleteLogs = (timestamp) => {
     // Make a DELETE request to the delete endpoint
-    fetch(`/logs/${timestamp}`, {
+    axios
+    .delete(`/logs/${timestamp}`, {
       method: "DELETE",
     })
       .then((response) => {
